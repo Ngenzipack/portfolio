@@ -1,0 +1,153 @@
+@use 'sass:math';
+
+.home-page {
+  position: relative;
+  .cert-image{
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    
+    img{
+      height: 110px;
+      width: 110px;
+      
+    }
+  }
+
+  .download-button {
+    position: absolute;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    font-family: sans-serif;
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 1px solid #00be4c;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px #00be4c;
+    transition: all 0.3s ease;
+    top: -5px;
+    left: 85%;
+
+    &:hover {
+      background-color: #00be4c;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px #00be4c;
+       
+    }
+    &:active {
+      transform: translateY(0);
+    }
+    &::before {
+      content: "↓"; // Optional icon
+      margin-right: 8px;
+    }
+  }
+  .home-experience{
+
+    position:relative;
+    color: #fff;
+    top: 40%;
+    width: 600px;
+    height: 200px;
+    font-size: 16px;
+    left: 10%;
+
+    
+  }
+  p > span{
+    color: #00be4c;
+  }
+  
+
+  .text-zone {
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    transform: translateY(-50%);
+    width: 40%;
+    max-height: 90%;
+  
+    h1 {
+      color: #fff;
+      font-size: 56px;
+      line-height: 53px;
+      margin: 0;
+      font-family: 'Coolvetica';
+      font-weight: 400;
+    }
+
+    h2 {
+      color: #8d8d8d;
+      margin-top: 20px;
+      font-weight: 400;
+      font-size: 11px;
+      font-family: sans-serif;
+      letter-spacing: 3px;
+      animation: fadeIn 1s 1.8s backwards;
+    }
+    
+  }
+  
+  .chess-link{
+    color: #00be4c;
+    text-decoration: none;
+    
+  }
+
+  @media screen and (max-width: 1200px) {
+    .home-page .text-zone {
+      position: initial;
+      width: 100%;
+      transform: none;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .home-page .flat-button {
+      float: none;
+      display: block;
+      margin: 20px auto 0 auto;
+      width: 124px;
+    }
+  }
+
+
+  .flat-button {
+    position: absolute;
+    top: 92%;
+    left: 10%;
+    position: absolute;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    font-family: sans-serif;
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 1px solid #00be4c;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px #00be4c;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #00be4c;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px #00be4c;
+    }
+
+    &:active {
+      background-color: #00be4c;
+      transform: translateY(0);
+    }
+
+    span {
+      margin-right: 8px;
+    }
+    &::before {
+      content: "--->"; // Optional icon
+      margin-right: 8px;
+    }
+  }
+}
