@@ -1,0 +1,11 @@
+
+
+<script>
+    // Redirect all non-existent routes to the index.html
+    var redirectTo = location.pathname.slice(1);
+    if (redirectTo) {
+      location.replace('/portfolio/index.htm?' + redirectTo);
+    } else {
+      location.replace('/portfolio/');
+    }
+  </script>
