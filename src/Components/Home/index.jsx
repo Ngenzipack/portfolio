@@ -104,6 +104,7 @@ const Home = () => {
           </Link>
 
         <a href="src/assets/Files/Resume_Patrick.pdf" download className="download-button">
+
           <span>DOWNLOAD CV</span>
         </a>
       </div>
