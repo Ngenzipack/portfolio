@@ -72,7 +72,7 @@ export function SiteHeader() {
       )}
     >
       <div className="page-gutter-x mx-auto w-full max-w-[var(--container-max)] pt-[env(safe-area-inset-top,0px)]">
-        <div className="grid h-[68px] grid-cols-[1fr_auto_1fr] items-center gap-4 md:h-[78px]">
+        <div className="grid h-[68px] grid-cols-[auto_1fr_auto] items-center gap-4 md:h-[78px] lg:grid-cols-[1fr_auto_1fr]">
           <Link
             href="/"
             aria-label={`${profile.name} - Home`}
@@ -96,7 +96,7 @@ export function SiteHeader() {
 
           <nav
             aria-label="Primary navigation"
-            className="hidden lg:block"
+            className="hidden justify-self-center lg:block"
           >
             <ul className="flex items-center gap-0.5 text-[12px] font-semibold uppercase tracking-[0.14em]">
               {navItems.map((item) => {

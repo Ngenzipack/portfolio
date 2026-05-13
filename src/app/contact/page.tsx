@@ -23,7 +23,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         index="Contact"
         title="Reach out for security, DevSecOps, IAM, cloud, or network roles."
-        description="No form or backend is used on this static portfolio. The fastest way to connect is direct email or LinkedIn."
+        description="For hiring or security collaboration, contact me by email or LinkedIn."
       />
 
       <section className="grid gap-12 md:grid-cols-[1fr_1.25fr] md:gap-16">
