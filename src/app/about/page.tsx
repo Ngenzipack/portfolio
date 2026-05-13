@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <PageShell className="space-y-20 md:space-y-28">
+    <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
         eyebrow="Biography"
         index="About"
@@ -72,7 +72,7 @@ export default function AboutPage() {
           eyebrow="Focus"
           index="01"
           title="Where the work is strongest."
-          description="The site is positioned for cybersecurity-first roles, with DevSecOps and server operations as practical supporting proof."
+          description="I am positioning my work for cybersecurity-first roles, with DevSecOps and server operations as practical supporting experience."
         />
         <Stagger className="grid gap-px overflow-hidden border border-[var(--border)] bg-[var(--border)] md:grid-cols-2">
           {profile.focusAreas.map((area, idx) => (

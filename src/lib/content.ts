@@ -419,6 +419,38 @@ export const projects: ProjectItem[] = [
     privateCode: true,
   },
   {
+    slug: "sylva-renovations-client-website",
+    title: "Sylva Renovations - Client Website and Hosting Operations",
+    category: "Full-Stack Web - Client Delivery",
+    period: "Ongoing",
+    role: "Full-Stack Developer and Server Manager",
+    description:
+      "Client website built and maintained for Sylva Renovations, with professional frontend delivery, backend/hosting support, SSL/TLS configuration, DNS alignment, and ongoing production troubleshooting.",
+    outcomes: [
+      "Delivered a clean public-facing website that presents the client professionally and works across desktop and mobile screens.",
+      "Handled hosting setup, DNS, SSL/TLS, deployment updates, and operational support for the live business site.",
+      "Applied the same security-minded habits I use in IT work: controlled access, careful changes, backups, documentation, and reliable client communication.",
+    ],
+    technologies: [
+      "Frontend Development",
+      "Responsive UI",
+      "Backend Support",
+      "Hosting",
+      "DNS",
+      "SSL/TLS",
+      "Server Management",
+      "Client Support",
+    ],
+    links: [
+      {
+        label: "Visit sylvarenovations.ca",
+        href: "https://www.sylvarenovations.ca/",
+      },
+    ],
+    featured: true,
+    privateCode: true,
+  },
+  {
     slug: "network-monitoring-automation",
     title: "Network Monitoring and Security Automation Initiative",
     category: "Operations - Automation",
@@ -446,7 +478,7 @@ export const projects: ProjectItem[] = [
     period: "2023 - Present",
     role: "Developer and Operator",
     description:
-      "Secure web and full-stack delivery across live websites including neotha.com, nkurunziza.ca, and sylvarenovations.ca. The work strengthens practical SSL/TLS, DNS, hosting, access-control, troubleshooting, and customer-support experience.",
+      "Secure web and full-stack delivery across live client websites. This work strengthens practical SSL/TLS, DNS, hosting, access-control, troubleshooting, and customer-support experience.",
     outcomes: [
       "Maintained public-facing websites where reliability, clear content, responsive UI, and customer needs matter.",
       "Supported DNS, SSL/TLS, hosting, server troubleshooting, and secure deployment workflows.",

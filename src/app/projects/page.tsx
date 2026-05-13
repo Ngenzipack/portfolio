@@ -38,7 +38,7 @@ function ProjectArticle({
   return (
     <article
       id={project.slug}
-      className="scroll-mt-24 border-b border-[var(--border)] py-12 md:py-16"
+      className="scroll-mt-24 border-b border-[var(--border)] py-9 md:py-12"
     >
       <div className="grid gap-10 md:grid-cols-[10rem_1fr] md:gap-14">
         <div className="space-y-4">
@@ -132,7 +132,7 @@ function ProjectArticle({
 
 export default function ProjectsPage() {
   return (
-    <PageShell className="space-y-20 md:space-y-28">
+    <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
         eyebrow="Selected Work"
         index="Projects"
@@ -185,7 +185,7 @@ export default function ProjectsPage() {
       <MotionReveal>
         <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pt-16">
           <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-4xl">
-            Looking for proof in IAM, cloud, network security, DevSecOps, or client platform operations?
+            Looking for experience in IAM, cloud, network security, DevSecOps, or client platform operations?
           </h2>
           <div className="flex flex-wrap items-center gap-3">
             <Button asChild variant="primary">

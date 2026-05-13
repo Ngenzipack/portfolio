@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <PageShell className="space-y-20 md:space-y-28">
+    <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
         eyebrow="Career timeline"
         index="Experience"
@@ -34,7 +34,7 @@ export default function ExperiencePage() {
         <Stagger className="">
           {experience.map((item, idx) => (
             <StaggerItem key={`${item.role}-${item.organization}`}>
-              <article className="grid scroll-mt-24 gap-6 border-b border-[var(--border)] py-10 md:grid-cols-[10rem_1fr] md:gap-14 md:py-14">
+              <article className="grid scroll-mt-24 gap-6 border-b border-[var(--border)] py-8 md:grid-cols-[10rem_1fr] md:gap-12 md:py-10">
                 <div className="space-y-3">
                   <p className="numbered-marker text-[var(--foreground)]">
                     {String(idx + 1).padStart(2, "0")}

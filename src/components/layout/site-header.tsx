@@ -67,7 +67,7 @@ export function SiteHeader() {
         "sticky top-0 z-40 w-full transition-all duration-300",
         "border-b border-transparent",
         scrolled
-          ? "glass border-[var(--border)]"
+          ? "bg-[var(--background)] border-[var(--border)]"
           : "bg-[var(--background)]",
       )}
     >

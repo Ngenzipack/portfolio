@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <PageShell className="space-y-20 md:space-y-28">
+    <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
         eyebrow="Practice"
         index="Services"
@@ -42,7 +42,7 @@ export default function ServicesPage() {
             <StaggerItem key={service.number}>
               <article
                 id={`service-${service.number}`}
-                className="group grid scroll-mt-24 gap-8 border-b border-[var(--border)] py-10 transition-colors hover:border-[var(--foreground)] md:grid-cols-[10rem_1.4fr_1fr] md:gap-14 md:py-14"
+                className="group grid scroll-mt-24 gap-7 border-b border-[var(--border)] py-8 transition-colors hover:border-[var(--foreground)] md:grid-cols-[10rem_1.4fr_1fr] md:gap-12 md:py-10"
               >
                 <div className="space-y-3">
                   <p className="numbered-marker text-[var(--foreground)]">

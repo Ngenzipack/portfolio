@@ -32,7 +32,7 @@ const RESUME_DOCX = assetPath("/resume/Security.docx");
 
 export default function ResumePage() {
   return (
-    <PageShell className="space-y-20 md:space-y-28">
+    <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
         eyebrow="Curriculum vitae"
         index="Resume"

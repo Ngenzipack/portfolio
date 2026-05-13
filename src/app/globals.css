@@ -247,7 +247,7 @@ select:focus-visible {
 }
 
 .glass {
-  background: color-mix(in oklab, var(--background) 82%, transparent);
+  background: var(--background);
   backdrop-filter: saturate(160%) blur(14px);
   -webkit-backdrop-filter: saturate(160%) blur(14px);
 }

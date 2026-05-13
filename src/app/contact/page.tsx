@@ -18,7 +18,7 @@ export default function ContactPage() {
   const github = socialLinks.find((link) => link.label === "GitHub");
 
   return (
-    <PageShell className="space-y-20 md:space-y-24">
+    <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
         eyebrow="Contact"
         index="Contact"
@@ -173,7 +173,7 @@ export default function ContactPage() {
       <MotionReveal>
         <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pt-16">
           <div className="space-y-2">
-            <p className="section-eyebrow">Online proof</p>
+            <p className="section-eyebrow">Online presence</p>
             <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-4xl">
               Review the case studies, resume, LinkedIn, and GitHub profile.
             </h2>

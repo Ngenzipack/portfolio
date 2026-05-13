@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function SkillsPage() {
   return (
-    <PageShell className="space-y-20 md:space-y-28">
+    <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
         eyebrow="Capabilities"
         index="Skills"
@@ -33,7 +33,7 @@ export default function SkillsPage() {
         <Stagger>
           {skillCategories.map((skillGroup, idx) => (
             <StaggerItem key={skillGroup.category}>
-              <article className="grid gap-6 border-b border-[var(--border)] py-10 md:grid-cols-[10rem_1fr_1.4fr] md:gap-12 md:py-12">
+              <article className="grid gap-6 border-b border-[var(--border)] py-8 md:grid-cols-[10rem_1fr_1.4fr] md:gap-10 md:py-10">
                 <div className="space-y-3">
                   <p className="numbered-marker text-[var(--foreground)]">
                     {String(idx + 1).padStart(2, "0")}

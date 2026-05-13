@@ -27,7 +27,7 @@ export function PageShell({ children, className, width = "default" }: PageShellP
     <main
       className={cn(
         "page-gutter-x mx-auto w-full flex-1",
-        "py-10 pb-[max(2.5rem,env(safe-area-inset-bottom,0px))] md:py-14 lg:py-20",
+        "py-8 pb-[max(2rem,env(safe-area-inset-bottom,0px))] md:py-10 lg:py-12",
         widthClass[width],
         className,
       )}
@@ -50,7 +50,7 @@ export function PageIntro({
     return (
       <section
         className={cn(
-          "relative grid gap-8 border-b border-[var(--border)] pb-10 md:grid-cols-[auto_1fr] md:gap-14 md:pb-16",
+          "relative grid gap-7 border-b border-[var(--border)] pb-8 md:grid-cols-[auto_1fr] md:gap-12 md:pb-10",
           className,
         )}
       >
@@ -63,8 +63,8 @@ export function PageIntro({
           ) : null}
           {meta ? <div className="text-sm text-[var(--muted-foreground)]">{meta}</div> : null}
         </div>
-        <div className="min-w-0 space-y-6">
-          <h1 className="headline text-balance text-4xl text-[var(--foreground)] md:text-6xl lg:text-[5rem]">
+        <div className="min-w-0 space-y-5">
+          <h1 className="headline text-balance text-4xl text-[var(--foreground)] md:text-5xl lg:text-6xl">
             {title}
           </h1>
           {description ? (
@@ -80,12 +80,12 @@ export function PageIntro({
   return (
     <section
       className={cn(
-        "relative space-y-5 border-b border-[var(--border)] pb-8 md:pb-12",
+        "relative space-y-4 border-b border-[var(--border)] pb-7 md:pb-9",
         className,
       )}
     >
       {eyebrow ? <p className="section-eyebrow">{eyebrow}</p> : null}
-      <h1 className="headline text-balance text-4xl text-[var(--foreground)] md:text-6xl lg:text-7xl">
+      <h1 className="headline text-balance text-4xl text-[var(--foreground)] md:text-5xl lg:text-6xl">
         {title}
       </h1>
       {description ? (
@@ -117,7 +117,7 @@ export function SectionHeader({
   return (
     <header
       className={cn(
-        "flex flex-col gap-5 border-b border-[var(--border)] pb-6 md:grid md:grid-cols-[auto_1fr_auto] md:items-end md:gap-12 md:pb-8",
+        "flex flex-col gap-4 border-b border-[var(--border)] pb-5 md:grid md:grid-cols-[auto_1fr_auto] md:items-end md:gap-10 md:pb-6",
         className,
       )}
     >
@@ -128,7 +128,7 @@ export function SectionHeader({
         ) : null}
       </div>
       <div className="min-w-0 space-y-3">
-        <h2 className="subhead text-balance text-2xl text-[var(--foreground)] sm:text-3xl md:text-[2.6rem]">
+        <h2 className="subhead text-balance text-2xl text-[var(--foreground)] sm:text-3xl md:text-4xl">
           {title}
         </h2>
         {description ? (

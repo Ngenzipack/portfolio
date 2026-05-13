@@ -19,8 +19,8 @@ import {
 
 export default function Home() {
   return (
-    <PageShell className="space-y-24 md:space-y-32">
-      <section className="hero-energy grid gap-10 overflow-x-clip pt-4 md:grid-cols-[auto_1fr] md:gap-16 md:pt-10">
+    <PageShell className="space-y-16 md:space-y-24">
+      <section className="hero-energy grid gap-8 overflow-x-clip pt-2 md:grid-cols-[auto_1fr] md:gap-12 md:pt-4">
         <div className="flex flex-col gap-6 md:max-w-[14rem]">
           <MotionReveal>
             <Badge variant="muted">
@@ -50,7 +50,7 @@ export default function Home() {
 
           <MotionReveal delay={0.1}>
             <h1 className="headline text-balance text-4xl leading-[1.06] text-[var(--foreground)] sm:text-5xl md:text-6xl md:leading-[1.02] lg:text-7xl">
-              Cybersecurity, IAM, cloud, and network defense with operational proof.
+              I secure identity, cloud, endpoint, and network environments.
             </h1>
           </MotionReveal>
 
@@ -81,14 +81,14 @@ export default function Home() {
           </MotionReveal>
 
           <MotionReveal delay={0.32}>
-            <div className="mt-10 flex items-center gap-4 text-[var(--muted-foreground)]">
+            <div className="mt-6 flex items-center gap-4 text-[var(--muted-foreground)]">
               <span className="scroll-cue">Scroll</span>
             </div>
           </MotionReveal>
         </div>
       </section>
 
-      <section className="grid gap-10 border-y border-[var(--border)] py-10 sm:grid-cols-2 md:grid-cols-4 md:gap-0 md:py-12">
+      <section className="grid gap-8 border-y border-[var(--border)] py-8 sm:grid-cols-2 md:grid-cols-4 md:gap-0 md:py-10">
         {trustMarkers.map((metric, idx) => (
           <MotionReveal
             key={metric.label}
@@ -122,7 +122,7 @@ export default function Home() {
           eyebrow="Practice"
           index="01"
           title="Practical security work for real operating environments."
-          description="Patrick Ngenzi helps teams reduce risk across identity, Azure, endpoints, networks, and web platforms. The work is hands-on, documented, and aligned to least privilege, uptime, privacy, and measurable improvement."
+          description="I help teams reduce risk across identity, Azure, endpoints, networks, and web platforms. My work is hands-on, documented, and aligned to least privilege, uptime, privacy, and measurable improvement."
         />
 
         <Stagger className="grid gap-6 md:grid-cols-2">
@@ -269,7 +269,7 @@ export default function Home() {
         <SectionHeader
           eyebrow="Credentials"
           index="04"
-          title="Certifications and proof."
+          title="Certifications and credentials."
           description="Validated security learning paired with day-to-day operational responsibility."
           action={
             <Link
