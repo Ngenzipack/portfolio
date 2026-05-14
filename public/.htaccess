@@ -32,3 +32,4 @@ DirectoryIndex index.html
 
 AddType application/vnd.openxmlformats-officedocument.wordprocessingml.document .docx
 AddType application/pdf .pdf
+AddType application/manifest+json .webmanifest
