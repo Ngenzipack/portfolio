@@ -2,7 +2,7 @@
 
 Professional portfolio for Patrick Ngenzi, focused on cybersecurity, IAM, cloud security, DevSecOps, network security, secure web platforms, and server-management experience.
 
-Live site: [ngenzi.neotha.com](https://ngenzi.neotha.com)
+Live site: [ngenzipack.github.io/portfolio](https://ngenzipack.github.io/portfolio/)
 
 ## Overview
 
@@ -110,6 +110,21 @@ Serves the generated `out/` directory locally after a static build.
 
 The site is configured for static export in `next.config.ts`.
 
+For GitHub Pages deployment:
+
+```bash
+npm run build:gh-pages
+```
+
+The GitHub Actions workflow builds with:
+
+```text
+NEXT_PUBLIC_BASE_PATH=/portfolio
+NEXT_PUBLIC_SITE_URL=https://ngenzipack.github.io/portfolio
+```
+
+The generated `out/` directory is published to the `gh-pages` branch.
+
 For Hostinger deployment:
 
 ```bash
@@ -129,7 +144,7 @@ Upload the contents of `out/` to the hosting public directory.
 Repository remote:
 
 ```bash
-git@github.com:Ngenzipack/Ngenzi.git
+git@github.com:Ngenzipack/portfolio.git
 ```
 
 First push from a new machine or branch:

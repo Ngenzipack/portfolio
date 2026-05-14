@@ -20,6 +20,9 @@ const inter = Inter({
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://ngenzi.neotha.com";
 
+const absoluteAssetUrl = (path: string) =>
+  new URL(assetPath(path), SITE_URL).toString();
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -86,7 +89,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: assetPath("/favicon/android-chrome-512x512.png"),
+        url: absoluteAssetUrl("/favicon/android-chrome-512x512.png"),
         width: 512,
         height: 512,
         alt: "Patrick Ngenzi - Security Analyst & DevSecOps",
@@ -98,7 +101,7 @@ export const metadata: Metadata = {
     title: "Patrick Ngenzi - Cybersecurity, IAM, Cloud Security & DevSecOps",
     description:
       "IAM, cloud security, network defense, DevSecOps, client platform, and server-management experience.",
-    images: [assetPath("/favicon/android-chrome-512x512.png")],
+    images: [absoluteAssetUrl("/favicon/android-chrome-512x512.png")],
   },
   robots: {
     index: true,
