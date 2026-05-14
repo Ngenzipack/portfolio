@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:3015": "next dev --port 3015",
-    "build": "next build",
-    "build:hostinger": "NEXT_PUBLIC_SITE_URL=https://ngenzi.neotha.com next build",
-    "build:gh-pages": "NEXT_PUBLIC_BASE_PATH=/portfolio NEXT_PUBLIC_SITE_URL=https://ngenzipack.github.io/portfolio next build",
+    "dev": "PATH=/opt/homebrew/bin:$PATH next dev",
+    "dev:3015": "PATH=/opt/homebrew/bin:$PATH next dev --port 3015",
+    "build": "PATH=/opt/homebrew/bin:$PATH next build",
+    "build:hostinger": "PATH=/opt/homebrew/bin:$PATH NEXT_PUBLIC_SITE_URL=https://ngenzi.neotha.com next build",
+    "build:gh-pages": "PATH=/opt/homebrew/bin:$PATH NEXT_PUBLIC_BASE_PATH=/portfolio NEXT_PUBLIC_SITE_URL=https://ngenzipack.github.io/portfolio next build",
     "start": "next start",
     "lint": "eslint",
     "preview": "npx serve out --listen 3000"
