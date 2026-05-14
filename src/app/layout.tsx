@@ -6,7 +6,6 @@ import { PageTransition } from "@/components/layout/page-transition";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { assetPath } from "@/lib/asset-path";
 import { profile } from "@/lib/content";
 
 import "./globals.css";
@@ -19,9 +18,6 @@ const inter = Inter({
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://ngenzi.neotha.com";
-
-const absoluteAssetUrl = (path: string) =>
-  new URL(assetPath(path), SITE_URL).toString();
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -62,22 +58,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
-  manifest: assetPath("/favicon/site.webmanifest"),
   icons: {
-    icon: [
-      {
-        url: assetPath("/favicon/favicon-16x16.png"),
-        sizes: "16x16",
-        type: "image/png",
-      },
-      {
-        url: assetPath("/favicon/favicon-32x32.png"),
-        sizes: "32x32",
-        type: "image/png",
-      },
-    ],
-    shortcut: assetPath("/favicon/favicon.ico"),
-    apple: assetPath("/favicon/apple-touch-icon.png"),
+    icon: "data:,",
   },
   openGraph: {
     title: "Patrick Ngenzi - Cybersecurity, IAM, Cloud Security & DevSecOps",
@@ -87,21 +69,12 @@ export const metadata: Metadata = {
     siteName: "Patrick Ngenzi Portfolio",
     locale: "en_CA",
     type: "website",
-    images: [
-      {
-        url: absoluteAssetUrl("/favicon/android-chrome-512x512.png"),
-        width: 512,
-        height: 512,
-        alt: "Patrick Ngenzi - Security Analyst & DevSecOps",
-      },
-    ],
   },
   twitter: {
     card: "summary",
     title: "Patrick Ngenzi - Cybersecurity, IAM, Cloud Security & DevSecOps",
     description:
       "IAM, cloud security, network defense, DevSecOps, client platform, and server-management experience.",
-    images: [absoluteAssetUrl("/favicon/android-chrome-512x512.png")],
   },
   robots: {
     index: true,

@@ -132,7 +132,7 @@ export function SiteHeader() {
           <div className="flex items-center justify-end gap-2">
             <Link
               href="/contact"
-              className="hidden items-center gap-2 rounded-[var(--radius-md)] border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent-strong)] hover:bg-[var(--accent-strong)] hover:shadow-lg md:inline-flex"
+              className="hidden items-center gap-2 rounded-[var(--radius-md)] border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--background)] shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent-strong)] hover:bg-[var(--accent-strong)] hover:shadow-lg md:inline-flex"
             >
               <span
                 aria-hidden
@@ -211,7 +211,7 @@ export function SiteHeader() {
               <Link
                 href="/contact"
                 onClick={closeMenu}
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] border border-[var(--accent)] bg-[var(--accent)] px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white shadow-md transition-transform active:scale-[0.98]"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] border border-[var(--accent)] bg-[var(--accent)] px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-[var(--background)] shadow-md transition-transform active:scale-[0.98]"
               >
                 <span
                   aria-hidden

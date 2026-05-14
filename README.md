@@ -33,7 +33,7 @@ This site is a static Next.js portfolio built to present security-focused experi
 
 ```text
 .
-├── public/              # Static assets, favicon files, resume, hosting files
+├── public/              # Static assets, icon files, resume, hosting files
 ├── src/
 │   ├── app/             # App Router routes and global styles
 │   ├── components/      # Layout, sections, theme, and UI components

@@ -11,7 +11,6 @@ import {
   PageShell,
   SectionHeader,
 } from "@/components/sections/page-shell";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   featuredProjects,
@@ -24,6 +23,27 @@ export const metadata: Metadata = {
   description:
     "Cybersecurity, IAM, cloud, and DevSecOps case studies by Patrick Ngenzi.",
 };
+
+const projectFocus = [
+  {
+    label: "Security roles",
+    title: "Cloud, IAM, SOC, and network defense",
+    description:
+      "Azure architecture, Entra ID, Conditional Access, Sentinel detections, segmentation, firewall policy, and security operations.",
+  },
+  {
+    label: "DevSecOps roles",
+    title: "Automation, CI/CD, and production ownership",
+    description:
+      "GitHub Actions, static deployment, monitoring workflows, PowerShell automation, server operations, and controlled change practices.",
+  },
+  {
+    label: "Client delivery",
+    title: "Live platforms with real customers",
+    description:
+      "Neotha, Nkurunziza, and Sylva Renovations show frontend/backend delivery, hosting, DNS, SSL/TLS, troubleshooting, and support.",
+  },
+];
 
 function ProjectArticle({
   project,
@@ -53,11 +73,13 @@ function ProjectArticle({
           ) : null}
           {project.role ? (
             <p className="text-sm text-[var(--muted-foreground)]">
-              Role &middot; {project.role}
+              Project role &middot; {project.role}
             </p>
           ) : null}
           {project.privateCode ? (
-            <Badge variant="muted">Public-safe case study</Badge>
+            <p className="inline-flex border border-[var(--border)] bg-[var(--surface-soft)] px-2.5 py-1 text-[10px] font-semibold uppercase text-[var(--foreground)]">
+              Private or client repository
+            </p>
           ) : null}
           {project.links?.length ? (
             <div className="flex flex-wrap gap-3 pt-1">
@@ -99,18 +121,14 @@ function ProjectArticle({
 
           {project.outcomes && project.outcomes.length ? (
             <div className="space-y-4 pt-2">
-              <p className="section-eyebrow">Outcomes</p>
-              <ul className="space-y-3">
+              <p className="section-eyebrow">What this demonstrates</p>
+              <ul className="grid gap-3 md:grid-cols-3">
                 {project.outcomes.map((outcome) => (
                   <li
                     key={outcome}
-                    className="flex gap-4 border-t border-[var(--border)] pt-3 text-base leading-relaxed text-[var(--foreground-soft)]"
+                    className="border-t border-[var(--border)] pt-3 text-sm leading-relaxed text-[var(--foreground-soft)]"
                   >
-                    <span
-                      aria-hidden
-                      className="mt-2 inline-block h-px w-6 shrink-0 bg-[var(--foreground)]"
-                    />
-                    <span>{outcome}</span>
+                    {outcome}
                   </li>
                 ))}
               </ul>
@@ -136,22 +154,45 @@ export default function ProjectsPage() {
       <PageIntro
         eyebrow="Selected Work"
         index="Projects"
-        title="Case studies in cybersecurity, DevSecOps, and secure web operations."
-        description="A curated set of projects spanning Azure cloud security, IAM, network segmentation, endpoint/security automation, live client websites, backend/frontend delivery, and server management."
+        title="Project case studies organized for hiring review."
+        description="A curated set of security, DevSecOps, client platform, and GitHub projects organized around the roles I am targeting: Security Analyst, IAM, Cloud Security, SOC/NOC, Network Security, and DevSecOps."
         meta={
           <p>
-            Featured work comes first. Client and owner-led platforms are shown as
-            public-safe case studies with live links instead of embedded frames.
+            Featured work comes first. Private client work is presented as
+            public-safe case studies with live links and clear outcomes.
           </p>
         }
       />
+
+      <section className="grid gap-3 md:grid-cols-3">
+        {projectFocus.map((item) => (
+          <article
+            key={item.title}
+            className="border border-[var(--border)] bg-[var(--background-elev)] p-5 md:p-6"
+          >
+            <div className="space-y-4">
+              <p className="text-[10px] font-semibold uppercase text-[var(--muted-foreground)]">
+                {item.label}
+              </p>
+              <div className="space-y-2">
+                <h2 className="subhead text-xl text-[var(--foreground)] md:text-2xl">
+                  {item.title}
+                </h2>
+                <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </section>
 
       <section className="space-y-4 md:space-y-6">
         <SectionHeader
           eyebrow="Featured"
           index="01"
-          title="Featured projects."
-          description="Hands-on work that best represents the cybersecurity-first positioning and supporting production engineering experience."
+          title="Best evidence for target roles."
+          description="Projects selected to show security architecture, network defense, production ownership, automation, and operational follow-through."
         />
         <Stagger className="">
           {featuredProjects.map((project, idx) => (
@@ -166,8 +207,8 @@ export default function ProjectsPage() {
         <SectionHeader
           eyebrow="Supporting"
           index="02"
-          title="Supporting work."
-          description="Operational security automation, client delivery, and engineering fundamentals."
+          title="Client delivery and engineering fundamentals."
+          description="Additional work that shows customer support, production delivery, backend/frontend ownership, GitHub discipline, and programming fundamentals."
         />
         <Stagger className="">
           {supportingProjects.map((project, idx) => (

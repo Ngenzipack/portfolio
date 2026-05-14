@@ -14,7 +14,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   accent:
     "bg-[var(--accent-soft)] text-[var(--foreground)] border-[var(--border-strong)]",
   muted:
-    "bg-[var(--surface-soft)] text-[var(--muted-foreground)] border-[var(--border)]",
+    "bg-[var(--surface-soft)] text-[var(--foreground)] border-[var(--border)]",
   outline:
     "bg-transparent text-[var(--foreground)] border-[var(--foreground)]",
   success:

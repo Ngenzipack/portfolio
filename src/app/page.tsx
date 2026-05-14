@@ -15,7 +15,63 @@ import {
   profile,
   services,
   trustMarkers,
+  type ProjectItem,
 } from "@/lib/content";
+
+function FeaturedProjectCard({
+  project,
+  index,
+}: {
+  project: ProjectItem;
+  index: number;
+}) {
+  return (
+    <Link
+      href={`/projects#${project.slug}`}
+      className="link-card-lift group flex h-full flex-col gap-6 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background-elev)] p-6 md:p-8"
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-3">
+          <span className="numbered-marker text-[var(--foreground)]">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <p className="max-w-[14rem] text-[10px] font-semibold uppercase leading-snug text-[var(--muted-foreground)]">
+            {project.category}
+          </p>
+        </div>
+        <span
+          aria-hidden
+          className="text-sm text-[var(--muted-foreground)] transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[var(--foreground)]"
+        >
+          Read &rarr;
+        </span>
+      </div>
+
+      <div className="space-y-3">
+        <h3 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-3xl">
+          {project.title}
+        </h3>
+        <p className="text-sm leading-relaxed text-[var(--muted-foreground)] md:text-base">
+          {project.description}
+        </p>
+      </div>
+
+      {project.outcomes?.[0] ? (
+        <p className="mt-auto border-t border-[var(--border)] pt-4 text-sm leading-relaxed text-[var(--foreground-soft)]">
+          {project.outcomes[0]}
+        </p>
+      ) : null}
+
+      <ul className="flex flex-wrap gap-2">
+        {project.technologies.slice(0, 4).map((technology) => (
+          <li key={technology} className="tag-chip">
+            {technology}
+          </li>
+        ))}
+      </ul>
+    </Link>
+  );
+}
 
 export default function Home() {
   return (
@@ -159,8 +215,8 @@ export default function Home() {
         <SectionHeader
           eyebrow="Selected Work"
           index="02"
-          title="Featured projects."
-          description="Security architecture, network segmentation, full-stack client platforms, and server-management work presented as clear case studies."
+          title="Projects organized for security and DevSecOps roles."
+          description="A recruiter-ready view of security architecture, network segmentation, production platform ownership, automation, and client/server operations."
           action={
             <Link
               href="/projects"
@@ -174,42 +230,10 @@ export default function Home() {
           }
         />
 
-        <Stagger className="space-y-3">
+        <Stagger className="grid gap-4 md:grid-cols-2">
           {featuredProjects.map((project, idx) => (
             <StaggerItem key={project.slug}>
-              <Link
-                href={`/projects#${project.slug}`}
-                className="group grid items-baseline gap-4 rounded-[var(--radius-md)] border-b border-[var(--border)] py-6 transition-colors duration-300 hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] md:grid-cols-[auto_1fr_auto] md:gap-10 md:px-3 md:py-8"
-              >
-                <span className="numbered-marker text-[var(--foreground)] md:w-12">
-                  0{idx + 1}
-                </span>
-                <div className="space-y-2">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-                    {project.category}
-                    {project.period ? (
-                      <>
-                        <span aria-hidden className="mx-2">
-                          &middot;
-                        </span>
-                        {project.period}
-                      </>
-                    ) : null}
-                  </p>
-                  <h3 className="subhead text-2xl text-[var(--foreground)] md:text-[2.1rem]">
-                    {project.title}
-                  </h3>
-                  <p className="max-w-2xl text-sm leading-relaxed text-[var(--muted-foreground)] md:text-base">
-                    {project.description}
-                  </p>
-                </div>
-                <span
-                  aria-hidden
-                  className="hidden text-sm text-[var(--muted-foreground)] transition-all duration-300 group-hover:translate-x-1 group-hover:text-[var(--foreground)] md:inline"
-                >
-                  Read &rarr;
-                </span>
-              </Link>
+              <FeaturedProjectCard project={project} index={idx} />
             </StaggerItem>
           ))}
         </Stagger>

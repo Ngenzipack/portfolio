@@ -159,7 +159,7 @@ for fingerprinted assets, so Cloudflare and the browser cache them correctly.
   `/experience`, `/skills`, `/resume`, `/contact`).
 - JSON-LD `Person` schema injected as a real `<script type="application/ld+json">`
   in initial HTML, with sameAs links to LinkedIn and GitHub.
-- `manifest.webmanifest`, full favicon set, theme-color metadata.
+- Favicon/icon assets and theme-color metadata.
 - Reduced-motion respect on every animation.
 
 After the SSL fix, submit the sitemap in Google Search Console:
