@@ -17,7 +17,7 @@ import { services } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Security advisory and engineering services from Patrick Ngenzi - identity, cloud, network defense, and DevSecOps.",
+    "Security engineering services from Patrick Ngenzi across identity, cloud, endpoint defense, network hardening, and DevSecOps delivery.",
 };
 
 export default function ServicesPage() {
@@ -26,8 +26,8 @@ export default function ServicesPage() {
       <PageIntro
         eyebrow="Practice"
         index="Services"
-        title="Security engineering and operations support for teams that need practical results."
-        description="Work is organized around identity security, Azure and endpoint hardening, network segmentation, DevSecOps, and secure client platform operations. Each engagement is documented so controls can be operated after delivery."
+        title="I deliver security engineering support built for practical results."
+        description="I organize engagements around identity security, cloud and endpoint hardening, network segmentation, DevSecOps, and secure platform operations. I document each phase so your team can run controls after delivery."
       />
 
       <section className="space-y-4 md:space-y-6">
@@ -35,7 +35,7 @@ export default function ServicesPage() {
           eyebrow="Service lines"
           index="01"
           title="What I help organizations strengthen."
-          description="The focus is job-ready security work: access control, monitoring, remediation, network hardening, automation, and production support."
+          description="I focus on access control, monitoring, remediation, network hardening, automation, and production support that your team can sustain."
         />
         <Stagger className="space-y-3">
           {services.map((service) => (

@@ -17,7 +17,7 @@ import { experience } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Career timeline of Patrick Ngenzi across IT support, network specialization, and security operations.",
+    "Career timeline of Patrick Ngenzi across IT support, network security, IAM operations, and DevSecOps-aligned delivery.",
 };
 
 export default function ExperiencePage() {
@@ -26,8 +26,8 @@ export default function ExperiencePage() {
       <PageIntro
         eyebrow="Career timeline"
         index="Experience"
-        title="Career progression through support, network security, IAM, and operations."
-        description="Roles spanning public-sector IT, telecom network security, service desk, privacy-sensitive operations, and production support - with measurable risk reduction and reliability outcomes."
+        title="My career progression through support, network security, IAM, and operations."
+        description="My roles span public-sector IT, telecom security, service desk, privacy-sensitive operations, and production support, with measurable risk reduction and reliability outcomes."
       />
 
       <section className="space-y-2 md:space-y-4">

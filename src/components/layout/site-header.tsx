@@ -107,7 +107,7 @@ export function SiteHeader() {
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "group relative inline-flex items-center px-3.5 py-2 transition-colors",
+                        "group relative inline-flex min-h-11 items-center px-3.5 py-2 transition-colors",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
                         active
                           ? "text-[var(--accent-strong)]"
@@ -132,13 +132,13 @@ export function SiteHeader() {
           <div className="flex items-center justify-end gap-2">
             <Link
               href="/contact"
-              className="hidden items-center gap-2 rounded-[var(--radius-md)] border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--background)] shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent-strong)] hover:bg-[var(--accent-strong)] hover:shadow-lg md:inline-flex"
+              className="hidden min-h-11 items-center gap-2 rounded-[var(--radius-md)] border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--background)] shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent-strong)] hover:bg-[var(--accent-strong)] hover:shadow-lg md:inline-flex"
             >
               <span
                 aria-hidden
                 className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--success)] animate-pulse-ring"
               />
-              Available
+              Contact Me
             </Link>
             <ThemeToggle />
             <button
@@ -217,7 +217,7 @@ export function SiteHeader() {
                   aria-hidden
                   className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--success)] animate-pulse-ring"
                 />
-                Start a conversation
+                Contact Me
               </Link>
               <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.16em] text-[var(--muted-foreground)]">
                 <a

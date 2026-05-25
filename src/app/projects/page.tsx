@@ -13,37 +13,102 @@ import {
 } from "@/components/sections/page-shell";
 import { Button } from "@/components/ui/button";
 import {
+  caseStudies,
   featuredProjects,
   supportingProjects,
+  type CaseStudy,
   type ProjectItem,
 } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Cybersecurity, IAM, cloud, and DevSecOps case studies by Patrick Ngenzi.",
+    "DevSecOps portfolio and security project deep dives by Patrick Ngenzi, including IAM, cloud, endpoint, network, and delivery case studies.",
 };
 
 const projectFocus = [
   {
-    label: "Security roles",
-    title: "Cloud, IAM, SOC, and network defense",
+    label: "Security priorities",
+    title: "Identity, cloud, endpoint, and network defense",
     description:
-      "Azure architecture, Entra ID, Conditional Access, Sentinel detections, segmentation, firewall policy, and security operations.",
+      "I align architecture and implementation to measurable risk reduction so your team gets stronger controls and clearer operating evidence.",
   },
   {
-    label: "DevSecOps roles",
-    title: "Automation, CI/CD, and production ownership",
+    label: "Delivery priorities",
+    title: "DevSecOps reliability and safe rollouts",
     description:
-      "GitHub Actions, static deployment, monitoring workflows, PowerShell automation, server operations, and controlled change practices.",
+      "I build deployment and monitoring workflows that protect uptime while maintaining security guardrails and rollback confidence.",
   },
   {
-    label: "Client delivery",
-    title: "Live platforms with real customers",
+    label: "Client priorities",
+    title: "Production-ready platforms with practical support",
     description:
-      "Neotha, Nkurunziza, and Sylva Renovations show frontend/backend delivery, hosting, DNS, SSL/TLS, troubleshooting, and support.",
+      "I build secure, responsive web platforms and keep the operational layer reliable through DNS, SSL/TLS, hosting, and server management.",
   },
 ];
+
+function CaseStudyCard({
+  caseStudy,
+  index,
+}: {
+  caseStudy: CaseStudy;
+  index: number;
+}) {
+  return (
+    <article className="card-surface flex h-full flex-col gap-5 p-6 md:p-8" id={caseStudy.slug}>
+      <div className="flex items-baseline justify-between gap-4">
+        <p className="numbered-marker">{String(index + 1).padStart(2, "0")}</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--muted-foreground)]">
+          Security deep dive
+        </p>
+      </div>
+
+      <h3 className="subhead text-2xl text-[var(--foreground)] md:text-3xl">
+        {caseStudy.title}
+      </h3>
+
+      <div className="space-y-2">
+        <h4 className="section-eyebrow">Problem or challenge</h4>
+        <p className="text-sm leading-relaxed text-[var(--foreground-soft)]">
+          {caseStudy.challenge}
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <h4 className="section-eyebrow">My role and specific actions</h4>
+        <ul className="space-y-2">
+          {caseStudy.actions.map((action) => (
+            <li
+              key={action}
+              className="flex gap-3 text-sm leading-relaxed text-[var(--foreground-soft)]"
+            >
+              <span
+                aria-hidden
+                className="mt-2 inline-block h-px w-4 shrink-0 bg-[var(--foreground)]"
+              />
+              <span>{action}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="space-y-2">
+        <h4 className="section-eyebrow">Tools used</h4>
+        <ul className="flex flex-wrap gap-2">
+          {caseStudy.tools.map((tool) => (
+            <li key={tool} className="tag-chip">
+              {tool}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="border-t border-[var(--border)] pt-4 text-sm leading-relaxed text-[var(--foreground)]">
+        <strong>Quantifiable outcome:</strong> {caseStudy.outcome}
+      </p>
+    </article>
+  );
+}
 
 function ProjectArticle({
   project,
@@ -67,9 +132,7 @@ function ProjectArticle({
             {project.category}
           </p>
           {project.period ? (
-            <p className="text-sm text-[var(--muted-foreground)]">
-              {project.period}
-            </p>
+            <p className="text-sm text-[var(--muted-foreground)]">{project.period}</p>
           ) : null}
           {project.role ? (
             <p className="text-sm text-[var(--muted-foreground)]">
@@ -106,7 +169,7 @@ function ProjectArticle({
         </div>
 
         <div className="space-y-6">
-          <h2
+          <h3
             className={
               variant === "featured"
                 ? "subhead text-balance text-3xl text-[var(--foreground)] md:text-[2.6rem]"
@@ -114,7 +177,7 @@ function ProjectArticle({
             }
           >
             {project.title}
-          </h2>
+          </h3>
           <p className="lead max-w-3xl text-[var(--foreground-soft)]">
             {project.description}
           </p>
@@ -154,12 +217,11 @@ export default function ProjectsPage() {
       <PageIntro
         eyebrow="Selected Work"
         index="Projects"
-        title="Project case studies organized for hiring review."
-        description="A curated set of security, DevSecOps, client platform, and GitHub projects organized around the roles I am targeting: Security Analyst, IAM, Cloud Security, SOC/NOC, Network Security, and DevSecOps."
+        title="Project deep dives and delivery evidence for security-focused hiring."
+        description="I structure this page so you can quickly understand the challenge, my execution approach, the technologies used, and the measurable outcomes."
         meta={
           <p>
-            Featured work comes first. Private client work is presented as
-            public-safe case studies with live links and clear outcomes.
+            Featured case studies come first. Client-private repositories are presented with public-safe outcomes and architecture context.
           </p>
         }
       />
@@ -187,14 +249,31 @@ export default function ProjectsPage() {
         ))}
       </section>
 
+      <section className="space-y-10 md:space-y-14">
+        <SectionHeader
+          eyebrow="Case Studies"
+          index="01"
+          title="Project deep dives"
+          description="Case studies are structured to help hiring teams quickly assess scope, implementation quality, and measurable outcomes."
+        />
+
+        <Stagger className="grid gap-4 md:grid-cols-3">
+          {caseStudies.map((caseStudy, idx) => (
+            <StaggerItem key={caseStudy.slug}>
+              <CaseStudyCard caseStudy={caseStudy} index={idx} />
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </section>
+
       <section className="space-y-4 md:space-y-6">
         <SectionHeader
           eyebrow="Featured"
-          index="01"
+          index="02"
           title="Best evidence for target roles."
           description="Projects selected to show security architecture, network defense, production ownership, automation, and operational follow-through."
         />
-        <Stagger className="">
+        <Stagger>
           {featuredProjects.map((project, idx) => (
             <StaggerItem key={project.slug}>
               <ProjectArticle project={project} index={idx} />
@@ -206,11 +285,11 @@ export default function ProjectsPage() {
       <section className="space-y-4 md:space-y-6">
         <SectionHeader
           eyebrow="Supporting"
-          index="02"
-          title="Client delivery and engineering fundamentals."
-          description="Additional work that shows customer support, production delivery, backend/frontend ownership, GitHub discipline, and programming fundamentals."
+          index="03"
+          title="Client delivery and engineering foundations."
+          description="Additional work that demonstrates customer support, production discipline, full-stack ownership, and technical range."
         />
-        <Stagger className="">
+        <Stagger>
           {supportingProjects.map((project, idx) => (
             <StaggerItem key={project.slug}>
               <ProjectArticle
@@ -226,11 +305,11 @@ export default function ProjectsPage() {
       <MotionReveal>
         <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pt-16">
           <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-4xl">
-            Looking for experience in IAM, cloud, network security, DevSecOps, or client platform operations?
+            If these outcomes align with your security goals, let&apos;s discuss your role or project scope.
           </h2>
           <div className="flex flex-wrap items-center gap-3">
             <Button asChild variant="primary">
-              <Link href="/contact">Start a Conversation</Link>
+              <Link href="/contact">Contact Me</Link>
             </Button>
             <Button asChild variant="outline">
               <Link href="/services">View Services</Link>

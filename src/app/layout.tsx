@@ -26,11 +26,11 @@ const absoluteAssetUrl = (path: string) =>
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Patrick Ngenzi - Cybersecurity, IAM, Cloud Security & DevSecOps",
+    default: "DevSecOps Portfolio - Patrick Ngenzi",
     template: "%s - Patrick Ngenzi",
   },
   description:
-    "Portfolio of Patrick Ngenzi - cybersecurity, IAM, cloud security, network security, DevSecOps, secure web platforms, and server-management experience.",
+    "DevSecOps portfolio of Patrick Ngenzi: IAM, Azure and GCP cloud security, MaaS360 endpoint operations, network defense, and secure platform delivery.",
   applicationName: "Patrick Ngenzi Portfolio",
   authors: [{ name: profile.name, url: SITE_URL }],
   creator: profile.name,
@@ -50,6 +50,9 @@ export const metadata: Metadata = {
     "Conditional Access",
     "Azure Security",
     "Microsoft Sentinel",
+    "Google Cloud IAM",
+    "Cloud Security Command Center",
+    "MaaS360",
     "Cloud Security",
     "Network Defense",
     "Fortinet",
@@ -80,9 +83,9 @@ export const metadata: Metadata = {
     apple: assetPath("/favicon/apple-touch-icon.png"),
   },
   openGraph: {
-    title: "Patrick Ngenzi - Cybersecurity, IAM, Cloud Security & DevSecOps",
+    title: "DevSecOps Portfolio - Patrick Ngenzi",
     description:
-      "IAM, cloud security, network defense, DevSecOps, client platform, and server-management experience.",
+      "IAM, Azure and GCP security, endpoint defense, network hardening, and DevSecOps delivery experience.",
     url: SITE_URL,
     siteName: "Patrick Ngenzi Portfolio",
     locale: "en_CA",
@@ -98,9 +101,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Patrick Ngenzi - Cybersecurity, IAM, Cloud Security & DevSecOps",
+    title: "DevSecOps Portfolio - Patrick Ngenzi",
     description:
-      "IAM, cloud security, network defense, DevSecOps, client platform, and server-management experience.",
+      "IAM, Azure and GCP security, endpoint defense, network hardening, and DevSecOps delivery experience.",
     images: [absoluteAssetUrl("/favicon/android-chrome-512x512.png")],
   },
   robots: {

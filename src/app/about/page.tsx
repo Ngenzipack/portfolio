@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Link } from "@/components/link";
 
 import {
@@ -11,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   awards,
-  certifications,
+  credentials,
   education,
   profile,
 } from "@/lib/content";
@@ -19,7 +20,7 @@ import {
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Profile, education, and certifications for Patrick Ngenzi - Security Analyst and DevSecOps engineer.",
+    "About Patrick Ngenzi: first-person security profile across IAM, cloud security, endpoint defense, networking, and DevSecOps delivery.",
 };
 
 export default function AboutPage() {
@@ -34,7 +35,7 @@ export default function AboutPage() {
             <p>{profile.location}</p>
           </div>
         }
-        title="Cybersecurity professional with practical IAM, cloud, endpoint, and network experience."
+        title="I build security controls that reduce risk and still fit real operations."
         description={profile.intro}
       />
 
@@ -42,26 +43,23 @@ export default function AboutPage() {
         <MotionReveal>
           <p className="section-eyebrow">Profile</p>
         </MotionReveal>
-        <div className="space-y-6 text-pretty text-[var(--foreground-soft)]">
+        <div className="space-y-5 text-pretty text-[var(--foreground-soft)]">
           <MotionReveal>
             <p className="lead text-balance">{profile.summary}</p>
           </MotionReveal>
           <MotionReveal delay={0.05}>
             <p className="text-base leading-relaxed text-[var(--muted-foreground)]">
-              My experience is hands-on: supporting 1,000+ endpoints, mitigating
-              150+ monthly security incidents, hardening Azure VMs and NSGs,
-              improving Entra ID access controls, cleaning up Fortinet and Palo
-              Alto firewall exposure, and documenting work so teams can operate it
-              confidently.
+              I have supported <strong>1,000+ endpoints</strong>, mitigated <strong>150+ monthly security incidents</strong>, and helped reduce firewall exposure by <strong>25%</strong> while preserving approved business traffic.
             </p>
           </MotionReveal>
           <MotionReveal delay={0.1}>
             <p className="text-base leading-relaxed text-[var(--muted-foreground)]">
-              Alongside security roles, I own Neotha and support live client web
-              platforms including neotha.com, nkurunziza.ca, and
-              sylvarenovations.ca. That work adds real production ownership:
-              frontend, backend, hosting, DNS, SSL/TLS, client support, and server
-              management. {profile.beyondTech}
+              Beyond security operations, I deliver production web platforms and support server operations, DNS, SSL/TLS, deployment workflows, and client communication so your team gets outcomes that are both secure and usable.
+            </p>
+          </MotionReveal>
+          <MotionReveal delay={0.15}>
+            <p className="text-base leading-relaxed text-[var(--muted-foreground)]">
+              {profile.whyIWorkInSecurity}
             </p>
           </MotionReveal>
         </div>
@@ -71,8 +69,8 @@ export default function AboutPage() {
         <SectionHeader
           eyebrow="Focus"
           index="01"
-          title="Where the work is strongest."
-          description="I am positioning my work for cybersecurity-first roles, with DevSecOps and server operations as practical supporting experience."
+          title="Where I drive the most impact."
+          description="I stay focused on identity, cloud, endpoint, network, and delivery security so your organization can lower risk with measurable progress."
         />
         <Stagger className="grid gap-px overflow-hidden border border-[var(--border)] bg-[var(--border)] md:grid-cols-2">
           {profile.focusAreas.map((area, idx) => (
@@ -92,8 +90,50 @@ export default function AboutPage() {
 
       <section className="space-y-10 md:space-y-14">
         <SectionHeader
-          eyebrow="Academic preparation"
+          eyebrow="Credentials"
           index="02"
+          title="Certifications with status and maintenance dates."
+          description="I keep credentials visible because they complement hands-on delivery and give you a quick baseline of my current learning path."
+        />
+
+        <Stagger className="grid gap-3 md:grid-cols-3">
+          {credentials.map((credential, idx) => (
+            <StaggerItem key={credential.name}>
+              <article className="card-surface flex h-full flex-col justify-between gap-6 p-6 md:p-8">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="numbered-marker">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <Badge variant={credential.status === "In Progress" ? "warning" : "success"}>
+                    {credential.status ?? "Certified"}
+                  </Badge>
+                </div>
+                <Image
+                  src={credential.badgeIcon}
+                  alt={`Credential badge for ${credential.name}`}
+                  width={56}
+                  height={56}
+                  className="h-14 w-14"
+                />
+                <div className="space-y-2">
+                  <h3 className="subhead text-xl text-[var(--foreground)] md:text-[1.35rem]">
+                    {credential.name}
+                  </h3>
+                  <p className="text-sm text-[var(--muted-foreground)]">{credential.issuer}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                    Last updated: {credential.lastUpdated ?? "May 2026"}
+                  </p>
+                </div>
+              </article>
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </section>
+
+      <section className="space-y-10 md:space-y-14">
+        <SectionHeader
+          eyebrow="Academic preparation"
+          index="03"
           title="Education."
         />
         <Stagger className="space-y-3">
@@ -126,49 +166,12 @@ export default function AboutPage() {
         </Stagger>
       </section>
 
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Credentials"
-          index="03"
-          title="Certifications."
-          description="Validated security and identity credentials maintained alongside applied practice."
-        />
-        <Stagger className="grid gap-3 md:grid-cols-3">
-          {certifications.map((certification, idx) => (
-            <StaggerItem key={certification.name}>
-              <article className="flex h-full flex-col justify-between gap-6 border border-[var(--border)] bg-[var(--background-elev)] p-6 md:p-8">
-                <div className="flex items-center justify-between">
-                  <span className="numbered-marker">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                  {certification.status ? (
-                    <Badge variant="warning">{certification.status}</Badge>
-                  ) : (
-                    <Badge variant="success">Certified</Badge>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <h3 className="subhead text-xl text-[var(--foreground)] md:text-[1.4rem]">
-                    {certification.name}
-                  </h3>
-                  {certification.issuer ? (
-                    <p className="text-sm text-[var(--muted-foreground)]">
-                      {certification.issuer}
-                    </p>
-                  ) : null}
-                </div>
-              </article>
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
-
       {awards.length ? (
         <section className="space-y-10 md:space-y-14">
           <SectionHeader
             eyebrow="Recognition"
             index="04"
-            title="Highlights."
+            title="Selected highlights."
           />
           <Stagger className="space-y-3">
             {awards.map((award) => (
@@ -193,14 +196,14 @@ export default function AboutPage() {
       <MotionReveal>
         <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pt-16">
           <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-4xl">
-            Want the longer version, or a copy you can keep?
+            Want the full details for your hiring process?
           </h2>
           <div className="flex flex-wrap items-center gap-3">
             <Button asChild variant="primary">
-              <Link href="/resume">Download Resume</Link>
+              <Link href="/resume">View Resume</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href="/contact">Get in Touch</Link>
+              <Link href="/contact">Contact Me</Link>
             </Button>
           </div>
         </section>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Link } from "@/components/link";
 
 import {
@@ -15,7 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { assetPath } from "@/lib/asset-path";
 import {
-  certifications,
+  credentials,
   education,
   experience,
   profile,
@@ -25,7 +26,7 @@ import {
 export const metadata: Metadata = {
   title: "Resume",
   description:
-    "Resume of Patrick Ngenzi - Security Analyst, DevSecOps Engineer focused on IAM, Azure cloud security, and network defense.",
+    "Resume of Patrick Ngenzi, focused on IAM, Azure and GCP cloud security, endpoint defense, network hardening, and DevSecOps delivery.",
 };
 
 const RESUME_DOCX = assetPath("/resume/Security.docx");
@@ -37,7 +38,7 @@ export default function ResumePage() {
         eyebrow="Curriculum vitae"
         index="Resume"
         title="Resume for cybersecurity, IAM, cloud, DevSecOps, and network security roles."
-        description="A web-friendly summary of my hiring profile. Download the Microsoft Word resume, or browse the role highlights below."
+        description="A web-friendly summary of my hiring profile. Download the Word resume or review role-aligned highlights below."
         meta={
           <div className="space-y-1.5">
             <p className="text-[var(--foreground)]">{profile.shortTitle}</p>
@@ -131,26 +132,36 @@ export default function ResumePage() {
             <div className="space-y-6">
               <p className="section-eyebrow">Certifications</p>
               <ul className="space-y-3">
-                {certifications.map((certification) => (
+                {credentials.map((credential) => (
                   <li
-                    key={certification.name}
-                    className="flex flex-col gap-1 border-b border-[var(--border)] pb-3 last:border-b-0 md:flex-row md:items-center md:justify-between"
+                    key={credential.name}
+                    className="flex flex-col gap-3 border-b border-[var(--border)] pb-3 last:border-b-0"
                   >
-                    <div className="space-y-0.5">
-                      <p className="text-base text-[var(--foreground)]">
-                        {certification.name}
-                      </p>
-                      {certification.issuer ? (
-                        <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                          {certification.issuer}
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src={credential.badgeIcon}
+                        alt={`Credential badge for ${credential.name}`}
+                        width={32}
+                        height={32}
+                        className="h-8 w-8"
+                      />
+                      <div className="space-y-0.5">
+                        <p className="text-base text-[var(--foreground)]">
+                          {credential.name}
                         </p>
-                      ) : null}
+                        <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                          {credential.issuer}
+                        </p>
+                        <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                          Last updated: {credential.lastUpdated ?? "May 2026"}
+                        </p>
+                      </div>
                     </div>
-                    {certification.status ? (
-                      <Badge variant="warning">{certification.status}</Badge>
-                    ) : (
-                      <Badge variant="success">Certified</Badge>
-                    )}
+                    <div>
+                      <Badge variant={credential.status === "In Progress" ? "warning" : "success"}>
+                        {credential.status ?? "Certified"}
+                      </Badge>
+                    </div>
                   </li>
                 ))}
               </ul>

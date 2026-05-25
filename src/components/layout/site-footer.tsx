@@ -13,21 +13,17 @@ const navigate = [
 ];
 
 export function SiteFooter() {
-  const year = new Date().getFullYear();
-
   return (
     <footer className="mt-20 border-t border-[var(--border)] bg-[var(--background)]">
       <div className="page-gutter-x mx-auto w-full max-w-[var(--container-max)] pb-[max(1.5rem,env(safe-area-inset-bottom,0px))]">
         <div className="grid gap-12 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:gap-16 md:py-20">
           <div className="space-y-6">
-            <p className="section-eyebrow">Get in touch</p>
+            <p className="section-eyebrow">Contact</p>
             <p className="headline text-3xl text-[var(--foreground)] md:text-5xl">
-              Security work with clear communication.
+              Let&apos;s build security outcomes that protect users and keep your platform moving.
             </p>
             <p className="max-w-md text-base leading-relaxed text-[var(--muted-foreground)]">
-              For Security Analyst, DevSecOps, IAM, cloud security, SOC/NOC, or
-              network security opportunities, contact me directly by email or
-              LinkedIn.
+              If you need IAM, cloud security, endpoint defense, network hardening, or DevSecOps delivery support, email me directly.
             </p>
             <a
               href={`mailto:${profile.email}`}
@@ -41,7 +37,7 @@ export function SiteFooter() {
           </div>
 
           <div className="space-y-4">
-              <p className="section-eyebrow">Availability</p>
+            <p className="section-eyebrow">Availability</p>
             <div className="space-y-1.5 text-sm leading-relaxed text-[var(--muted-foreground)]">
               <p className="text-[var(--foreground)]">{profile.shortTitle}</p>
               <address className="space-y-1.5 not-italic">
@@ -98,29 +94,13 @@ export function SiteFooter() {
 
         <div className="border-t border-[var(--border)] py-6">
           <div className="flex flex-col gap-3 text-[11px] uppercase tracking-[0.16em] text-[var(--muted-foreground)] md:flex-row md:items-center md:justify-between">
-            <p>
-              &copy; {year} {profile.name}. All rights reserved.
-            </p>
-            <p className="inline-flex flex-wrap items-center gap-1.5">
-              <span>Crafted by</span>
-              <Link
-                href="https://www.neotha.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-[var(--foreground)] transition-colors hover:text-[var(--accent-strong)]"
-              >
-                Neotha Inc
+            <p>&copy; 2026 Patrick Ngenzi</p>
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+              <p>Last updated: May 2026</p>
+              <Link href="/privacy" className="hover:text-[var(--foreground)]">
+                Privacy Policy
               </Link>
-              <span aria-hidden>&middot;</span>
-              <Link
-                href="https://www.neotha.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-[var(--foreground)]"
-              >
-                neotha.com
-              </Link>
-            </p>
+            </div>
           </div>
         </div>
       </div>

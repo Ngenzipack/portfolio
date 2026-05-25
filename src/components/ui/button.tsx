@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-md)] border text-[12px] font-semibold uppercase tracking-[0.14em]",
+    "inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-md)] border text-[12px] font-semibold uppercase tracking-[0.14em]",
     "select-none transition-all duration-200",
     "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
@@ -33,10 +33,10 @@ const buttonVariants = cva(
           "h-auto border-transparent p-0 text-[var(--foreground)] tracking-normal text-sm normal-case underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-9 px-4 py-2 text-[11px]",
+        sm: "h-11 px-4 py-2 text-[11px]",
         default: "h-11 px-6 py-2.5",
         lg: "h-12 px-8 py-3 text-[12px]",
-        icon: "h-10 w-10 p-0",
+        icon: "h-11 w-11 p-0",
       },
     },
     defaultVariants: {

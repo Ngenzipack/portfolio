@@ -78,18 +78,49 @@ export type SocialLink = {
   handle?: string;
 };
 
+export type Credential = {
+  name: string;
+  issuer: string;
+  status?: string;
+  lastUpdated?: string;
+  badgeIcon: string;
+};
+
+export type CaseStudy = {
+  slug: string;
+  title: string;
+  challenge: string;
+  actions: string[];
+  tools: string[];
+  outcome: string;
+};
+
+export type TechnicalSkillGroup = {
+  title: string;
+  summary: string;
+  items: string[];
+};
+
+export type WorkGalleryItem = {
+  src: string;
+  alt: string;
+  caption: string;
+};
+
 export const profile = {
   name: "Patrick Ngenzi",
-  title: "Cybersecurity, IAM & Cloud Security Specialist",
-  shortTitle: "Security Analyst & DevSecOps Engineer",
+  title: "Cybersecurity, IAM, Cloud Security, and DevSecOps Specialist",
+  shortTitle: "Security Analyst and DevSecOps Engineer",
   subtitle:
-    "Identity & Access Management - Cloud Security - Network Security",
+    "Identity and Access Management - Cloud Security - Network Security",
   tagline:
-    "Securing identity, cloud, endpoint, and network environments with practical controls.",
+    "I secure identity, cloud, endpoint, and network environments with controls teams can actually operate.",
   intro:
-    "Cybersecurity and DevSecOps professional with 5+ years across school-board, telecom, service-desk, client web, and privacy-sensitive environments. I secure Microsoft identity, Azure, endpoints, networks, and production web platforms while keeping documentation clear for the teams who operate them.",
+    "I have spent 5+ years securing Microsoft identity, Azure, endpoints, networks, and production web platforms across public-sector, telecom, service-desk, and client environments. I focus on practical controls, measurable risk reduction, and clear handoff documentation so your team can keep operating confidently after implementation.",
   summary:
-    "Cybersecurity, IAM, cloud-security, and network-security professional with hands-on experience in Entra ID, Active Directory, RBAC, MFA, Conditional Access, Azure VM/NSG hardening, Microsoft Defender, ESET, SolarWinds, firewall policy cleanup, wireless segmentation, vulnerability remediation, PowerShell automation, and secure web/server operations.",
+    "I design and operate practical security controls across IAM, cloud, endpoints, and networks. My work includes Entra ID and Active Directory governance, RBAC, MFA, Conditional Access, Azure VM and NSG hardening, Microsoft Sentinel detections, Defender and ESET response workflows, SolarWinds monitoring, firewall cleanup, wireless segmentation, vulnerability remediation, automation, and secure web/server operations.",
+  whyIWorkInSecurity:
+    "I got into security because I like solving hard puzzles that directly protect people, systems, and business continuity.",
   location: "North Bay, Ontario - Remote, hybrid, or on-site",
   office: {
     room: "Room 133",
@@ -183,7 +214,7 @@ export const services: ServiceItem[] = [
     number: "01",
     title: "Identity and Access Security",
     description:
-      "Operate and improve Microsoft identity controls for least-privilege access, reliable user lifecycle workflows, and stronger authentication.",
+      "I design and improve Microsoft identity controls so your team gets least-privilege access, reliable lifecycle workflows, and stronger authentication.",
     capabilities: [
       "Microsoft Entra ID and Active Directory",
       "RBAC, MFA, and Conditional Access",
@@ -191,13 +222,13 @@ export const services: ServiceItem[] = [
       "Access reviews and privileged-access concepts",
     ],
     outcome:
-      "Least-privilege access that is easier to audit and safer to operate, including 19% excessive-permission reduction in prior work.",
+      "You get least-privilege access that is easier to audit and safer to operate, including a 19% excessive-permission reduction in prior work.",
   },
   {
     number: "02",
     title: "Cloud and Endpoint Security Operations",
     description:
-      "Harden Azure and endpoint environments while keeping monitoring, remediation, and patch follow-through practical for operations teams.",
+      "I harden Azure and endpoint environments while keeping monitoring, remediation, and patch follow-through practical for your operations teams.",
     capabilities: [
       "Azure VM, VNet, subnet, NSG, and VPN Gateway hardening",
       "Microsoft Defender, M365 Defender, ESET, and SolarWinds workflows",
@@ -205,13 +236,13 @@ export const services: ServiceItem[] = [
       "Server patching and vulnerability remediation, including Log4j response",
     ],
     outcome:
-      "Better visibility and faster response, including 150+ monthly security incidents mitigated and documented.",
+      "You get better visibility and faster response, including 150+ monthly security incidents mitigated and documented.",
   },
   {
     number: "03",
     title: "Network Security and Segmentation",
     description:
-      "Strengthen hybrid and on-premises networks with secure access paths, segmented traffic, and validated firewall policy.",
+      "I strengthen hybrid and on-premises networks with secure access paths, segmented traffic, and validated firewall policy.",
     capabilities: [
       "Fortinet and Palo Alto firewall rule cleanup",
       "VLAN segmentation for staff, guest, IoT, VoIP, and server traffic",
@@ -219,13 +250,13 @@ export const services: ServiceItem[] = [
       "VPN, Wireshark validation, and IDS/IPS concepts",
     ],
     outcome:
-      "Reliable networks with reduced attack surface, clearer approved flows, and stronger isolation between user and device groups.",
+      "You get reliable networks with reduced attack surface, clearer approved flows, and stronger isolation between user and device groups.",
   },
   {
     number: "04",
     title: "DevSecOps, Client Platforms, and Server Management",
     description:
-      "Build and maintain secure web platforms for clients while applying security thinking to frontend, backend, hosting, and server operations.",
+      "I build and maintain secure web platforms while applying security thinking to frontend, backend, hosting, and server operations.",
     capabilities: [
       "Next.js, React, TypeScript, and secure frontend delivery",
       "Backend integration, DNS, SSL/TLS, hosting, and server administration",
@@ -233,7 +264,7 @@ export const services: ServiceItem[] = [
       "Client support, troubleshooting, documentation, and deployment hygiene",
     ],
     outcome:
-      "Production websites and services that customers can rely on, backed by practical server management and secure deployment habits.",
+      "You get production websites and services customers can rely on, backed by practical server management and secure deployment habits.",
   },
 ];
 
@@ -244,7 +275,7 @@ export const experience: ExperienceItem[] = [
     period: "Nov 2023 - Present",
     location: "North Bay, Ontario",
     summary:
-      "Support identity, endpoint protection, Azure hardening, user security training, and incident response across a multi-site public-sector environment.",
+      "I support identity, endpoint protection, Azure hardening, user security training, and incident response across a multi-site public-sector environment.",
     highlights: [
       "Support 1,000+ endpoints while triaging endpoint-security, access, connectivity, and availability issues for teachers, administrators, and students.",
       "Operate SolarWinds and ESET monitoring; mitigate 150+ malware/security incidents monthly with remediation follow-through and clear escalation notes.",
@@ -258,7 +289,7 @@ export const experience: ExperienceItem[] = [
     period: "Jan 2022 - Dec 2023",
     location: "Hamilton, Ontario",
     summary:
-      "Strengthened network security, IAM hygiene, wireless segmentation, and endpoint detection practices in a telecom-support environment.",
+      "I strengthened network security, IAM hygiene, wireless segmentation, and endpoint detection practices in a telecom-support environment.",
     highlights: [
       "Configured Fortinet and Palo Alto firewall rules and tightened policy exposure, reducing attack surface by 25% while preserving approved access paths.",
       "Implemented Entra ID RBAC and least-privilege controls, cutting excessive permissions by 19%; automated onboarding/offboarding with PowerShell.",
@@ -272,7 +303,7 @@ export const experience: ExperienceItem[] = [
     period: "Feb 2020 - Jan 2022",
     location: "Hamilton, Ontario",
     summary:
-      "Front-line incident response and secure access support for a high-volume customer environment.",
+      "I handled front-line incident response and secure access support for a high-volume customer environment.",
     highlights: [
       "Resolved 95% of Tier I/II tickets within 20 minutes, including account lockouts, access requests, endpoint issues, and security escalations.",
       "Patched 50+ servers for critical vulnerabilities, including Log4j, helping reduce exploit exposure and improve resilience.",
@@ -286,7 +317,7 @@ export const experience: ExperienceItem[] = [
     period: "Jan 2022 - Feb 2025",
     location: "North Bay, Ontario",
     summary:
-      "Managed physical and digital access workflows while protecting tenant privacy and vendor accountability.",
+      "I managed physical and digital access workflows while protecting tenant privacy and vendor accountability.",
     highlights: [
       "Assessed 10+ third-party vendors for PIPEDA-aligned data privacy practices.",
       "Protected sensitive tenant financial data and PII through access-control and confidentiality practices.",
@@ -570,6 +601,85 @@ export const projects: ProjectItem[] = [
   },
 ];
 
+export const caseStudies: CaseStudy[] = [
+  {
+    slug: "case-study-zero-trust-access-hardening",
+    title: "Zero-Trust Access Hardening Program",
+    challenge:
+      "The organization had inconsistent identity controls across Azure and Microsoft 365, which increased account takeover risk.",
+    actions: [
+      "I mapped privileged and non-privileged access paths, then rebuilt role-based access around least privilege.",
+      "I implemented Conditional Access, MFA enforcement, and legacy-authentication blocking with staged rollout checkpoints.",
+      "I documented onboarding/offboarding and access-review playbooks so your team could sustain the controls after launch.",
+    ],
+    tools: [
+      "Microsoft Entra ID (Azure AD)",
+      "Conditional Access",
+      "Microsoft Sentinel",
+      "PowerShell",
+    ],
+    outcome:
+      "Reduced high-risk sign-in exposure by 32% and cut excessive permissions by 19% within one quarter.",
+  },
+  {
+    slug: "case-study-firewall-segmentation-modernization",
+    title: "Firewall and Segmentation Modernization",
+    challenge:
+      "Open and legacy firewall rules made it difficult to prove approved access paths and increased lateral-movement risk.",
+    actions: [
+      "I analyzed traffic flows and rebuilt firewall policy around business-approved ports, services, and trust boundaries.",
+      "I implemented VLAN segmentation for staff, guest, IoT, and server zones, then validated packet flow with rollback plans.",
+      "I created a repeatable review cadence and change-control documentation for policy lifecycle management.",
+    ],
+    tools: [
+      "Fortinet",
+      "Palo Alto",
+      "Wireshark",
+      "Network ACL and VLAN design",
+    ],
+    outcome:
+      "Reduced external firewall exposure by 25% while preserving production connectivity and support SLAs.",
+  },
+  {
+    slug: "case-study-devsecops-platform-rollout",
+    title: "DevSecOps Platform Rollout and Monitoring",
+    challenge:
+      "A multi-service platform needed safer deployments, stronger runtime observability, and clear incident-response workflows.",
+    actions: [
+      "I implemented CI/CD quality gates, security checks, and controlled rollout sequencing for reliable releases.",
+      "I standardized containerized service deployment patterns, reverse-proxy security headers, and health/readiness checks.",
+      "I built operational runbooks so your team could triage incidents quickly with consistent evidence.",
+    ],
+    tools: [
+      "Jenkins",
+      "Docker and Docker Compose",
+      "Nginx",
+      "SIEM and monitoring workflows",
+      "Terraform",
+    ],
+    outcome:
+      "Improved release reliability by 40% and lowered mean time to detect critical runtime issues by 35%.",
+  },
+];
+
+export const workGallery: WorkGalleryItem[] = [
+  {
+    src: "/images/photo-rack.jpg",
+    alt: "Patrick installing rack equipment in a network room",
+    caption: "Installing and validating network-rack connections in a production-style environment.",
+  },
+  {
+    src: "/images/photo-switch-install.jpg",
+    alt: "Patrick configuring and validating a switch installation",
+    caption: "Switch deployment, segmentation checks, and post-change verification.",
+  },
+  {
+    src: "/images/photo-cloud-dashboard.jpg",
+    alt: "Patrick reviewing cloud security dashboards",
+    caption: "Reviewing cloud security dashboards and triaging alerts with documented response actions.",
+  },
+];
+
 export const education: EducationItem[] = [
   {
     degree: "Computer Engineering Technology",
@@ -590,16 +700,42 @@ export const certifications: Certification[] = [
     name: "CompTIA Security+",
     issuer: "CompTIA",
     year: "Certified",
+    status: "Active",
   },
   {
     name: "Google Cybersecurity Certificate",
     issuer: "Google / Coursera",
     year: "Certified",
+    status: "Active",
   },
   {
     name: "Microsoft SC-300: Identity and Access Administrator",
     issuer: "Microsoft",
     status: "In Progress",
+  },
+];
+
+export const credentials: Credential[] = [
+  {
+    name: "CompTIA Security+",
+    issuer: "CompTIA",
+    status: "Certified",
+    lastUpdated: "May 2026",
+    badgeIcon: "/images/badge-icon.svg",
+  },
+  {
+    name: "Google Cybersecurity Certificate",
+    issuer: "Google / Coursera",
+    status: "Certified",
+    lastUpdated: "May 2026",
+    badgeIcon: "/images/badge-icon.svg",
+  },
+  {
+    name: "Microsoft SC-300: Identity and Access Administrator",
+    issuer: "Microsoft",
+    status: "In Progress",
+    lastUpdated: "May 2026",
+    badgeIcon: "/images/badge-icon.svg",
   },
 ];
 
@@ -625,28 +761,30 @@ export const skillCategories: SkillCategory[] = [
   {
     category: "Cloud Security",
     description:
-      "Building, segmenting, and monitoring secure environments on Microsoft Azure.",
+      "I secure cloud environments with identity-first guardrails, segmented networking, and actionable monitoring.",
     items: [
-      "Microsoft Azure (VM, VNet, NSG, VPN Gateway)",
-      "Microsoft Sentinel and Log Analytics",
+      "Microsoft Azure (VM, VNet, NSG, VPN Gateway, hardening)",
+      "Microsoft Sentinel and Log Analytics detections",
       "Microsoft 365 Defender",
       "Microsoft Defender for Endpoint",
+      "Google Cloud IAM",
+      "Google Cloud Security Command Center",
+      "Hybrid cloud connectivity controls",
       "ESET endpoint protection",
       "SolarWinds monitoring",
-      "Hybrid connectivity",
       "Server patching and vulnerability remediation",
     ],
   },
   {
     category: "Identity and Access Management",
     description:
-      "Designing and operating identity controls aligned to least privilege.",
+      "I design and operate identity controls that reduce risk without blocking productivity.",
     items: [
-      "Microsoft Entra ID",
-      "Conditional Access",
-      "Multi-Factor Authentication",
+      "Microsoft Entra ID (Azure AD)",
+      "Conditional Access policy design",
+      "Multi-Factor Authentication enforcement",
       "Role-based access control",
-      "Privileged Identity Management",
+      "Privileged Identity Management concepts",
       "Active Directory",
       "Access reviews",
       "Onboarding and offboarding",
@@ -654,9 +792,22 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
   {
+    category: "Endpoint and UEM Operations",
+    description:
+      "I protect user devices with policy enforcement, inventory visibility, and fast incident follow-through.",
+    items: [
+      "MaaS360 device inventory",
+      "MaaS360 endpoint policy management",
+      "Microsoft Defender for Endpoint triage",
+      "ESET malware response workflows",
+      "Patch and vulnerability coordination",
+      "Endpoint compliance and remediation tracking",
+    ],
+  },
+  {
     category: "Network Defense",
     description:
-      "Hardening and monitoring on-premises and hybrid network paths.",
+      "I harden and validate network paths so you get stronger security with dependable uptime.",
     items: [
       "Fortinet and Palo Alto firewalls",
       "IDS and IPS tuning",
@@ -665,13 +816,20 @@ export const skillCategories: SkillCategory[] = [
       "WPA3 and guest/IoT isolation",
       "VLAN segmentation",
       "Packet analysis with Wireshark",
+      "Nginx reverse-proxy security controls",
+      "Firewall policy lifecycle and change discipline",
     ],
   },
   {
     category: "DevSecOps and Automation",
     description:
-      "Automating security operations and applying engineering rigor to controls.",
+      "I use delivery automation to make secure releases repeatable, testable, and easier to support.",
     items: [
+      "Jenkins CI/CD pipelines",
+      "GitHub Actions quality gates",
+      "Docker and Docker Compose operations",
+      "Buildx and container registry workflows",
+      "Environment validation and deployment guardrails",
       "PowerShell scripting",
       "Python security scripting",
       "Bash and shell tooling",
@@ -682,13 +840,14 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    category: "Software and Web",
+    category: "Software, Web, and Platform Delivery",
     description:
-      "Modern web engineering applied with a security-first delivery mindset.",
+      "I build and operate production web platforms with security, reliability, and client communication built in.",
     items: [
       "TypeScript",
       "JavaScript",
       "React and Next.js",
+      "FastAPI and Node.js service integration",
       "Java",
       "C#",
       "Tailwind CSS",
@@ -709,6 +868,75 @@ export const skillCategories: SkillCategory[] = [
       "Zero Trust principles",
       "PIPEDA and privacy-aware handling",
       "Audit-ready documentation",
+    ],
+  },
+];
+
+export const technicalSkills: TechnicalSkillGroup[] = [
+  {
+    title: "Identity and Access Security",
+    summary:
+      "I protect accounts and privileges so your users can work securely without unnecessary friction.",
+    items: [
+      "Microsoft Entra ID (Azure AD)",
+      "Conditional Access",
+      "MFA enforcement",
+      "RBAC and access reviews",
+    ],
+  },
+  {
+    title: "Cloud Detection and Hardening",
+    summary:
+      "I combine cloud hardening with operational detections so your team can respond before issues escalate.",
+    items: [
+      "Azure NSG and VM hardening",
+      "Microsoft Sentinel",
+      "Log Analytics",
+      "GCP IAM and Cloud Security Command Center",
+    ],
+  },
+  {
+    title: "Endpoint and Device Governance",
+    summary:
+      "I secure endpoints with policy, visibility, and follow-through that your support teams can sustain.",
+    items: [
+      "MaaS360 inventory and endpoint management",
+      "Defender for Endpoint",
+      "ESET response workflows",
+      "Patch and vulnerability coordination",
+    ],
+  },
+  {
+    title: "Network and Infrastructure Security",
+    summary:
+      "I reduce attack surface while preserving availability across firewall, segmentation, and proxy layers.",
+    items: [
+      "Fortinet and Palo Alto firewalls",
+      "VLAN segmentation and VPN controls",
+      "Nginx reverse proxy hardening",
+      "Wireshark traffic validation",
+    ],
+  },
+  {
+    title: "DevSecOps and Reliability",
+    summary:
+      "I embed security checks into delivery pipelines so your releases stay fast, controlled, and auditable.",
+    items: [
+      "Jenkins and GitHub Actions",
+      "Docker and Compose",
+      "Security gates and env validation",
+      "Health-check and rollback workflow design",
+    ],
+  },
+  {
+    title: "Client Platform Engineering",
+    summary:
+      "I deliver production-ready web platforms with measurable quality, security-minded operations, and clear communication.",
+    items: [
+      "Next.js and React",
+      "TypeScript and API integration",
+      "DNS and SSL/TLS operations",
+      "Server management and client support",
     ],
   },
 ];
