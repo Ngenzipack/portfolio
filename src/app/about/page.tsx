@@ -123,6 +123,28 @@ export default function AboutPage() {
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
                     Last updated: {credential.lastUpdated ?? "May 2026"}
                   </p>
+                  {credential.acquiredSkills?.length ? (
+                    <ul className="flex flex-wrap gap-2 pt-2">
+                      {credential.acquiredSkills.map((skill) => (
+                        <li key={skill} className="tag-chip">
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  {credential.credentialUrl ? (
+                    <a
+                      href={credential.credentialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="editorial-link text-sm"
+                    >
+                      <span>View credential</span>
+                      <span aria-hidden className="arrow">
+                        &rarr;
+                      </span>
+                    </a>
+                  ) : null}
                 </div>
               </article>
             </StaggerItem>

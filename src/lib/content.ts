@@ -84,6 +84,8 @@ export type Credential = {
   status?: string;
   lastUpdated?: string;
   badgeIcon: string;
+  credentialUrl?: string;
+  acquiredSkills?: string[];
 };
 
 export type CaseStudy = {
@@ -721,7 +723,16 @@ export const credentials: Credential[] = [
     issuer: "CompTIA",
     status: "Certified",
     lastUpdated: "May 2026",
-    badgeIcon: "/images/badge-icon.svg",
+    badgeIcon: "/images/comptia-security-plus-credly.png",
+    credentialUrl:
+      "https://www.credly.com/badges/d215b8e4-3f70-4885-9ca8-91583c0b7b5a",
+    acquiredSkills: [
+      "Threat, attack, and vulnerability identification",
+      "Risk management and risk mitigation techniques",
+      "Threat management operations",
+      "Intrusion detection practices",
+      "Core cybersecurity function readiness",
+    ],
   },
   {
     name: "Google Cybersecurity Certificate",

@@ -162,6 +162,28 @@ export default function ResumePage() {
                         {credential.status ?? "Certified"}
                       </Badge>
                     </div>
+                    {credential.acquiredSkills?.length ? (
+                      <ul className="flex flex-wrap gap-2">
+                        {credential.acquiredSkills.map((skill) => (
+                          <li key={skill} className="tag-chip">
+                            {skill}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    {credential.credentialUrl ? (
+                      <a
+                        href={credential.credentialUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="editorial-link text-sm"
+                      >
+                        <span>View credential</span>
+                        <span aria-hidden className="arrow">
+                          &rarr;
+                        </span>
+                      </a>
+                    ) : null}
                   </li>
                 ))}
               </ul>
