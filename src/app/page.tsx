@@ -17,7 +17,6 @@ import {
   profile,
   technicalSkills,
   trustMarkers,
-  workGallery,
   type CaseStudy,
   type ProjectItem,
 } from "@/lib/content";
@@ -146,7 +145,7 @@ function CaseStudyCard({
 export default function Home() {
   return (
     <PageShell className="space-y-16 md:space-y-24">
-      <section className="hero-energy grid gap-8 overflow-x-clip pt-2 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-10 md:pt-4">
+      <section className="hero-energy grid gap-8 overflow-x-clip pt-2 md:pt-4">
         <div className="min-w-0 space-y-7">
           <MotionReveal>
             <Badge variant="muted">
@@ -207,21 +206,6 @@ export default function Home() {
           </MotionReveal>
         </div>
 
-        <MotionReveal delay={0.18}>
-          <figure className="card-surface overflow-hidden">
-            <Image
-              src="/images/photo-hero.jpg"
-              alt="Professional portrait of Patrick Ngenzi"
-              width={1200}
-              height={1400}
-              className="h-full w-full object-cover"
-              priority
-            />
-            <figcaption className="border-t border-[var(--border)] p-4 text-sm text-[var(--muted-foreground)]">
-              Security-focused professional portrait.
-            </figcaption>
-          </figure>
-        </MotionReveal>
       </section>
 
       <section className="grid gap-8 border-y border-[var(--border)] py-8 sm:grid-cols-2 md:grid-cols-4 md:gap-0 md:py-10">
@@ -405,13 +389,15 @@ export default function Home() {
                     {credential.status ?? "Certified"}
                   </Badge>
                 </div>
-                <Image
-                  src={credential.badgeIcon}
-                  alt={`Credential badge for ${credential.name}`}
-                  width={56}
-                  height={56}
-                  className="h-14 w-14"
-                />
+                {credential.badgeIcon ? (
+                  <Image
+                    src={credential.badgeIcon}
+                    alt={`Credential badge for ${credential.name}`}
+                    width={56}
+                    height={56}
+                    className="h-14 w-14"
+                  />
+                ) : null}
                 <div className="space-y-2">
                   <h3 className="subhead text-xl text-[var(--foreground)] md:text-[1.4rem]">
                     {credential.name}
@@ -446,34 +432,6 @@ export default function Home() {
                   ) : null}
                 </div>
               </article>
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
-
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Work in Action"
-          index="06"
-          title="Field and operations work in action."
-          description="A visual snapshot of network installation, cloud monitoring, and hands-on security operations."
-        />
-
-        <Stagger className="grid gap-4 md:grid-cols-3">
-          {workGallery.map((photo) => (
-            <StaggerItem key={photo.src}>
-              <figure className="card-surface overflow-hidden">
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  width={1200}
-                  height={800}
-                  className="h-auto w-full object-cover"
-                />
-                <figcaption className="border-t border-[var(--border)] p-4 text-sm leading-relaxed text-[var(--muted-foreground)]">
-                  {photo.caption}
-                </figcaption>
-              </figure>
             </StaggerItem>
           ))}
         </Stagger>

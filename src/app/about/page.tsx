@@ -108,13 +108,15 @@ export default function AboutPage() {
                     {credential.status ?? "Certified"}
                   </Badge>
                 </div>
-                <Image
-                  src={credential.badgeIcon}
-                  alt={`Credential badge for ${credential.name}`}
-                  width={56}
-                  height={56}
-                  className="h-14 w-14"
-                />
+                {credential.badgeIcon ? (
+                  <Image
+                    src={credential.badgeIcon}
+                    alt={`Credential badge for ${credential.name}`}
+                    width={56}
+                    height={56}
+                    className="h-14 w-14"
+                  />
+                ) : null}
                 <div className="space-y-2">
                   <h3 className="subhead text-xl text-[var(--foreground)] md:text-[1.35rem]">
                     {credential.name}

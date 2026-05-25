@@ -138,13 +138,15 @@ export default function ResumePage() {
                     className="flex flex-col gap-3 border-b border-[var(--border)] pb-3 last:border-b-0"
                   >
                     <div className="flex items-center gap-3">
-                      <Image
-                        src={credential.badgeIcon}
-                        alt={`Credential badge for ${credential.name}`}
-                        width={32}
-                        height={32}
-                        className="h-8 w-8"
-                      />
+                      {credential.badgeIcon ? (
+                        <Image
+                          src={credential.badgeIcon}
+                          alt={`Credential badge for ${credential.name}`}
+                          width={32}
+                          height={32}
+                          className="h-8 w-8"
+                        />
+                      ) : null}
                       <div className="space-y-0.5">
                         <p className="text-base text-[var(--foreground)]">
                           {credential.name}

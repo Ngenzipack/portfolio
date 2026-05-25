@@ -83,7 +83,7 @@ export type Credential = {
   issuer: string;
   status?: string;
   lastUpdated?: string;
-  badgeIcon: string;
+  badgeIcon?: string;
   credentialUrl?: string;
   acquiredSkills?: string[];
 };
@@ -101,12 +101,6 @@ export type TechnicalSkillGroup = {
   title: string;
   summary: string;
   items: string[];
-};
-
-export type WorkGalleryItem = {
-  src: string;
-  alt: string;
-  caption: string;
 };
 
 export const profile = {
@@ -664,24 +658,6 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
-export const workGallery: WorkGalleryItem[] = [
-  {
-    src: "/images/photo-rack.jpg",
-    alt: "Patrick installing rack equipment in a network room",
-    caption: "Installing and validating network-rack connections in a production-style environment.",
-  },
-  {
-    src: "/images/photo-switch-install.jpg",
-    alt: "Patrick configuring and validating a switch installation",
-    caption: "Switch deployment, segmentation checks, and post-change verification.",
-  },
-  {
-    src: "/images/photo-cloud-dashboard.jpg",
-    alt: "Patrick reviewing cloud security dashboards",
-    caption: "Reviewing cloud security dashboards and triaging alerts with documented response actions.",
-  },
-];
-
 export const education: EducationItem[] = [
   {
     degree: "Computer Engineering Technology",
@@ -739,14 +715,12 @@ export const credentials: Credential[] = [
     issuer: "Google / Coursera",
     status: "Certified",
     lastUpdated: "May 2026",
-    badgeIcon: "/images/badge-icon.svg",
   },
   {
     name: "Microsoft SC-300: Identity and Access Administrator",
     issuer: "Microsoft",
     status: "In Progress",
     lastUpdated: "May 2026",
-    badgeIcon: "/images/badge-icon.svg",
   },
 ];
 
