@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import { Link } from "@/components/link";
 
@@ -12,6 +13,7 @@ import {
   SectionHeader,
 } from "@/components/sections/page-shell";
 import { Button } from "@/components/ui/button";
+import { assetPath } from "@/lib/asset-path";
 import {
   caseStudies,
   featuredProjects,
@@ -195,6 +197,40 @@ function ProjectArticle({
                   </li>
                 ))}
               </ul>
+            </div>
+          ) : null}
+
+          {project.media?.length ? (
+            <div className="space-y-4 pt-2">
+              <p className="section-eyebrow">Project screenshots</p>
+              <div className="grid gap-4 md:grid-cols-2">
+                {project.media.map((item) => (
+                  <figure
+                    key={item.src}
+                    className="overflow-hidden border border-[var(--border)] bg-[var(--background-elev)]"
+                  >
+                    <a
+                      href={assetPath(item.src)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <Image
+                        src={assetPath(item.src)}
+                        alt={item.alt}
+                        width={item.width}
+                        height={item.height}
+                        className="h-auto w-full border-b border-[var(--border)]"
+                      />
+                    </a>
+                    {item.caption ? (
+                      <figcaption className="px-3 py-2 text-xs text-[var(--muted-foreground)] md:text-sm">
+                        {item.caption}
+                      </figcaption>
+                    ) : null}
+                  </figure>
+                ))}
+              </div>
             </div>
           ) : null}
 

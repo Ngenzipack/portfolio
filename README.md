@@ -16,6 +16,7 @@ This site is a static Next.js portfolio built to present security-focused experi
 
 ## Featured Work
 
+- [Intelligent Security Alert Triage Engine](https://github.com/Ngenzipack/intelligent-security-alert-triage-engine) - AI-assisted SOC alert triage using Python, Ollama/LLaMA 3, Streamlit, MITRE ATT&CK mapping, and risk scoring.
 - [Neotha](https://www.neotha.com/) - owner-led platform and client-service work covering frontend, backend, hosting, support, and server operations.
 - [Nkurunziza](https://nkurunziza.ca/en/) - client web platform with production delivery, frontend/backend work, and hosting support.
 - [Sylva Renovations](https://www.sylvarenovations.ca/) - client website project built for a production business presence.

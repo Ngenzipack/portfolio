@@ -18,6 +18,14 @@ export type ProjectLink = {
   href: string;
 };
 
+export type ProjectMediaItem = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption?: string;
+};
+
 export type ProjectItem = {
   slug: string;
   title: string;
@@ -28,6 +36,7 @@ export type ProjectItem = {
   technologies: string[];
   role?: string;
   links?: ProjectLink[];
+  media?: ProjectMediaItem[];
   featured?: boolean;
   privateCode?: boolean;
 };
@@ -324,6 +333,63 @@ export const experience: ExperienceItem[] = [
 ];
 
 export const projects: ProjectItem[] = [
+  {
+    slug: "intelligent-security-alert-triage-engine",
+    title: "Intelligent Security Alert Triage Engine",
+    category: "AI Security Operations / SOC Automation",
+    period: "2026",
+    role: "Designer and Developer",
+    description:
+      "Built an intelligent security alert triage engine with Python 3.11, Ollama/LLaMA 3, and Streamlit. The system ingests SIEM-style alerts, classifies true and false positives, assigns risk and severity, maps relevant events to MITRE ATT&CK techniques, and writes enriched audit records for analyst follow-through.",
+    outcomes: [
+      "Implemented LLM-assisted triage with structured JSON validation, retry handling for malformed output, and deterministic fallback classification when AI services are unavailable.",
+      "Added SOC workflow acceleration features: plain-English incident summaries, response recommendations, and evidence-preserving audit logs for suspicious PowerShell, brute-force, malware, phishing, and privilege-escalation patterns.",
+      "Delivered production-style engineering quality with modular architecture, pytest coverage, ruff quality gates, and GitHub Actions CI for reliable local and pipeline execution.",
+    ],
+    technologies: [
+      "Python 3.11",
+      "Cybersecurity Automation",
+      "SIEM Alert Triage",
+      "MITRE ATT&CK",
+      "Wazuh",
+      "Elasticsearch",
+      "Ollama",
+      "LLaMA 3",
+      "Prompt Engineering",
+      "Streamlit",
+      "REST APIs",
+      "JSON",
+      "Pandas",
+      "Pytest",
+      "Ruff",
+      "GitHub Actions",
+      "Structured Logging",
+      "Risk Scoring",
+    ],
+    links: [
+      {
+        label: "View on GitHub",
+        href: "https://github.com/Ngenzipack/intelligent-security-alert-triage-engine",
+      },
+    ],
+    media: [
+      {
+        src: "/images/projects/intelligent-security-alert-triage-engine/dashboard-overview.png",
+        alt: "Streamlit dashboard overview for the Intelligent Security Alert Triage Engine showing ingestion controls and recent alerts table.",
+        width: 1600,
+        height: 805,
+        caption: "Dashboard overview: ingest alerts, filter classification, and review triage outcomes.",
+      },
+      {
+        src: "/images/projects/intelligent-security-alert-triage-engine/metrics-charts.png",
+        alt: "Classification distribution and criticality timeline charts from the Intelligent Security Alert Triage Engine.",
+        width: 1098,
+        height: 512,
+        caption: "Triage analytics: classification distribution and criticality timeline.",
+      },
+    ],
+    featured: true,
+  },
   {
     slug: "azure-iam-security-architecture",
     title: "Azure Hybrid Network and IAM Security Architecture",
@@ -744,6 +810,27 @@ export const awards: Award[] = [
 
 export const skillCategories: SkillCategory[] = [
   {
+    category: "AI-Driven Security Triage and SOC Automation",
+    description:
+      "I build practical AI-assisted triage workflows that reduce alert fatigue while keeping analyst decisions auditable and defensible.",
+    items: [
+      "SIEM alert triage and alert-fatigue reduction",
+      "Security event normalization from Wazuh and ELK-style alerts",
+      "True positive, false positive, and uncertain classification logic",
+      "MITRE ATT&CK mapping (including PowerShell execution T1059.001)",
+      "Threat analysis and plain-English incident summaries",
+      "Risk scoring and severity classification",
+      "Security audit logging and alert evidence preservation",
+      "Incident response recommendation generation",
+      "Suspicious PowerShell, brute-force, malware, phishing, and privilege-escalation detection logic",
+      "SOC workflow automation and analyst decision support",
+      "Suspicious outbound communication and possible C2 behavior triage",
+      "HTTP REST API integrations for Wazuh, Elasticsearch, and Ollama",
+      "Prompt engineering for structured JSON outputs and validator-backed parsing",
+      "Deterministic fallback classifiers for AI-service outages",
+    ],
+  },
+  {
     category: "Cloud Security",
     description:
       "I secure cloud environments with identity-first guardrails, segmented networking, and actionable monitoring.",
@@ -858,6 +945,17 @@ export const skillCategories: SkillCategory[] = [
 ];
 
 export const technicalSkills: TechnicalSkillGroup[] = [
+  {
+    title: "AI Security Triage Engineering",
+    summary:
+      "I design AI-assisted SOC workflows that classify alerts, score risk, and produce auditable analyst guidance with deterministic fallback behavior.",
+    items: [
+      "Ollama and LLaMA 3 integration",
+      "SIEM alert normalization and triage",
+      "MITRE ATT&CK event mapping",
+      "Risk scoring and response recommendation generation",
+    ],
+  },
   {
     title: "Identity and Access Security",
     summary:
