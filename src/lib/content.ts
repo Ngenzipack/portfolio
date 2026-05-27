@@ -340,7 +340,7 @@ export const projects: ProjectItem[] = [
     period: "2026",
     role: "Designer and Developer",
     description:
-      "Built an intelligent security alert triage engine with Python 3.11, Ollama/LLaMA 3, and Streamlit. The system ingests SIEM-style alerts, classifies true and false positives, assigns risk and severity, maps relevant events to MITRE ATT&CK techniques, and writes enriched audit records for analyst follow-through.",
+      "Built an intelligent security alert triage engine with Python 3.11 and Streamlit. The system ingests SIEM-style alerts, classifies true and false positives, assigns risk and severity, maps relevant events to MITRE ATT&CK techniques, and writes enriched audit records for analyst follow-through.",
     outcomes: [
       "Implemented LLM-assisted triage with structured JSON validation, retry handling for malformed output, and deterministic fallback classification when AI services are unavailable.",
       "Added SOC workflow acceleration features: plain-English incident summaries, response recommendations, and evidence-preserving audit logs for suspicious PowerShell, brute-force, malware, phishing, and privilege-escalation patterns.",
@@ -353,8 +353,7 @@ export const projects: ProjectItem[] = [
       "MITRE ATT&CK",
       "Wazuh",
       "Elasticsearch",
-      "Ollama",
-      "LLaMA 3",
+      "Local LLM Inference",
       "Prompt Engineering",
       "Streamlit",
       "REST APIs",
@@ -825,7 +824,7 @@ export const skillCategories: SkillCategory[] = [
       "Suspicious PowerShell, brute-force, malware, phishing, and privilege-escalation detection logic",
       "SOC workflow automation and analyst decision support",
       "Suspicious outbound communication and possible C2 behavior triage",
-      "HTTP REST API integrations for Wazuh, Elasticsearch, and Ollama",
+      "HTTP REST API integrations for Wazuh and Elasticsearch",
       "Prompt engineering for structured JSON outputs and validator-backed parsing",
       "Deterministic fallback classifiers for AI-service outages",
     ],
@@ -950,7 +949,7 @@ export const technicalSkills: TechnicalSkillGroup[] = [
     summary:
       "I design AI-assisted SOC workflows that classify alerts, score risk, and produce auditable analyst guidance with deterministic fallback behavior.",
     items: [
-      "Ollama and LLaMA 3 integration",
+      "Local LLM integration",
       "SIEM alert normalization and triage",
       "MITRE ATT&CK event mapping",
       "Risk scoring and response recommendation generation",
