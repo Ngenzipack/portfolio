@@ -2,11 +2,9 @@ import type { Metadata } from "next";
 import { Link } from "@/components/link";
 
 import { MotionReveal, Stagger, StaggerItem } from "@/components/sections/motion-reveal";
-import { PageIntro, PageShell, SectionHeader } from "@/components/sections/page-shell";
+import { PageIntro, PageShell } from "@/components/sections/page-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { profile, socialLinks } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -183,60 +181,6 @@ export default function ContactPage() {
             ))}
           </Stagger>
         </MotionReveal>
-      </section>
-
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Contact Form"
-          index="01"
-          title="Send a message"
-          description="I keep this form for convenience. Direct email is still the fastest way to reach me."
-        />
-
-        <form className="card-surface grid gap-4 p-6 md:grid-cols-2 md:gap-5 md:p-8" action="#" method="post">
-          <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-medium text-[var(--foreground)]">
-              Name
-            </label>
-            <Input id="name" name="name" placeholder="Your name" required />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-[var(--foreground)]">
-              Email
-            </label>
-            <Input id="email" name="email" type="email" placeholder="you@company.com" required />
-          </div>
-
-          <div className="space-y-2 md:col-span-2">
-            <label htmlFor="subject" className="text-sm font-medium text-[var(--foreground)]">
-              Subject
-            </label>
-            <Input id="subject" name="subject" placeholder="How can I help you?" required />
-          </div>
-
-          <div className="space-y-2 md:col-span-2">
-            <label htmlFor="message" className="text-sm font-medium text-[var(--foreground)]">
-              Message
-            </label>
-            <Textarea
-              id="message"
-              name="message"
-              placeholder="Share role details, project goals, timeline, or security priorities."
-              rows={6}
-              required
-            />
-          </div>
-
-          <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-[var(--muted-foreground)]">
-              This form is ready to connect to your API or email service endpoint.
-            </p>
-            <Button type="submit" size="lg">
-              Send Message
-            </Button>
-          </div>
-        </form>
       </section>
     </PageShell>
   );
