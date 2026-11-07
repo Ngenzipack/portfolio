@@ -1,0 +1,23 @@
+# Patrick Ngenzi Portfolio
+
+This is the professional portfolio for Patrick Ngenzi, focused on cybersecurity, identity and access management, cloud security, DevSecOps, network security, secure web platforms, and server management.
+
+## Primary Pages
+
+- [Home](https://ngenzipack.github.io/portfolio/)
+- [Projects](https://ngenzipack.github.io/portfolio/projects/)
+- [Resume](https://ngenzipack.github.io/portfolio/resume/)
+- [Contact](https://ngenzipack.github.io/portfolio/contact/)
+
+## Key Topics
+
+- Security Analyst
+- IAM Analyst
+- Cloud Security
+- SOC/NOC Operations
+- Network Security
+- DevSecOps
+- Microsoft Entra ID
+- Azure Security
+- Microsoft Sentinel
+- Server Management

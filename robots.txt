@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://ngenzipack.github.io/portfolio
+Sitemap: https://ngenzipack.github.io/portfolio/sitemap.xml
