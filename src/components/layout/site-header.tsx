@@ -4,13 +4,13 @@ import { Link } from "@/components/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
+import { SafeEmail } from "@/components/profile/safe-email";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { profile } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
   { href: "/projects", label: "Projects" },
   { href: "/experience", label: "Experience" },
   { href: "/skills", label: "Skills" },
@@ -26,9 +26,8 @@ function isActivePath(pathname: string, href: string) {
 const initials = profile.name
   .split(" ")
   .map((part) => part[0])
-  .filter(Boolean)
-  .slice(0, 2)
-  .join("");
+  .join("")
+  .slice(0, 2);
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -75,21 +74,21 @@ export function SiteHeader() {
         <div className="grid h-[68px] grid-cols-[auto_1fr_auto] items-center gap-4 md:h-[78px] lg:grid-cols-[1fr_auto_1fr]">
           <Link
             href="/"
-            aria-label={`${profile.name} - Home`}
+            aria-label={`${profile.name}, ${profile.title} – home`}
             className="group inline-flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] rounded-[var(--radius-sm)]"
           >
             <span
               aria-hidden
-              className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] border border-transparent bg-gradient-to-br from-[var(--accent)] to-[var(--brand)] font-display text-[13px] font-semibold text-white shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md"
-            >
-              {initials}
-            </span>
+              data-initials={initials}
+              className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] bg-gradient-to-br from-[var(--accent)] to-[var(--brand)] font-display text-[13px] font-semibold text-white shadow-sm transition-transform duration-300 before:content-[attr(data-initials)] group-hover:scale-105"
+            />
             <span className="hidden flex-col leading-tight sm:flex">
-              <span className="font-display text-[15px] text-[var(--foreground)]">
-                P. NGENZI
+              <span className="whitespace-nowrap font-display text-[15px] font-semibold text-[var(--foreground)]">
+                {profile.name}
               </span>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--muted-foreground)]">
-                Security &amp; DevSecOps
+              <span className="sr-only">, </span>
+              <span className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                {profile.title}
               </span>
             </span>
           </Link>
@@ -107,7 +106,7 @@ export function SiteHeader() {
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "group relative inline-flex min-h-11 items-center px-3.5 py-2 transition-colors",
+                        "group relative inline-flex min-h-11 items-center whitespace-nowrap px-2.5 py-2 transition-colors xl:px-3.5",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
                         active
                           ? "text-[var(--accent-strong)]"
@@ -132,7 +131,7 @@ export function SiteHeader() {
           <div className="flex items-center justify-end gap-2">
             <Link
               href="/contact"
-              className="hidden min-h-11 items-center gap-2 rounded-[var(--radius-md)] border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--background)] shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent-strong)] hover:bg-[var(--accent-strong)] hover:shadow-lg md:inline-flex"
+              className="hidden min-h-11 items-center gap-2 whitespace-nowrap rounded-[var(--radius-md)] border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--background)] shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent-strong)] hover:bg-[var(--accent-strong)] hover:shadow-lg md:inline-flex"
             >
               <span
                 aria-hidden
@@ -180,7 +179,7 @@ export function SiteHeader() {
           >
             <p className="section-eyebrow mb-4">Navigate</p>
             <ul className="grid divide-y divide-[var(--border)] border-y border-[var(--border)]">
-              {navItems.map((item, idx) => {
+              {navItems.map((item) => {
                 const active = isActivePath(pathname, item.href);
                 return (
                   <li key={item.href}>
@@ -198,9 +197,6 @@ export function SiteHeader() {
                     >
                       <span className="font-display text-2xl">
                         {item.label}
-                      </span>
-                      <span className="numbered-marker">
-                        {String(idx + 1).padStart(2, "0")}
                       </span>
                     </Link>
                   </li>
@@ -220,12 +216,7 @@ export function SiteHeader() {
                 Contact Me
               </Link>
               <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.16em] text-[var(--muted-foreground)]">
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="min-h-11 break-all text-[var(--foreground)] underline-offset-4 hover:underline"
-                >
-                  {profile.email}
-                </a>
+                <SafeEmail className="min-h-11 break-all normal-case text-[var(--foreground)] underline-offset-4 hover:underline" />
                 <span aria-hidden className="hidden sm:inline">
                   &middot;
                 </span>

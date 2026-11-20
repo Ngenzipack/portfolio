@@ -1,7 +1,43 @@
-export type PillarLink = {
+/**
+ * Single source of truth for every fact on the site and in the generated resume PDFs.
+ *
+ * Rules for editing this file:
+ * - Only confirmed facts. Anything not yet confirmed carries a "[CONFIRM: ...]" marker
+ *   so it is easy to find with a text search before publishing.
+ * - Every number needs context (scope, baseline or timeframe). If it has none, leave it out.
+ *
+ * After editing, run `npm run assets` to regenerate the resume PDFs and share image.
+ */
+
+export type Track = "iam" | "cloud-soc" | "network" | "web-devsecops";
+
+export const tracks: { id: Track; label: string; description: string }[] = [
+  {
+    id: "iam",
+    label: "Identity & Access",
+    description: "Entra ID, Conditional Access, MFA, role-based access and identity lifecycle.",
+  },
+  {
+    id: "cloud-soc",
+    label: "Cloud & SOC",
+    description: "Alert triage, detection, monitoring and cloud security operations.",
+  },
+  {
+    id: "network",
+    label: "Network Security",
+    description: "Segmentation, firewall policy, VPN and traffic validation.",
+  },
+  {
+    id: "web-devsecops",
+    label: "Web & DevSecOps",
+    description: "Secondary skill: secure web platforms, CI/CD, hosting and programming foundations.",
+  },
+];
+
+export type FlowDiagram = {
   title: string;
-  description: string;
-  href: string;
+  caption: string;
+  stages: { label: string; nodes: string[] }[];
 };
 
 export type ExperienceItem = {
@@ -9,8 +45,19 @@ export type ExperienceItem = {
   organization: string;
   period: string;
   location?: string;
+  /** One line on the organization's size or scope. */
+  scope?: string;
   summary?: string;
+  concurrentNote?: string;
   highlights: string[];
+};
+
+export type OtherExperienceItem = {
+  role: string;
+  organization: string;
+  period: string;
+  location?: string;
+  summary: string;
 };
 
 export type ProjectLink = {
@@ -29,6 +76,7 @@ export type ProjectMediaItem = {
 export type ProjectItem = {
   slug: string;
   title: string;
+  track: Track;
   category: string;
   period?: string;
   description: string;
@@ -37,48 +85,68 @@ export type ProjectItem = {
   role?: string;
   links?: ProjectLink[];
   media?: ProjectMediaItem[];
+  diagram?: FlowDiagram;
   featured?: boolean;
   privateCode?: boolean;
 };
 
-export type SkillCategory = {
-  category: string;
-  description?: string;
-  items: string[];
+export type CaseStudy = {
+  slug: string;
+  title: string;
+  track: Track;
+  context: string;
+  challenge: string;
+  actions: string[];
+  tools: string[];
+  outcome: string;
+  /** Drafts are kept for reference but not rendered until confirmed. */
+  draft?: boolean;
 };
 
-export type Certification = {
+export type CredentialStatus = "Certified" | "In progress" | "Planned";
+
+export type Credential = {
   name: string;
-  issuer?: string;
-  year?: string;
-  status?: string;
+  shortName: string;
+  issuer: string;
+  status: CredentialStatus;
+  /** e.g. "Nov 2026" or "Valid Dec 2024 – Dec 2027". */
+  earned?: string;
+  target?: string;
+  badgeIcon?: string;
+  credentialUrl?: string;
+  /** Additional verification links, e.g. the issuer's own verification page. */
+  extraLinks?: ProjectLink[];
+  /** Shown in place of a verification link until the real link is added. */
+  verificationPlaceholder?: string;
+  acquiredSkills?: string[];
 };
 
-export type ServiceItem = {
-  number: string;
+export type EducationItem = {
+  credential: string;
+  program: string;
+  institution: string;
+  location: string;
+  period: string;
+  coursework?: string[];
+};
+
+export type SkillTier = {
+  tier: string;
+  description: string;
+  groups: { domain: string; items: string[] }[];
+};
+
+export type FocusArea = {
   title: string;
   description: string;
-  capabilities: string[];
-  outcome?: string;
+  href: string;
 };
 
 export type TrustMarker = {
   value: string;
   label: string;
-  description?: string;
-};
-
-export type EducationItem = {
-  degree: string;
-  institution: string;
-  period?: string;
-  coursework?: string[];
-};
-
-export type Award = {
-  year: string;
-  title: string;
-  issuer: string;
+  description: string;
 };
 
 export type SocialLink = {
@@ -87,320 +155,208 @@ export type SocialLink = {
   handle?: string;
 };
 
-export type Credential = {
-  name: string;
-  issuer: string;
-  status?: string;
-  lastUpdated?: string;
-  badgeIcon?: string;
-  credentialUrl?: string;
-  acquiredSkills?: string[];
-};
-
-export type CaseStudy = {
-  slug: string;
-  title: string;
-  challenge: string;
-  actions: string[];
-  tools: string[];
-  outcome: string;
-};
-
-export type TechnicalSkillGroup = {
-  title: string;
-  summary: string;
-  items: string[];
-};
-
 export const profile = {
   name: "Patrick Ngenzi",
-  title: "Cybersecurity, IAM, Cloud Security, and DevSecOps Specialist",
-  shortTitle: "Security Analyst and DevSecOps Engineer",
-  subtitle:
-    "Identity and Access Management - Cloud Security - Network Security",
-  tagline:
-    "I secure identity, cloud, endpoint, and network environments with controls teams can actually operate.",
+  /** Short job title: header, page titles, structured data. */
+  title: "Security Analyst",
+  /** Full positioning line: hero, og/twitter titles, resume header. */
+  headline: "Security Analyst – Identity, Cloud & Network Security",
+  currentRole: "IT System Specialist",
+  currentEmployer: "Near North District School Board",
+  /**
+   * Headshot path, relative to /public (e.g. "/images/profile/patrick-ngenzi.jpg").
+   * Leave empty to show the initials monogram. This is the only line to change.
+   */
+  photo: "",
   intro:
-    "I have spent 5+ years securing Microsoft identity, Azure, endpoints, networks, and production web platforms across public-sector, telecom, service-desk, and client environments. I focus on practical controls, measurable risk reduction, and clear handoff documentation so your team can keep operating confidently after implementation.",
+    "I have 6+ years in IT and security, starting in February 2020. As an IT System Specialist at Near North District School Board, I triage security alerts, investigate phishing and compromised accounts, automate account lifecycle work with PowerShell, and review firewall activity in Fortinet FortiAnalyzer.",
   summary:
-    "I design and operate practical security controls across IAM, cloud, endpoints, and networks. My work includes Entra ID and Active Directory governance, RBAC, MFA, Conditional Access, Azure VM and NSG hardening, Microsoft Sentinel detections, Defender and ESET response workflows, SolarWinds monitoring, firewall cleanup, wireless segmentation, vulnerability remediation, automation, and secure web/server operations.",
+    "I work across security operations, identity and network security for an Ontario school board with 34 schools and 5,000+ devices. That means Microsoft Defender for Office 365 and Entra ID investigations, hybrid Active Directory and Conditional Access, vulnerability remediation through Intune, WSUS and SCCM, and Fortinet firewall policy. In labs and projects I have built Azure network segmentation with Microsoft Sentinel detections, Conditional Access baselines and an AI-assisted alert triage engine.",
   whyIWorkInSecurity:
-    "I got into security because I like solving hard puzzles that directly protect people, systems, and business continuity.",
-  location: "North Bay, Ontario - Remote, hybrid, or on-site",
-  office: {
-    room: "Room 133",
-    streetAddress: "790 Norman Ave",
-    addressLocality: "North Bay",
-    addressRegion: "ON",
-    postalCode: "P1B 8C4",
-    addressCountry: "CA",
-    displayAddress: "790 Norman Ave, North Bay, ON P1B 8C4",
-  },
+    "I got into security because I like hard puzzles, and these ones protect people, systems and the services they rely on.",
+  longTermGoal:
+    "Long term, I am working toward security leadership and management.",
+  location: "North Bay, Ontario",
+  availability:
+    "Open to Ontario-wide roles: remote, hybrid or on-site, relocation and on-call.",
   email: "ngenzipack@gmail.com",
-  phoneVisible: false,
-  availability: "Open to Security Analyst, DevSecOps, IAM, Cloud Security, SOC/NOC, and Network Security roles.",
+  /** Printed on the downloadable resume PDFs only, never on the website. */
+  phone: "+1 647-783-7018",
+  driversLicence: "Full G licence",
   links: {
     portfolio: "https://ngenzi.neotha.com/",
     portfolioMirror: "https://ngenzipack.github.io/portfolio/",
     linkedin: "https://www.linkedin.com/in/patrick-ngenzi-801193134/",
     github: "https://github.com/Ngenzipack",
-    chess: "https://link.chess.com/play/5x6NtV",
   },
-  focusAreas: [
-    "Identity and access governance with Microsoft Entra ID and Active Directory",
-    "Azure cloud security, NSG hardening, Defender, Sentinel, ESET, and SolarWinds monitoring",
-    "Network security, firewall cleanup, VPN, VLAN segmentation, WPA3, and wireless isolation",
-    "DevSecOps, secure web platforms, hosting, client support, and server management",
+  topSkills: [
+    "Identity & access – Entra ID, Conditional Access",
+    "Threat investigation – Microsoft Defender",
+    "Network security – Fortinet",
   ],
   targetRoles: [
-    "Security Analyst",
-    "IAM Analyst",
-    "Cloud Security Analyst",
-    "DevSecOps Engineer",
-    "SOC/NOC Analyst",
-    "Network Security Administrator",
+    "Security / SOC Analyst",
+    "Network Security Analyst",
+    "IAM Specialist",
+    "Security Engineer",
   ],
+  secondaryRoles: ["Systems Administrator", "Network Administrator"],
   beyondTech:
     "Outside of work I play chess and soccer, and I enjoy time at the piano.",
 } as const;
 
 export const trustMarkers: TrustMarker[] = [
   {
-    value: "1,000+",
-    label: "Endpoints supported",
-    description: "Identity, endpoint, access, connectivity, and availability support in a multi-site public-sector environment.",
+    value: "6+ years",
+    label: "IT and security",
+    description: "Since February 2020, across a school board, telecom and the service desk.",
+  },
+  {
+    value: "5,000+",
+    label: "Devices protected",
+    description: "34 schools, 2,000+ staff and 10,000+ students at Near North District School Board.",
   },
   {
     value: "150+",
-    label: "Monthly incidents mitigated",
-    description: "Malware and security events triaged through ESET, SolarWinds, Defender-style workflows, and clear escalation notes.",
+    label: "Incidents a month",
+    description: "Malware and security incidents investigated and contained each month at the school board.",
   },
   {
-    value: "25%",
-    label: "Firewall exposure reduced",
-    description: "Policy cleanup and approved access-path validation while maintaining operational connectivity.",
-  },
-  {
-    value: "5+",
-    label: "Years in IT and security",
-    description: "Hands-on across cybersecurity operations, IAM, cloud security, network support, and secure web platforms.",
+    value: "4",
+    label: "Certifications",
+    description: "Microsoft SC-300, CompTIA Security+, Google Cybersecurity and IBM Windows Defender and Firewall.",
   },
 ];
 
-export const pillars: PillarLink[] = [
+export const focusAreas: FocusArea[] = [
   {
-    title: "Identity and Access",
+    title: "Security operations",
     description:
-      "Entra ID, Active Directory, RBAC, MFA, Conditional Access, onboarding/offboarding, and access review discipline.",
-    href: "/services",
+      "Alert triage across ESET, SolarWinds, Intune, MaaS360 and Microsoft Defender; phishing and compromised-account response; root cause analysis.",
+    href: "/projects#track-cloud-soc",
   },
   {
-    title: "Cloud Security",
+    title: "Identity and access",
     description:
-      "Azure VM, VNet, NSG, VPN Gateway, Microsoft Sentinel, Defender, and Log Analytics hardening.",
-    href: "/projects",
+      "Hybrid Active Directory and Entra ID, Conditional Access, MFA, role-based access and PowerShell account lifecycle automation.",
+    href: "/projects#track-iam",
   },
   {
-    title: "Network Defense",
+    title: "Network security",
     description:
-      "Fortinet and Palo Alto firewall cleanup, VLAN segmentation, WPA3, Aerohive WAPs, VPN, IDS/IPS concepts, and Wireshark validation.",
+      "FortiAnalyzer review, firewall and network policy, IoT isolation with VLANs, SSL/TLS certificates and site-to-site VPN.",
+    href: "/projects#track-network",
+  },
+  {
+    title: "Vulnerability and risk",
+    description:
+      "Defender for Cloud findings prioritized by risk, patching through Intune, WSUS and SCCM, BitLocker, and MFIPPA privacy controls.",
     href: "/experience",
   },
-  {
-    title: "DevSecOps and Server Operations",
-    description:
-      "PowerShell and Python automation, secure deployments, DNS/SSL/hosting support, client platforms, and operational runbooks.",
-    href: "/skills",
-  },
 ];
 
-export const services: ServiceItem[] = [
+/** How I handle an incident. Confirmed by Patrick, Nov 2026. */
+export const incidentSteps = [
   {
-    number: "01",
-    title: "Identity and Access Security",
+    title: "Investigate",
     description:
-      "I design and improve Microsoft identity controls so your team gets least-privilege access, reliable lifecycle workflows, and stronger authentication.",
-    capabilities: [
-      "Microsoft Entra ID and Active Directory",
-      "RBAC, MFA, and Conditional Access",
-      "Onboarding, offboarding, and stale-account cleanup",
-      "Access reviews and privileged-access concepts",
-    ],
-    outcome:
-      "You get least-privilege access that is easier to audit and safer to operate, including a 19% excessive-permission reduction in prior work.",
+      "Start from the evidence: sign-in and audit logs, mail traces, firewall logs and the affected users.",
   },
   {
-    number: "02",
-    title: "Cloud and Endpoint Security Operations",
+    title: "Contain and fix",
     description:
-      "I harden Azure and endpoint environments while keeping monitoring, remediation, and patch follow-through practical for your operations teams.",
-    capabilities: [
-      "Azure VM, VNet, subnet, NSG, and VPN Gateway hardening",
-      "Microsoft Defender, M365 Defender, ESET, and SolarWinds workflows",
-      "Microsoft Sentinel, Log Analytics, and suspicious authentication review",
-      "Server patching and vulnerability remediation, including Log4j response",
-    ],
-    outcome:
-      "You get better visibility and faster response, including 150+ monthly security incidents mitigated and documented.",
+      "Reset or block accounts, remove malicious mail, isolate devices, tighten access or firewall policy, and patch.",
   },
   {
-    number: "03",
-    title: "Network Security and Segmentation",
+    title: "Document and automate",
     description:
-      "I strengthen hybrid and on-premises networks with secure access paths, segmented traffic, and validated firewall policy.",
-    capabilities: [
-      "Fortinet and Palo Alto firewall rule cleanup",
-      "VLAN segmentation for staff, guest, IoT, VoIP, and server traffic",
-      "WPA3 and Aerohive wireless isolation",
-      "VPN, Wireshark validation, and IDS/IPS concepts",
-    ],
-    outcome:
-      "You get reliable networks with reduced attack surface, clearer approved flows, and stronger isolation between user and device groups.",
-  },
-  {
-    number: "04",
-    title: "DevSecOps, Client Platforms, and Server Management",
-    description:
-      "I build and maintain secure web platforms while applying security thinking to frontend, backend, hosting, and server operations.",
-    capabilities: [
-      "Next.js, React, TypeScript, and secure frontend delivery",
-      "Backend integration, DNS, SSL/TLS, hosting, and server administration",
-      "PowerShell, Python, SQL log queries, and event-log collection",
-      "Client support, troubleshooting, documentation, and deployment hygiene",
-    ],
-    outcome:
-      "You get production websites and services customers can rely on, backed by practical server management and secure deployment habits.",
+      "Write up the root cause and remediation and, where a task repeats, script it in PowerShell so it is done the same way next time.",
   },
 ];
 
 export const experience: ExperienceItem[] = [
   {
-    role: "Intermediate IT System Support",
+    role: "IT System Specialist",
     organization: "Near North District School Board",
-    period: "Nov 2023 - Present",
+    period: "Nov 2023 – Present",
     location: "North Bay, Ontario",
-    summary:
-      "I support identity, endpoint protection, Azure hardening, user security training, and incident response across a multi-site public-sector environment.",
+    scope: "Ontario public school board with 34 schools, 5,000+ devices, 2,000+ staff and 10,000+ students.",
     highlights: [
-      "Support 1,000+ endpoints while triaging endpoint-security, access, connectivity, and availability issues for teachers, administrators, and students.",
-      "Operate SolarWinds and ESET monitoring; mitigate 150+ malware/security incidents monthly with remediation follow-through and clear escalation notes.",
-      "Harden Azure virtual machines and NSG security rules while reviewing access exposure and Conditional Access alignment.",
-      "Delivered phishing, password hygiene, MFA, and secure-browsing guidance for 12+ users/groups, reducing reported suspicious incidents by 30%.",
+      "Monitor and triage security alerts from ESET, SolarWinds, Microsoft Intune, MaaS360 and Microsoft security tools, investigating and containing 150+ malware and security incidents a month.",
+      "Investigate phishing and compromised accounts with Microsoft Defender for Office 365 and Entra ID audit logs, and support investigations with KQL, Defender XDR, Defender for Cloud and Microsoft Purview as needed.",
+      "Administer hybrid Active Directory and Microsoft Entra ID with role-based access, MFA, Conditional Access and least privilege, and script account creation, changes and offboarding in PowerShell.",
+      "Review firewall activity in Fortinet FortiAnalyzer, create and manage firewall, device and network policies, isolate IoT devices such as vape detectors and cameras with VLANs and firewall rules, and renew SSL/TLS certificates.",
+      "Review vulnerability findings in Microsoft Defender for Cloud and FortiAnalyzer, prioritize remediation by risk, and deploy patches through Microsoft Intune, WSUS and SCCM. Enforce BitLocker encryption and harden Azure virtual machines and NSG rules.",
+      "Perform root cause analysis on recurring security and network incidents, document remediation and escalation, and recommend control changes.",
+      "Wrote incident response and disaster recovery procedures, review the security of new systems and vendors before rollout, prepare security reports, support audit responses and apply MFIPPA privacy controls to student and staff data.",
+      "Built the board's internal AI ticketing chatbot, designed to keep student and staff data out of prompts.",
+      "Administer Exchange Online mailboxes and Microsoft 365 groups, deploy apps and images with Intune, and run VMware and Hyper-V virtual servers.",
+      "Design and deliver phishing, password, MFA and safe-browsing training to 12+ groups of teachers, administrators and students, and carry out after-hours maintenance.",
     ],
   },
   {
     role: "Network Specialist",
     organization: "Bell",
-    period: "Jan 2022 - Dec 2023",
+    period: "Jan 2022 – Dec 2023",
     location: "Hamilton, Ontario",
-    summary:
-      "I strengthened network security, IAM hygiene, wireless segmentation, and endpoint detection practices in a telecom-support environment.",
+    scope: "Network and security support across 4 sites in Ancaster, Burlington, Oakville and Hamilton, serving 2,000+ users.",
+    concurrentNote: "Overlapped with Near North District School Board from Nov to Dec 2023.",
     highlights: [
-      "Configured Fortinet and Palo Alto firewall rules and tightened policy exposure, reducing attack surface by 25% while preserving approved access paths.",
-      "Implemented Entra ID RBAC and least-privilege controls, cutting excessive permissions by 19%; automated onboarding/offboarding with PowerShell.",
-      "Secured Aerohive WAPs with WPA3 encryption and VLAN segmentation to isolate guest and IoT traffic.",
-      "Configured Microsoft Defender for Endpoint workflows to detect, investigate, and isolate compromised devices.",
+      "Triaged Microsoft Defender for Endpoint alerts weekly, investigated and isolated compromised devices, escalated confirmed threats and documented malware response steps.",
+      "Monitored Cisco and Palo Alto logs for suspicious traffic, blocked malicious IPs, and monitored ISP and data centre links.",
+      "Reviewed and cleaned up FortiGate and Palo Alto firewall policy to reduce exposed services while keeping approved access.",
+      "Implemented Entra ID role-based access and least-privilege controls, and automated onboarding and offboarding with PowerShell.",
+      "Secured Aerohive wireless with WPA3, tuned access point channels and configurations, and isolated guest and IoT traffic on VLANs.",
+      "Wrote firewall change management procedures and led knowledge-sharing sessions on firewall and wireless security.",
     ],
   },
   {
     role: "Technical Support Analyst I",
     organization: "SP Data Digital",
-    period: "Feb 2020 - Jan 2022",
+    period: "Feb 2020 – Jan 2022",
     location: "Hamilton, Ontario",
-    summary:
-      "I handled front-line incident response and secure access support for a high-volume customer environment.",
     highlights: [
-      "Resolved 95% of Tier I/II tickets within 20 minutes, including account lockouts, access requests, endpoint issues, and security escalations.",
-      "Patched 50+ servers for critical vulnerabilities, including Log4j, helping reduce exploit exposure and improve resilience.",
-      "Reduced critical outages by 70% through proactive maintenance, documentation, escalation discipline, and repeatable troubleshooting protocols.",
-      "Maintained secure access and customer-service discipline in a high-volume privacy-sensitive support environment.",
+      "Monitored security alerts, triaged phishing and email security reports, and remediated malware with CrowdStrike by isolating workstations, running deep scans and re-imaging infected devices.",
+      "Managed access in Active Directory and Okta, including MFA resets, least-privilege access requests, password policy enforcement, periodic access reviews and offboarding.",
+      "Remediated critical vulnerabilities, including Log4j, by patching 50+ servers, and ran routine OS and third-party patching with Microsoft Intune.",
+      "Resolved Tier 1 and Tier 2 tickets, including account lockouts, VPN and firewall configuration, and escalations, and cut repeat outages through proactive maintenance and standard troubleshooting.",
     ],
   },
+];
+
+export const otherExperience: OtherExperienceItem[] = [
   {
-    role: "Property Manager",
-    organization: "Independent Property Management",
-    period: "Jan 2022 - Feb 2025",
+    role: "Full-Stack Developer (Freelance)",
+    organization: "Self-employed",
+    period: "Jul 2022 – Present",
+    location: "Ontario",
+    summary:
+      "Built and deployed 3+ production web applications secured with role-based access, MFA, passkeys, secure uploads and rate limiting, with CI/CD in Docker, Jenkins and GitHub Actions, including tests, security audits and rollback controls.",
+  },
+  {
+    role: "Independent Property Manager (Part-Time)",
+    organization: "Self-employed",
+    period: "Jan 2022 – Feb 2025",
     location: "North Bay, Ontario",
     summary:
-      "I managed physical and digital access workflows while protecting tenant privacy and vendor accountability.",
-    highlights: [
-      "Assessed 10+ third-party vendors for PIPEDA-aligned data privacy practices.",
-      "Protected sensitive tenant financial data and PII through access-control and confidentiality practices.",
-      "Managed keycard, CCTV, and facilities access workflows using least-privilege and auditability principles.",
-      "Coordinated vendor and stakeholder communication for security-critical maintenance windows.",
-    ],
+      "Assessed 10+ vendors against PIPEDA privacy practices, restricted access to tenant financial data, and managed keycard and camera-system access.",
   },
 ];
 
 export const projects: ProjectItem[] = [
   {
-    slug: "intelligent-security-alert-triage-engine",
-    title: "Intelligent Security Alert Triage Engine",
-    category: "AI Security Operations / SOC Automation",
-    period: "2026",
-    role: "Designer and Developer",
-    description:
-      "Built an intelligent security alert triage engine with Python 3.11 and Streamlit. The system ingests SIEM-style alerts, classifies true and false positives, assigns risk and severity, maps relevant events to MITRE ATT&CK techniques, and writes enriched audit records for analyst follow-through.",
-    outcomes: [
-      "Implemented LLM-assisted triage with structured JSON validation, retry handling for malformed output, and deterministic fallback classification when AI services are unavailable.",
-      "Added SOC workflow acceleration features: plain-English incident summaries, response recommendations, and evidence-preserving audit logs for suspicious PowerShell, brute-force, malware, phishing, and privilege-escalation patterns.",
-      "Delivered production-style engineering quality with modular architecture, pytest coverage, ruff quality gates, and GitHub Actions CI for reliable local and pipeline execution.",
-    ],
-    technologies: [
-      "Python 3.11",
-      "Cybersecurity Automation",
-      "SIEM Alert Triage",
-      "MITRE ATT&CK",
-      "Wazuh",
-      "Elasticsearch",
-      "Local LLM Inference",
-      "Prompt Engineering",
-      "Streamlit",
-      "REST APIs",
-      "JSON",
-      "Pandas",
-      "Pytest",
-      "Ruff",
-      "GitHub Actions",
-      "Structured Logging",
-      "Risk Scoring",
-    ],
-    links: [
-      {
-        label: "View on GitHub",
-        href: "https://github.com/Ngenzipack/intelligent-security-alert-triage-engine",
-      },
-    ],
-    media: [
-      {
-        src: "/images/projects/intelligent-security-alert-triage-engine/dashboard-overview.png",
-        alt: "Streamlit dashboard overview for the Intelligent Security Alert Triage Engine showing ingestion controls and recent alerts table.",
-        width: 1600,
-        height: 805,
-        caption: "Dashboard overview: ingest alerts, filter classification, and review triage outcomes.",
-      },
-      {
-        src: "/images/projects/intelligent-security-alert-triage-engine/metrics-charts.png",
-        alt: "Classification distribution and criticality timeline charts from the Intelligent Security Alert Triage Engine.",
-        width: 1098,
-        height: 512,
-        caption: "Triage analytics: classification distribution and criticality timeline.",
-      },
-    ],
-    featured: true,
-  },
-  {
     slug: "azure-iam-security-architecture",
     title: "Azure Hybrid Network and IAM Security Architecture",
-    category: "Cloud Security / IAM / Sentinel",
+    track: "iam",
+    category: "Identity & Access / Cloud Security",
     period: "2026",
-    role: "Designer and Implementer",
+    role: "Designer and implementer",
     description:
-      "Enterprise-style hybrid security architecture for an education environment. The project combines segmented Azure VNets, simulated on-prem connectivity, Entra ID governance, Conditional Access, RBAC, MFA, and Microsoft Sentinel detections.",
+      "A simulated school-board hybrid environment: an Azure VNet connected to a simulated on-premises VNet over an IPsec VPN, with Entra ID groups, Conditional Access and Microsoft Sentinel alert rules.",
     outcomes: [
-      "Designed two VNets, eight subnets, VPN Gateway connectivity, and 15+ NSG rules to separate Staff, Students, Servers, and gateway traffic.",
-      "Implemented 30 governed identities across Staff, Student, and IT Admin groups with MFA, blocked legacy authentication, compliant-device requirements, and least-privilege RBAC.",
-      "Documented Sentinel and Log Analytics detections for failed logins, risky sign-ins, and authentication review using KQL-backed alert logic.",
+      "Built two VNets with eight subnets (Staff, Students, Servers and a gateway subnet in each), a VPN Gateway and 15+ NSG rules that block student subnets from reaching servers.",
+      "Created 30 test identities across Staff, Student and IT Admin groups, with Conditional Access policies for MFA, compliant devices for IT admins and blocked legacy authentication.",
+      "Connected sign-in, audit and risky-user logs to Microsoft Sentinel and wrote KQL alert rules for failed and risky sign-ins.",
     ],
     technologies: [
       "Microsoft Azure",
@@ -419,55 +375,229 @@ export const projects: ProjectItem[] = [
         href: "https://github.com/Ngenzipack/Azure-IAM-Security-Architecture",
       },
     ],
+    diagram: {
+      title: "Architecture",
+      caption:
+        "Simplified from the repository's architecture diagram: identity controls, the cloud VNet, the IPsec tunnel to the simulated school, and Sentinel monitoring.",
+      stages: [
+        {
+          label: "Identity",
+          nodes: ["Entra ID: Staff, Students, IT Admin groups", "Conditional Access: MFA, compliant device, block legacy auth"],
+        },
+        {
+          label: "Azure VNet-Cloud",
+          nodes: ["Staff subnet + NSG", "Students subnet + NSG (no server access)", "Servers subnet + NSG", "VPN gateway"],
+        },
+        {
+          label: "IPsec VPN",
+          nodes: ["Site-to-site tunnel"],
+        },
+        {
+          label: "Simulated on-premises",
+          nodes: ["Staff, Students, Servers subnets", "VPN gateway"],
+        },
+        {
+          label: "Monitoring",
+          nodes: ["Microsoft Sentinel: SignInLogs, AuditLogs, RiskyUsers", "KQL alert rules: failed and risky sign-ins"],
+        },
+      ],
+    },
     featured: true,
+  },
+  {
+    slug: "entra-conditional-access-baselines",
+    title: "Entra Conditional Access Baselines",
+    track: "iam",
+    category: "Identity & Access",
+    period: "2026",
+    role: "Author",
+    description:
+      "A baseline set of Microsoft Entra Conditional Access policies with staged rollout playbooks, documented exception patterns and post-deployment validation checks.",
+    outcomes: [
+      "Policies cover MFA and authentication strengths, named locations and risk-based sign-in controls.",
+      "Rollout starts with pilot groups and moves in phases by user segment and workload sensitivity, with exceptions tracked to a remediation date.",
+    ],
+    technologies: ["Microsoft Entra ID", "Conditional Access", "Authentication strengths", "Named locations", "PowerShell"],
+    links: [{ label: "View on GitHub", href: "https://github.com/Ngenzipack/entra-conditional-access-baselines" }],
+  },
+  {
+    slug: "microsoft-security-lab",
+    title: "Microsoft Security Lab",
+    track: "iam",
+    category: "Identity & Access / Monitoring",
+    period: "2026",
+    role: "Lab builder",
+    description:
+      "A Microsoft test tenant where I send Entra sign-in, audit and network access logs to Log Analytics, and practise Privileged Identity Management, access reviews and single sign-on.",
+    technologies: ["Microsoft Entra ID", "Log Analytics", "Privileged Identity Management", "Access reviews", "Single sign-on"],
+    privateCode: true,
+  },
+  {
+    slug: "iam-policy-automation",
+    title: "IAM Policy Automation Toolkit",
+    track: "iam",
+    category: "Identity & Access / Automation",
+    period: "2026",
+    role: "Developer",
+    description:
+      "A Python and PowerShell toolkit that turns role requirements into least-privilege policy definitions for Azure and Entra, checks them against deny-list guardrails, and exports audit reports. The command-line interface is still in progress.",
+    technologies: ["Python", "PowerShell", "Azure", "Microsoft Entra ID", "JSON/YAML policies"],
+    links: [{ label: "View on GitHub", href: "https://github.com/Ngenzipack/iam-policy-automation" }],
+  },
+  {
+    slug: "intelligent-security-alert-triage-engine",
+    title: "Intelligent Security Alert Triage Engine",
+    track: "cloud-soc",
+    category: "SOC Automation / AI-Assisted Triage",
+    period: "2026",
+    role: "Designer and developer",
+    description:
+      "A proof-of-concept Python and Streamlit tool that pulls alerts from the Wazuh API, an Elasticsearch index or JSON/CSV files, classifies them with a local LLM, maps them to MITRE ATT&CK techniques, scores risk and writes an audit log for analysts.",
+    outcomes: [
+      "Validates the model's JSON output, retries malformed responses and falls back to a rule-based classifier when the LLM is unavailable.",
+      "Writes plain-English summaries and response recommendations for suspicious PowerShell, brute-force, malware, phishing and privilege-escalation alerts.",
+      "Tested with pytest, linted with Ruff and checked on every push by GitHub Actions.",
+    ],
+    technologies: [
+      "Python 3.11",
+      "Wazuh API",
+      "Elasticsearch",
+      "Local LLM",
+      "MITRE ATT&CK",
+      "Risk scoring",
+      "Streamlit",
+      "Pandas",
+      "Pytest",
+      "Ruff",
+      "GitHub Actions",
+    ],
+    links: [
+      {
+        label: "View on GitHub",
+        href: "https://github.com/Ngenzipack/intelligent-security-alert-triage-engine",
+      },
+    ],
+    diagram: {
+      title: "Data flow",
+      caption: "Simplified from the repository's data-flow diagram.",
+      stages: [
+        { label: "Sources", nodes: ["Wazuh API", "Elasticsearch index", "JSON or CSV files"] },
+        { label: "Normalize", nodes: ["Canonical alert schema"] },
+        { label: "Analyze", nodes: ["Local LLM classification", "JSON validation and retry", "Rule-based fallback"] },
+        { label: "Enrich", nodes: ["MITRE ATT&CK mapping", "Risk and severity score"] },
+        { label: "Output", nodes: ["JSON audit log", "Streamlit dashboard"] },
+      ],
+    },
+    media: [
+      {
+        src: "/images/projects/intelligent-security-alert-triage-engine/dashboard-overview.png",
+        alt: "Streamlit dashboard for the alert triage engine showing ingestion controls and a table of recent alerts.",
+        width: 1600,
+        height: 805,
+        caption: "Dashboard: ingest alerts, filter by classification and review triage results.",
+      },
+      {
+        src: "/images/projects/intelligent-security-alert-triage-engine/metrics-charts.png",
+        alt: "Classification distribution and criticality timeline charts from the alert triage engine.",
+        width: 1098,
+        height: 512,
+        caption: "Triage analytics: classification distribution and criticality over time.",
+      },
+    ],
+    featured: true,
+  },
+  {
+    slug: "network-monitoring-automation",
+    title: "Network Monitoring and Security Automation",
+    track: "cloud-soc",
+    category: "Monitoring / Automation",
+    period: "2023",
+    role: "Personal project",
+    description:
+      "A personal monitoring setup with SolarWinds and PRTG, plus PowerShell automation that backs up and audits Fortinet configurations over SCP.",
+    outcomes: [
+      "Configured SolarWinds and PRTG to watch device availability and alert on failures.",
+      "Scripted scheduled Fortinet configuration backups over SCP with PowerShell.",
+      "Automated Fortinet configuration audits with the same PowerShell jobs.",
+    ],
+    technologies: ["SolarWinds", "PRTG", "PowerShell", "SCP", "Fortinet"],
+    diagram: {
+      title: "Workflow",
+      caption: "Simplified workflow of the monitoring and backup automation.",
+      stages: [
+        { label: "Devices", nodes: ["Fortinet firewalls", "Network devices and servers"] },
+        { label: "Monitor", nodes: ["SolarWinds", "PRTG availability alerts"] },
+        { label: "Automate", nodes: ["PowerShell scheduled jobs", "Config backup over SCP"] },
+        { label: "Audit", nodes: ["Automated configuration audit", "Documented findings"] },
+      ],
+    },
+    featured: true,
+    privateCode: true,
   },
   {
     slug: "enterprise-network-segmentation-lab",
     title: "Enterprise Network Segmentation and Security Lab",
+    track: "network",
     category: "Network Security / Segmentation",
     period: "2024",
-    role: "Lab Architect",
+    role: "Lab architect",
     description:
-      "Network-defense case study focused on segmentation, firewall policy design, and validation. It models how staff, student, guest, IoT, VoIP, and server traffic should be isolated and tested in an enterprise environment.",
+      "A lab that segments staff, student, guest, IoT, VoIP and server traffic into VLANs, routes between them on Cisco equipment, enforces approved flows with Fortinet firewall rules and a site-to-site VPN, and validates the boundaries in Wireshark.",
     outcomes: [
-      "Mapped topology, trust boundaries, and approved flows so firewall rules are tied to business purpose instead of open-ended access.",
-      "Modeled guest and IoT isolation to reduce lateral-movement risk across unmanaged devices and user groups.",
-      "Created a repeatable validation approach for firewall policy design, packet-flow testing, rollback, and Wireshark evidence.",
+      "Mapped the topology, trust boundaries and approved flows so each firewall rule has a stated business purpose.",
+      "Isolated guest and IoT VLANs from staff and server networks to limit lateral movement.",
+      "Tested each policy change with packet captures and a rollback step, and documented the topology in Visio.",
     ],
     technologies: [
       "Cisco",
       "Fortinet",
-      "VLAN",
-      "Site-to-Site VPN",
+      "VLAN segmentation",
+      "Inter-VLAN routing",
+      "Site-to-site VPN",
       "Wireshark",
-      "Firewall Policy Design",
+      "Visio",
     ],
+    diagram: {
+      title: "Lab topology",
+      caption: "Simplified topology of the segmentation lab.",
+      stages: [
+        { label: "User VLANs", nodes: ["Staff", "Student", "Guest", "IoT", "VoIP"] },
+        { label: "Routing", nodes: ["Cisco inter-VLAN routing"] },
+        { label: "Policy", nodes: ["Fortinet firewall rules: approved flows only"] },
+        { label: "Protected", nodes: ["Server VLAN", "Site-to-site VPN", "Internet"] },
+        { label: "Validation", nodes: ["Wireshark captures", "Rollback plan"] },
+      ],
+    },
     featured: true,
+    privateCode: true,
   },
   {
-    slug: "neotha-secure-product-engineering",
-    title: "Neotha - Owner-Led Platform, Client Support, and Server Operations",
-    category: "DevSecOps / Full-Stack / Operations",
+    slug: "neotha-platform",
+    title: "Neotha – Secure Booking and Events Platform",
+    track: "web-devsecops",
+    category: "Secure Web Platform / DevSecOps",
     period: "Ongoing",
-    role: "Owner, Founder, and Lead Engineer",
+    role: "Owner and lead developer",
     description:
-      "Owner-led technology platform and client-service work where I build frontend and backend systems, support customers, manage hosting/server environments, and apply secure deployment habits to live business platforms.",
+      "My own booking and events marketplace. I built passkey (WebAuthn) authentication and the booking and payment workflows, and run the CI/CD pipeline, hosting and monitoring.",
     outcomes: [
-      "Deliver production websites and client systems with React/Next.js, TypeScript, backend integration, SEO metadata, responsive UI, and accessibility-aware interfaces.",
-      "Manage DNS, SSL/TLS, hosting configuration, deployment troubleshooting, uptime support, and customer requests for live services.",
-      "Apply security-minded operations: environment separation, dependency hygiene, least-privilege access, backups, documentation, and careful change management.",
+      "Built with React, TypeScript, Node.js and MySQL, with passkeys, role-based access and rate limiting.",
+      "Jenkins pipeline runs tests, SonarQube code analysis and security audits before Docker images ship, with rollback controls.",
+      "Runs behind Nginx with Sentry error tracking and Prometheus and Grafana monitoring.",
     ],
     technologies: [
-      "Next.js",
-      "TypeScript",
       "React",
-      "Tailwind CSS",
-      "Backend Integration",
-      "DNS",
-      "SSL/TLS",
-      "Server Management",
-      "Hosting",
-      "DevSecOps",
+      "TypeScript",
+      "Node.js",
+      "MySQL",
+      "WebAuthn passkeys",
+      "Docker",
+      "Jenkins",
+      "SonarQube",
+      "Nginx",
+      "Sentry",
+      "Prometheus",
+      "Grafana",
     ],
     links: [
       {
@@ -475,550 +605,357 @@ export const projects: ProjectItem[] = [
         href: "https://www.neotha.com/",
       },
     ],
+    diagram: {
+      title: "Delivery pipeline",
+      caption: "Simplified delivery and monitoring path for Neotha.",
+      stages: [
+        { label: "Source", nodes: ["GitHub repository"] },
+        { label: "CI", nodes: ["Jenkins: tests", "SonarQube analysis", "Security audit"] },
+        { label: "Ship", nodes: ["Docker images", "Rollback controls"] },
+        { label: "Run", nodes: ["Cloudflare DNS and TLS", "Nginx", "Node.js + MySQL"] },
+        { label: "Observe", nodes: ["Sentry", "Prometheus", "Grafana"] },
+      ],
+    },
     featured: true,
     privateCode: true,
   },
   {
-    slug: "network-monitoring-automation",
-    title: "Network Monitoring and Security Automation Initiative",
-    category: "Security Operations / Automation",
-    period: "2023",
-    role: "Operations Engineer",
-    description:
-      "Monitoring and automation initiative shaped around real support work: availability signals, security follow-up, stale-account review, event-log collection, and repeatable documentation for faster troubleshooting.",
-    outcomes: [
-      "Used SolarWinds/PRTG-style monitoring patterns to centralize availability and operational security signals.",
-      "Built PowerShell workflows for provisioning review, stale-account checks, event-log collection, and access-audit follow-up.",
-      "Improved repeatability with documented checks that reduce manual workload and make security follow-through easier to hand off.",
-    ],
-    technologies: [
-      "SolarWinds",
-      "PRTG",
-      "PowerShell",
-      "Event Logs",
-      "Access Review",
-      "Security Auditing",
-      "User Lifecycle Automation",
-    ],
-    featured: true,
-    privateCode: true,
-  },
-  {
-    slug: "nkurunziza-client-platform",
-    title: "Nkurunziza - Client Web Platform and Hosting Support",
-    category: "Client Platform / Full-Stack Delivery",
+    slug: "client-websites",
+    title: "Client Websites – Nkurunziza and Sylva Renovations",
+    track: "web-devsecops",
+    category: "Client Websites / Hosting Support",
     period: "Ongoing",
-    role: "Full-Stack Developer and Server Manager",
+    role: "Developer and hosting administrator",
     description:
-      "Client-facing web platform delivered with frontend/backend ownership, hosting, and operational support. This project demonstrates client communication, production reliability, deployment discipline, and secure server-management habits.",
+      "Two sites I built and still run: nkurunziza.ca, a personal portfolio site, and sylvarenovations.ca, a paid project for a renovation company.",
     outcomes: [
-      "Built and maintained a live web experience with clean navigation, responsive UI, and public-facing business reliability.",
-      "Handled deployment, DNS/SSL alignment, hosting configuration, server updates, and customer support for ongoing operations.",
-      "Applied practical security controls around access, backups, change discipline, and production troubleshooting.",
+      "Built responsive sites that work on desktop and mobile.",
+      "Handle hosting, DNS, SSL/TLS and updates for both sites.",
+      "Limit access, back up before changes and keep clients informed.",
     ],
     technologies: [
-      "Frontend Development",
-      "Backend Support",
-      "Responsive UI",
+      "Next.js",
+      "Responsive design",
       "Hosting",
       "DNS",
       "SSL/TLS",
-      "Server Management",
-      "Client Support",
+      "Client support",
     ],
     links: [
-      {
-        label: "Visit nkurunziza.ca",
-        href: "https://nkurunziza.ca/en/",
-      },
-    ],
-    privateCode: true,
-  },
-  {
-    slug: "sylva-renovations-client-website",
-    title: "Sylva Renovations - Client Website and Hosting Operations",
-    category: "Client Website / Hosting Operations",
-    period: "Ongoing",
-    role: "Full-Stack Developer and Server Manager",
-    description:
-      "Client website built and maintained for Sylva Renovations, with professional frontend delivery, backend/hosting support, SSL/TLS configuration, DNS alignment, and ongoing production troubleshooting.",
-    outcomes: [
-      "Delivered a clean public-facing website that presents the client professionally and works across desktop and mobile screens.",
-      "Handled hosting setup, DNS, SSL/TLS, deployment updates, and operational support for the live business site.",
-      "Applied the same security-minded habits I use in IT work: controlled access, careful changes, backups, documentation, and reliable client communication.",
-    ],
-    technologies: [
-      "Frontend Development",
-      "Responsive UI",
-      "Backend Support",
-      "Hosting",
-      "DNS",
-      "SSL/TLS",
-      "Server Management",
-      "Client Support",
-    ],
-    links: [
-      {
-        label: "Visit sylvarenovations.ca",
-        href: "https://www.sylvarenovations.ca/",
-      },
+      { label: "Visit nkurunziza.ca", href: "https://nkurunziza.ca/en/" },
+      { label: "Visit sylvarenovations.ca", href: "https://www.sylvarenovations.ca/" },
     ],
     privateCode: true,
   },
   {
     slug: "expense-tracker-product",
-    title: "Expense Tracker - Roommate Receipt and Cost-Sharing App",
-    category: "Product Engineering / Data Workflow",
+    title: "Expense Tracker – Shared Receipt and Cost-Splitting App",
+    track: "web-devsecops",
+    category: "Full-Stack Application",
     period: "2026",
-    role: "Full-Stack Developer",
+    role: "Full-stack developer",
     description:
-      "Private full-stack application for shared household expenses. The app is designed around receipt upload, monthly review, total tracking, and cleaner cost-splitting between roommates.",
+      "A private web app for shared household expenses: upload receipts, review totals by month and split costs between roommates.",
     outcomes: [
-      "Organized a real workflow around uploads, totals, monthly review, and shared accountability instead of manual tracking.",
-      "Shows practical product thinking: user input, data capture, privacy-sensitive records, and clear monthly summaries.",
-      "Adds backend/data-handling experience that supports secure web and DevSecOps positioning.",
-    ],
-    technologies: [
-      "TypeScript",
-      "Frontend Development",
-      "Backend Integration",
-      "File Upload",
-      "Data Modeling",
-      "Privacy-Aware Handling",
-      "GitHub",
-    ],
-    privateCode: true,
-  },
-  {
-    slug: "portfolio-github-pages-pipeline",
-    title: "Portfolio - Next.js Static Export and GitHub Pages Pipeline",
-    category: "DevSecOps / CI/CD / Portfolio",
-    period: "2026",
-    role: "Developer and Maintainer",
-    description:
-      "This portfolio is maintained as a professional public GitHub project using Next.js, TypeScript, static export, GitHub Actions, and GitHub Pages deployment under the /portfolio path.",
-    outcomes: [
-      "Configured one clean public repository for hiring review with a GitHub Pages deployment workflow and static export output.",
-      "Built recruiter-focused case-study pages with direct links, resume download, responsive navigation, dark mode, and no fake contact backend.",
-      "Verified linting, production builds, route base paths, metadata, and generated static assets for Pages hosting.",
+      "Replaced manual tracking with receipt uploads, monthly totals and a per-person split.",
+      "Each roommate signs in with their own account through NextAuth.js; passwords are hashed with bcrypt and forms are protected against CSRF.",
     ],
     technologies: [
       "Next.js",
       "TypeScript",
-      "React",
+      "NextAuth.js",
+      "MySQL",
+      "bcrypt",
+      "File upload",
+    ],
+    privateCode: true,
+  },
+  {
+    slug: "portfolio-pipeline",
+    title: "This Portfolio – Next.js Static Site and CI/CD",
+    track: "web-devsecops",
+    category: "CI/CD / Static Hosting",
+    period: "2026",
+    role: "Developer and maintainer",
+    description:
+      "This site: a Next.js static export hosted on Hostinger behind Cloudflare, with a GitHub Actions workflow that publishes a mirror to GitHub Pages on every push to main.",
+    outcomes: [
+      "No backend or database, so there is no server-side attack surface to maintain.",
+      "Every fact on the site and in the resume PDFs comes from one content file.",
+    ],
+    technologies: [
+      "Next.js",
+      "TypeScript",
       "Tailwind CSS",
       "GitHub Actions",
       "GitHub Pages",
-      "Static Export",
-      "SEO Metadata",
+      "Cloudflare",
     ],
     links: [
-      {
-        label: "View live portfolio",
-        href: "https://ngenzipack.github.io/portfolio/",
-      },
-      {
-        label: "View repository",
-        href: "https://github.com/Ngenzipack/portfolio",
-      },
+      { label: "View repository", href: "https://github.com/Ngenzipack/portfolio" },
     ],
   },
   {
     slug: "python-engineering-foundations",
-    title: "Python Engineering Foundations",
-    category: "Programming Fundamentals / GitHub Practice",
+    title: "Python Foundations",
+    track: "web-devsecops",
+    category: "Programming Practice",
     period: "2023",
     role: "Developer",
     description:
-      "Public Python projects that show core programming fundamentals: formatting, date/time logic, probability simulation, object-oriented geometry, and budget/category tracking.",
-    outcomes: [
-      "Built small, readable Python utilities with testable logic and clear problem boundaries.",
-      "Practiced object-oriented design, data formatting, arithmetic rules, probability simulation, and command-line style problem solving.",
-      "Maintains a public GitHub trail of programming foundations that supports broader engineering credibility.",
-    ],
-    technologies: [
-      "Python",
-      "Object-Oriented Programming",
-      "Data Structures",
-      "Simulation",
-      "Testing",
-      "Git",
-      "GitHub",
-    ],
+      "Small public Python projects: a budget tracker, a probability simulator and an object-oriented polygon calculator.",
+    technologies: ["Python", "Object-oriented programming", "Git"],
     links: [
-      {
-        label: "Budget App",
-        href: "https://github.com/Ngenzipack/Budget-App",
-      },
-      {
-        label: "Probability Calculator",
-        href: "https://github.com/Ngenzipack/Probability-Calculator",
-      },
-      {
-        label: "Polygon Area Calculator",
-        href: "https://github.com/Ngenzipack/Polygon-Area-Calculator",
-      },
+      { label: "Budget App", href: "https://github.com/Ngenzipack/Budget-App" },
+      { label: "Probability Calculator", href: "https://github.com/Ngenzipack/Probability-Calculator" },
+      { label: "Polygon Area Calculator", href: "https://github.com/Ngenzipack/Polygon-Area-Calculator" },
     ],
   },
 ];
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "case-study-zero-trust-access-hardening",
-    title: "Zero-Trust Access Hardening Program",
+    slug: "case-study-access-hardening",
+    title: "Access Hardening with Entra ID and Conditional Access",
+    track: "iam",
+    context: "Bell, 2022–2023",
     challenge:
-      "The organization had inconsistent identity controls across Azure and Microsoft 365, which increased account takeover risk.",
+      "Identity controls across Azure and Microsoft 365 were inconsistent, which raised the risk of account takeover.",
     actions: [
-      "I mapped privileged and non-privileged access paths, then rebuilt role-based access around least privilege.",
-      "I implemented Conditional Access, MFA enforcement, and legacy-authentication blocking with staged rollout checkpoints.",
-      "I documented onboarding/offboarding and access-review playbooks so your team could sustain the controls after launch.",
+      "Mapped privileged and standard access paths, then rebuilt role-based access around least privilege.",
+      "Rolled out Conditional Access, MFA and legacy-authentication blocking in stages.",
+      "Wrote onboarding, offboarding and access-review steps so the team could keep the controls in place.",
     ],
-    tools: [
-      "Microsoft Entra ID (Azure AD)",
-      "Conditional Access",
-      "Microsoft Sentinel",
-      "PowerShell",
-    ],
-    outcome:
-      "Reduced high-risk sign-in exposure by 32% and cut excessive permissions by 19% within one quarter.",
+    tools: ["Microsoft Entra ID", "Conditional Access", "PowerShell"],
+    outcome: "Fewer accounts with excessive permissions and consistent MFA coverage.",
   },
   {
-    slug: "case-study-firewall-segmentation-modernization",
-    title: "Firewall and Segmentation Modernization",
+    slug: "case-study-firewall-segmentation",
+    title: "Firewall Cleanup and Segmentation",
+    track: "network",
+    context: "Bell, 2022–2023",
     challenge:
-      "Open and legacy firewall rules made it difficult to prove approved access paths and increased lateral-movement risk.",
+      "Open and legacy firewall rules made it hard to prove which access paths were approved, and increased lateral-movement risk.",
     actions: [
-      "I analyzed traffic flows and rebuilt firewall policy around business-approved ports, services, and trust boundaries.",
-      "I implemented VLAN segmentation for staff, guest, IoT, and server zones, then validated packet flow with rollback plans.",
-      "I created a repeatable review cadence and change-control documentation for policy lifecycle management.",
+      "Reviewed traffic flows and rebuilt FortiGate and Palo Alto policy around approved ports, services and trust boundaries.",
+      "Segmented staff, guest, IoT and server traffic into VLANs and validated packet flow with a rollback plan.",
+      "Wrote firewall change management procedures and set up a regular review cycle.",
     ],
-    tools: [
-      "Fortinet",
-      "Palo Alto",
-      "Wireshark",
-      "Network ACL and VLAN design",
-    ],
-    outcome:
-      "Reduced external firewall exposure by 25% while preserving production connectivity and support SLAs.",
+    tools: ["FortiGate", "Palo Alto", "Wireshark", "VLAN design"],
+    outcome: "Smaller external exposure with approved connectivity kept in place.",
   },
   {
-    slug: "case-study-devsecops-platform-rollout",
-    title: "DevSecOps Platform Rollout and Monitoring",
+    slug: "case-study-devsecops-rollout",
+    title: "DevSecOps Pipeline and Monitoring for Neotha",
+    track: "web-devsecops",
+    context: "Neotha, my own platform, 2022–present",
     challenge:
-      "A multi-service platform needed safer deployments, stronger runtime observability, and clear incident-response workflows.",
+      "A multi-service platform needed safer deployments, better runtime monitoring and clear incident-response steps.",
     actions: [
-      "I implemented CI/CD quality gates, security checks, and controlled rollout sequencing for reliable releases.",
-      "I standardized containerized service deployment patterns, reverse-proxy security headers, and health/readiness checks.",
-      "I built operational runbooks so your team could triage incidents quickly with consistent evidence.",
+      "Built a Jenkins pipeline with tests, SonarQube analysis, security audits and staged rollouts with rollback.",
+      "Standardized Docker Compose deployments, Nginx reverse-proxy configuration and health checks.",
+      "Added Sentry, Prometheus and Grafana, and wrote runbooks for incident triage.",
     ],
-    tools: [
-      "Jenkins",
-      "Docker and Docker Compose",
-      "Nginx",
-      "SIEM and monitoring workflows",
-      "Terraform",
-    ],
-    outcome:
-      "Improved release reliability by 40% and lowered mean time to detect critical runtime issues by 35%.",
+    tools: ["Jenkins", "SonarQube", "Docker Compose", "Nginx", "Sentry", "Prometheus", "Grafana"],
+    outcome: "Releases pass tests and security checks before they ship, and errors and performance are visible in Sentry and Grafana.",
   },
 ];
 
 export const education: EducationItem[] = [
   {
-    degree: "Computer Engineering Technology",
+    credential: "Diploma",
+    program: "Computer Engineering Technology – Mechatronic Systems",
     institution: "Mohawk College",
-    period: "Graduate",
-    coursework: [
-      "Advanced Networks",
-      "Server Administration",
-      "Web Security",
-      "Operating Systems",
-      "Programming Foundations",
-    ],
-  },
-];
-
-export const certifications: Certification[] = [
-  {
-    name: "CompTIA Security+",
-    issuer: "CompTIA",
-    year: "Certified",
-    status: "Active",
-  },
-  {
-    name: "Google Cybersecurity Certificate",
-    issuer: "Google / Coursera",
-    year: "Certified",
-    status: "Active",
-  },
-  {
-    name: "Microsoft SC-300: Identity and Access Administrator",
-    issuer: "Microsoft",
-    status: "In Progress",
+    location: "Hamilton, Ontario",
+    period: "Sep 2019 – Jun 2022",
+    coursework: ["Network Security", "Web Security", "Advanced Networks", "Server Administration"],
   },
 ];
 
 export const credentials: Credential[] = [
   {
+    name: "Microsoft Certified: Identity and Access Administrator Associate",
+    shortName: "SC-300",
+    issuer: "Microsoft",
+    status: "Certified",
+    earned: "Nov 2026",
+    credentialUrl: "https://learn.microsoft.com/en-us/users/NgenziPatrick-2475/credentials/CE4F1F1C9F096914",
+  },
+  {
     name: "CompTIA Security+",
+    shortName: "Security+",
     issuer: "CompTIA",
     status: "Certified",
-    lastUpdated: "May 2026",
+    earned: "Valid Dec 2024 – Dec 2027",
     badgeIcon: "/images/comptia-security-plus-credly.png",
-    credentialUrl:
-      "https://www.credly.com/badges/d215b8e4-3f70-4885-9ca8-91583c0b7b5a",
+    credentialUrl: "https://www.credly.com/badges/d215b8e4-3f70-4885-9ca8-91583c0b7b5a",
+    extraLinks: [
+      {
+        label: "CompTIA verification",
+        href: "https://cp.certmetrics.com/comptia/en/public/verify/credential/TJVKFQVSR2RQ165R",
+      },
+    ],
     acquiredSkills: [
-      "Threat, attack, and vulnerability identification",
-      "Risk management and risk mitigation techniques",
+      "Threat, attack and vulnerability identification",
+      "Risk management and mitigation",
       "Threat management operations",
-      "Intrusion detection practices",
-      "Core cybersecurity function readiness",
+      "Intrusion detection",
     ],
   },
   {
-    name: "Google Cybersecurity Certificate",
-    issuer: "Google / Coursera",
+    name: "Google Cybersecurity Professional Certificate",
+    shortName: "Google Cybersecurity",
+    issuer: "Google",
     status: "Certified",
-    lastUpdated: "May 2026",
+    earned: "Jul 2023",
+    credentialUrl: "https://www.credly.com/badges/41c959b5-36f0-498f-8073-0a0500526f64",
   },
   {
-    name: "Microsoft SC-300: Identity and Access Administrator",
+    name: "Microsoft Windows Defender and Firewall",
+    shortName: "IBM Defender & Firewall",
+    issuer: "IBM",
+    status: "Certified",
+    earned: "Aug 2023",
+  },
+  {
+    name: "Microsoft Certified: Security Operations Analyst Associate",
+    shortName: "SC-200",
     issuer: "Microsoft",
-    status: "In Progress",
-    lastUpdated: "May 2026",
+    status: "In progress",
+    target: "Late November 2026",
+  },
+  {
+    name: "Fortinet Certified Professional – Network Security",
+    shortName: "FCP Network Security",
+    issuer: "Fortinet",
+    status: "Planned",
   },
 ];
 
-export const awards: Award[] = [
-  {
-    year: "2026",
-    title: "Published Azure IAM Security Architecture reference project",
-    issuer: "GitHub - Ngenzipack/Azure-IAM-Security-Architecture",
-  },
-  {
-    year: "2024",
-    title: "Reduced reported suspicious incidents by 30% through security awareness training",
-    issuer: "Near North District School Board",
-  },
-  {
-    year: "2023",
-    title: "Reduced firewall attack surface by 25% and excessive permissions by 19%",
-    issuer: "Bell",
-  },
-];
+export const certifiedCredentials = credentials.filter((c) => c.status === "Certified");
+export const upcomingCredentials = credentials.filter((c) => c.status !== "Certified");
 
-export const skillCategories: SkillCategory[] = [
+export const skillTiers: SkillTier[] = [
   {
-    category: "AI-Driven Security Triage and SOC Automation",
-    description:
-      "I build practical AI-assisted triage workflows that reduce alert fatigue while keeping analyst decisions auditable and defensible.",
-    items: [
-      "SIEM alert triage and alert-fatigue reduction",
-      "Security event normalization from Wazuh and ELK-style alerts",
-      "True positive, false positive, and uncertain classification logic",
-      "MITRE ATT&CK mapping (including PowerShell execution T1059.001)",
-      "Threat analysis and plain-English incident summaries",
-      "Risk scoring and severity classification",
-      "Security audit logging and alert evidence preservation",
-      "Incident response recommendation generation",
-      "Suspicious PowerShell, brute-force, malware, phishing, and privilege-escalation detection logic",
-      "SOC workflow automation and analyst decision support",
-      "Suspicious outbound communication and possible C2 behavior triage",
-      "HTTP REST API integrations for Wazuh and Elasticsearch",
-      "Prompt engineering for structured JSON outputs and validator-backed parsing",
-      "Deterministic fallback classifiers for AI-service outages",
+    tier: "Hands-on daily",
+    description: "Tools I use in my current role at Near North District School Board.",
+    groups: [
+      {
+        domain: "Security operations",
+        items: [
+          "Microsoft Defender for Office 365",
+          "Phishing and compromised-account response",
+          "ESET",
+          "SolarWinds",
+          "MaaS360",
+          "Root cause analysis",
+        ],
+      },
+      {
+        domain: "Identity and email",
+        items: [
+          "Microsoft Entra ID audit and sign-in logs",
+          "Hybrid Active Directory",
+          "Conditional Access and MFA",
+          "Group Policy",
+          "PowerShell account automation",
+          "Exchange Online",
+        ],
+      },
+      {
+        domain: "Network",
+        items: [
+          "Fortinet FortiAnalyzer",
+          "FortiGate firewall and network policy",
+          "VLAN and IoT isolation",
+          "SSL/TLS certificates",
+        ],
+      },
+      {
+        domain: "Vulnerability, endpoints and servers",
+        items: [
+          "Microsoft Defender for Cloud",
+          "Microsoft Intune",
+          "WSUS and SCCM",
+          "BitLocker",
+          "Azure VMs and NSGs",
+          "VMware vSphere",
+          "Hyper-V",
+          "Windows Server 2016–2022",
+        ],
+      },
+      {
+        domain: "Governance",
+        items: [
+          "Incident response and DR procedures",
+          "Vendor security reviews",
+          "Security reporting and audit support",
+          "MFIPPA",
+        ],
+      },
     ],
   },
   {
-    category: "Cloud Security",
-    description:
-      "I secure cloud environments with identity-first guardrails, segmented networking, and actionable monitoring.",
-    items: [
-      "Microsoft Azure (VM, VNet, NSG, VPN Gateway, hardening)",
-      "Microsoft Sentinel and Log Analytics detections",
-      "Microsoft 365 Defender",
-      "Microsoft Defender for Endpoint",
-      "Google Cloud IAM",
-      "Google Cloud Security Command Center",
-      "Hybrid cloud connectivity controls",
-      "ESET endpoint protection",
-      "SolarWinds monitoring",
-      "Server patching and vulnerability remediation",
+    tier: "Lab / project experience",
+    description: "Built in my labs and projects, or used in previous roles at Bell and SP Data Digital.",
+    groups: [
+      {
+        domain: "Detection and SOC",
+        items: [
+          "Microsoft Sentinel",
+          "Log Analytics",
+          "Microsoft Defender for Endpoint",
+          "Defender Vulnerability Management",
+          "CrowdStrike",
+          "MITRE ATT&CK mapping",
+          "Wazuh and Elasticsearch APIs",
+        ],
+      },
+      {
+        domain: "Identity",
+        items: ["Privileged Identity Management", "Access reviews", "Single sign-on", "Okta"],
+      },
+      {
+        domain: "Network",
+        items: [
+          "Palo Alto firewalls",
+          "Cisco Catalyst",
+          "FortiSwitch and FortiAP",
+          "Site-to-site and IPsec VPN",
+          "Aerohive wireless and WPA3",
+          "Wireshark",
+        ],
+      },
+      {
+        domain: "Automation and DevSecOps",
+        items: [
+          "Python",
+          "Bash",
+          "SQL",
+          "Docker",
+          "Jenkins",
+          "GitHub Actions",
+          "React, TypeScript and Node.js",
+        ],
+      },
     ],
   },
   {
-    category: "Identity and Access Management",
-    description:
-      "I design and operate identity controls that reduce risk without blocking productivity.",
-    items: [
-      "Microsoft Entra ID (Azure AD)",
-      "Conditional Access policy design",
-      "Multi-Factor Authentication enforcement",
-      "Role-based access control",
-      "Privileged Identity Management concepts",
-      "Active Directory",
-      "Access reviews",
-      "Onboarding and offboarding",
-      "Stale-account cleanup",
-    ],
-  },
-  {
-    category: "Endpoint and UEM Operations",
-    description:
-      "I protect user devices with policy enforcement, inventory visibility, and fast incident follow-through.",
-    items: [
-      "MaaS360 device inventory",
-      "MaaS360 endpoint policy management",
-      "Microsoft Defender for Endpoint triage",
-      "ESET malware response workflows",
-      "Patch and vulnerability coordination",
-      "Endpoint compliance and remediation tracking",
-    ],
-  },
-  {
-    category: "Network Defense",
-    description:
-      "I harden and validate network paths so you get stronger security with dependable uptime.",
-    items: [
-      "Fortinet and Palo Alto firewalls",
-      "IDS and IPS tuning",
-      "VPN (site-to-site and remote access)",
-      "Aerohive WAPs",
-      "WPA3 and guest/IoT isolation",
-      "VLAN segmentation",
-      "Packet analysis with Wireshark",
-      "Nginx reverse-proxy security controls",
-      "Firewall policy lifecycle and change discipline",
-    ],
-  },
-  {
-    category: "DevSecOps and Automation",
-    description:
-      "I use delivery automation to make secure releases repeatable, testable, and easier to support.",
-    items: [
-      "Jenkins CI/CD pipelines",
-      "GitHub Actions quality gates",
-      "Docker and Docker Compose operations",
-      "Buildx and container registry workflows",
-      "Environment validation and deployment guardrails",
-      "PowerShell scripting",
-      "Python security scripting",
-      "Bash and shell tooling",
-      "SQL log querying",
-      "Event-log collection",
-      "Git and GitHub workflows",
-      "Ticketing and SLA documentation",
-    ],
-  },
-  {
-    category: "Software, Web, and Platform Delivery",
-    description:
-      "I build and operate production web platforms with security, reliability, and client communication built in.",
-    items: [
-      "TypeScript",
-      "JavaScript",
-      "React and Next.js",
-      "FastAPI and Node.js service integration",
-      "Java",
-      "C#",
-      "Tailwind CSS",
-      "Backend integration",
-      "DNS, SSL/TLS, and hosting operations",
-      "Server management",
-      "Client support",
-      "Accessibility-aware UI",
-    ],
-  },
-  {
-    category: "Frameworks and Standards",
-    description:
-      "Working knowledge of frameworks used to align controls with risk.",
-    items: [
-      "NIST Cybersecurity Framework",
-      "CIS Benchmarks",
-      "Zero Trust principles",
-      "PIPEDA and privacy-aware handling",
-      "Audit-ready documentation",
-    ],
-  },
-];
-
-export const technicalSkills: TechnicalSkillGroup[] = [
-  {
-    title: "AI Security Triage Engineering",
-    summary:
-      "I design AI-assisted SOC workflows that classify alerts, score risk, and produce auditable analyst guidance with deterministic fallback behavior.",
-    items: [
-      "Local LLM integration",
-      "SIEM alert normalization and triage",
-      "MITRE ATT&CK event mapping",
-      "Risk scoring and response recommendation generation",
-    ],
-  },
-  {
-    title: "Identity and Access Security",
-    summary:
-      "I protect accounts and privileges so your users can work securely without unnecessary friction.",
-    items: [
-      "Microsoft Entra ID (Azure AD)",
-      "Conditional Access",
-      "MFA enforcement",
-      "RBAC and access reviews",
-    ],
-  },
-  {
-    title: "Cloud Detection and Hardening",
-    summary:
-      "I combine cloud hardening with operational detections so your team can respond before issues escalate.",
-    items: [
-      "Azure NSG and VM hardening",
-      "Microsoft Sentinel",
-      "Log Analytics",
-      "GCP IAM and Cloud Security Command Center",
-    ],
-  },
-  {
-    title: "Endpoint and Device Governance",
-    summary:
-      "I secure endpoints with policy, visibility, and follow-through that your support teams can sustain.",
-    items: [
-      "MaaS360 inventory and endpoint management",
-      "Defender for Endpoint",
-      "ESET response workflows",
-      "Patch and vulnerability coordination",
-    ],
-  },
-  {
-    title: "Network and Infrastructure Security",
-    summary:
-      "I reduce attack surface while preserving availability across firewall, segmentation, and proxy layers.",
-    items: [
-      "Fortinet and Palo Alto firewalls",
-      "VLAN segmentation and VPN controls",
-      "Nginx reverse proxy hardening",
-      "Wireshark traffic validation",
-    ],
-  },
-  {
-    title: "DevSecOps and Reliability",
-    summary:
-      "I embed security checks into delivery pipelines so your releases stay fast, controlled, and auditable.",
-    items: [
-      "Jenkins and GitHub Actions",
-      "Docker and Compose",
-      "Security gates and env validation",
-      "Health-check and rollback workflow design",
-    ],
-  },
-  {
-    title: "Client Platform Engineering",
-    summary:
-      "I deliver production-ready web platforms with measurable quality, security-minded operations, and clear communication.",
-    items: [
-      "Next.js and React",
-      "TypeScript and API integration",
-      "DNS and SSL/TLS operations",
-      "Server management and client support",
+    tier: "Working knowledge",
+    description: "Used as needed or in a supporting role. I can work with these and ramp up quickly.",
+    groups: [
+      {
+        domain: "Microsoft security, as needed at work",
+        items: ["KQL", "Microsoft Defender XDR", "Microsoft Purview"],
+      },
+      {
+        domain: "Other tools",
+        items: ["SentinelOne", "Ansible", "Ubuntu Linux"],
+      },
+      {
+        domain: "Frameworks and privacy",
+        items: ["NIST Cybersecurity Framework", "CIS Controls and Benchmarks", "Zero Trust", "PIPEDA", "PHIPA"],
+      },
     ],
   },
 ];
@@ -1034,12 +971,26 @@ export const socialLinks: SocialLink[] = [
     href: "https://github.com/Ngenzipack",
     handle: "Ngenzipack",
   },
-  {
-    label: "Email",
-    href: "mailto:ngenzipack@gmail.com",
-    handle: "ngenzipack@gmail.com",
-  },
 ];
 
 export const featuredProjects = projects.filter((project) => project.featured);
-export const supportingProjects = projects.filter((project) => !project.featured);
+/** The three projects shown on the home page: one per security track. */
+export const homeProjects = ["azure-iam-security-architecture", "intelligent-security-alert-triage-engine", "enterprise-network-segmentation-lab"]
+  .map((slug) => projects.find((p) => p.slug === slug))
+  .filter((p): p is ProjectItem => Boolean(p));
+export const publishedCaseStudies = caseStudies.filter((c) => !c.draft);
+
+export const resumeFiles = {
+  cybersecurity: {
+    label: "Cybersecurity resume (PDF)",
+    href: "/resume/Patrick-Ngenzi-Resume-Cybersecurity.pdf",
+  },
+  network: {
+    label: "Network security resume (PDF)",
+    href: "/resume/Patrick-Ngenzi-Resume-Network-Security.pdf",
+  },
+  master: {
+    label: "Master resume (PDF)",
+    href: "/resume/Patrick-Ngenzi-Resume-Master.pdf",
+  },
+} as const;

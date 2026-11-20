@@ -1,82 +1,59 @@
-import type { Metadata } from "next";
 import { Link } from "@/components/link";
-
-import {
-  MotionReveal,
-  Stagger,
-  StaggerItem,
-} from "@/components/sections/motion-reveal";
-import {
-  PageIntro,
-  PageShell,
-} from "@/components/sections/page-shell";
+import { MotionReveal, Stagger, StaggerItem } from "@/components/sections/motion-reveal";
+import { PageIntro, PageShell, SectionHeader } from "@/components/sections/page-shell";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { experience } from "@/lib/content";
+import { buttonVariants } from "@/components/ui/button-variants";
+import { experience, otherExperience } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Experience",
   description:
-    "Career timeline of Patrick Ngenzi across IT support, network security, IAM operations, and DevSecOps-aligned delivery.",
-};
+    "Work history of Patrick Ngenzi: IT System Specialist at Near North District School Board, Network Specialist at Bell and Technical Support Analyst at SP Data Digital.",
+  path: "/experience/",
+});
 
 export default function ExperiencePage() {
   return (
     <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
-        eyebrow="Career timeline"
-        index="Experience"
-        title="My career progression through support, network security, IAM, and operations."
-        description="My roles span public-sector IT, telecom security, service desk, privacy-sensitive operations, and production support, with measurable risk reduction and reliability outcomes."
+        eyebrow="Experience"
+        title="6+ years across a school board, telecom and the service desk."
+        description="Most recent role first. Each entry lists the work I did and the tools I used."
       />
 
-      <section className="space-y-2 md:space-y-4">
-        <Stagger className="">
+      <section aria-label="Work history">
+        <Stagger>
           {experience.map((item, idx) => (
             <StaggerItem key={`${item.role}-${item.organization}`}>
-              <article className="grid scroll-mt-24 gap-6 border-b border-[var(--border)] py-8 md:grid-cols-[10rem_1fr] md:gap-12 md:py-10">
-                <div className="space-y-3">
-                  <p className="numbered-marker text-[var(--foreground)]">
-                    {String(idx + 1).padStart(2, "0")}
-                  </p>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-                    {item.period}
-                  </p>
+              <article className="grid gap-6 border-b border-[var(--border)] py-8 md:grid-cols-[11rem_1fr] md:gap-12 md:py-10">
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold text-[var(--foreground)]">{item.period}</p>
                   {item.location ? (
-                    <p className="text-sm text-[var(--muted-foreground)]">
-                      {item.location}
-                    </p>
+                    <p className="text-sm text-[var(--muted-foreground)]">{item.location}</p>
                   ) : null}
-                  {idx === 0 ? (
-                    <Badge variant="success">Current Role</Badge>
-                  ) : null}
+                  {idx === 0 ? <Badge variant="success">Current role</Badge> : null}
                 </div>
-                <div className="space-y-5">
-                  <div className="space-y-2">
-                    <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-[2rem]">
+                <div className="max-w-3xl space-y-4">
+                  <div className="space-y-1">
+                    <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-[1.75rem]">
                       {item.role}
                     </h2>
-                    <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--foreground)]">
+                    <p className="text-base font-semibold text-[var(--accent-strong)]">
                       {item.organization}
                     </p>
                   </div>
-                  {item.summary ? (
-                    <p className="lead max-w-2xl text-pretty text-[var(--foreground-soft)]">
-                      {item.summary}
+                  {item.concurrentNote ? (
+                    <p className="inline-flex rounded-[var(--radius-sm)] border border-[var(--border-strong)] bg-[var(--surface-soft)] px-3 py-1.5 text-sm text-[var(--foreground)]">
+                      Concurrent role: {item.concurrentNote}
                     </p>
                   ) : null}
-                  <ul className="space-y-3 pt-2">
+                  {item.scope ? (
+                    <p className="text-base leading-relaxed text-[var(--foreground-soft)]">{item.scope}</p>
+                  ) : null}
+                  <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-[var(--foreground-soft)] marker:text-[var(--accent-strong)]">
                     {item.highlights.map((highlight) => (
-                      <li
-                        key={highlight}
-                        className="flex gap-4 border-t border-[var(--border)] pt-3 text-base leading-relaxed text-[var(--foreground-soft)]"
-                      >
-                        <span
-                          aria-hidden
-                          className="mt-2 inline-block h-px w-6 shrink-0 bg-[var(--foreground)]"
-                        />
-                        <span>{highlight}</span>
-                      </li>
+                      <li key={highlight}>{highlight}</li>
                     ))}
                   </ul>
                 </div>
@@ -86,19 +63,29 @@ export default function ExperiencePage() {
         </Stagger>
       </section>
 
+      <section className="space-y-6">
+        <SectionHeader eyebrow="Other" title="Other experience" />
+        <ul className="space-y-4">
+          {otherExperience.map((item) => (
+            <li key={item.role} className="max-w-3xl space-y-1">
+              <p className="text-base text-[var(--foreground)]">
+                <strong className="font-semibold">{item.role}</strong>, {item.organization}
+                {item.location ? `, ${item.location}` : null} · {item.period}
+              </p>
+              <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">{item.summary}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <MotionReveal>
-        <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pt-16">
-          <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-4xl">
-            Want the full breakdown? Review the resume or contact me directly.
+        <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10">
+          <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-3xl">
+            Need this as a document?
           </h2>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button asChild variant="primary">
-              <Link href="/resume">View Resume</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/contact">Get in Touch</Link>
-            </Button>
-          </div>
+          <Link href="/resume" className={buttonVariants({ variant: "primary" })}>
+            Get the resume
+          </Link>
         </section>
       </MotionReveal>
     </PageShell>

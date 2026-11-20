@@ -1,295 +1,141 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import { Link } from "@/components/link";
-
-import {
-  MotionReveal,
-  Stagger,
-  StaggerItem,
-} from "@/components/sections/motion-reveal";
-import {
-  PageIntro,
-  PageShell,
-  SectionHeader,
-} from "@/components/sections/page-shell";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { SafeEmail } from "@/components/profile/safe-email";
+import { CredentialList } from "@/components/sections/credential-list";
+import { PageIntro, PageShell, SectionHeader } from "@/components/sections/page-shell";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { assetPath } from "@/lib/asset-path";
-import {
-  credentials,
-  education,
-  experience,
-  profile,
-  skillCategories,
-} from "@/lib/content";
+import { education, experience, otherExperience, profile, resumeFiles } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Resume",
   description:
-    "Resume of Patrick Ngenzi, focused on IAM, Azure and GCP cloud security, endpoint defense, network hardening, and DevSecOps delivery.",
-};
-
-const RESUME_DOCX = assetPath("/resume/Security.docx");
+    "Download Patrick Ngenzi's resume as a PDF, in a cybersecurity version or a network security version, or read the summary of roles, certifications and education.",
+  path: "/resume/",
+});
 
 export default function ResumePage() {
   return (
     <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
-        eyebrow="Curriculum vitae"
-        index="Resume"
-        title="Resume for cybersecurity, IAM, cloud, DevSecOps, and network security roles."
-        description="A web-friendly summary of my hiring profile. Download the Word resume or review role-aligned highlights below."
+        eyebrow="Resume"
+        title="Resume"
+        description="Three PDF versions with the same facts: a cybersecurity version, a network security version and a full master version."
         meta={
           <div className="space-y-1.5">
-            <p className="text-[var(--foreground)]">{profile.shortTitle}</p>
+            <p className="text-[var(--foreground)]">{profile.headline}</p>
             <p>{profile.location}</p>
-            <p>{profile.email}</p>
+            <SafeEmail className="underline-offset-4 hover:underline" />
           </div>
         }
       />
 
-      <MotionReveal>
-        <section className="grid gap-6 border border-[var(--border)] bg-[var(--background-elev)] p-6 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:p-8">
-          <div className="space-y-2">
-            <p className="section-eyebrow">Download</p>
-            <p className="subhead text-2xl text-[var(--foreground)] md:text-[1.75rem]">
-              Get a copy of the resume for your hiring process.
-            </p>
-            <p className="text-sm text-[var(--muted-foreground)]">
-              The downloadable Word file is the current resume used for hiring
-              conversations.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button asChild variant="primary" size="lg">
-              <a href={RESUME_DOCX} download>
-                Download Resume
-              </a>
-            </Button>
-          </div>
-        </section>
-      </MotionReveal>
-
-      <section className="grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
-        <MotionReveal>
-          <p className="section-eyebrow">Profile</p>
-        </MotionReveal>
-        <div className="space-y-5">
-          <MotionReveal>
-            <p className="lead text-[var(--foreground-soft)]">
-              {profile.summary}
-            </p>
-          </MotionReveal>
-          <MotionReveal delay={0.05}>
-            <ul className="grid gap-2 border-t border-[var(--border)] pt-5 sm:grid-cols-2">
-              {profile.targetRoles.map((role) => (
-                <li
-                  key={role}
-                  className="flex items-center gap-3 text-sm text-[var(--muted-foreground)]"
-                >
-                  <span
-                    aria-hidden
-                    className="inline-block h-px w-4 bg-[var(--foreground)]"
-                  />
-                  {role}
-                </li>
-              ))}
-            </ul>
-          </MotionReveal>
+      <section
+        aria-labelledby="download-heading"
+        className="grid gap-6 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background-elev)] p-6 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:p-8"
+      >
+        <div className="space-y-2">
+          <h2 id="download-heading" className="subhead text-2xl text-[var(--foreground)]">
+            Download
+          </h2>
+          <p className="text-sm text-[var(--muted-foreground)]">
+            Choose the version that matches the role. All three are generated from this site, so they always match it.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap md:justify-end">
+          <a
+            href={assetPath(resumeFiles.cybersecurity.href)}
+            download
+            className={buttonVariants({ variant: "primary", size: "lg" })}
+          >
+            Cybersecurity (PDF)
+          </a>
+          <a
+            href={assetPath(resumeFiles.network.href)}
+            download
+            className={buttonVariants({ variant: "outline", size: "lg" })}
+          >
+            Network security (PDF)
+          </a>
+          <a
+            href={assetPath(resumeFiles.master.href)}
+            download
+            className={buttonVariants({ variant: "ghost", size: "lg" })}
+          >
+            Master (PDF)
+          </a>
         </div>
       </section>
 
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Credentials"
-          index="01"
-          title="Education and certifications."
-        />
-        <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-          <MotionReveal>
-            <div className="space-y-6">
-              <p className="section-eyebrow">Education</p>
-              <div className="space-y-4">
-                {education.map((item) => (
-                  <div
-                    key={`${item.degree}-${item.institution}`}
-                    className="space-y-2 border-b border-[var(--border)] pb-4 last:border-b-0"
-                  >
-                    <p className="subhead text-xl text-[var(--foreground)]">
-                      {item.degree}
-                    </p>
-                    <p className="text-sm text-[var(--muted-foreground)]">
-                      {item.institution}
-                      {item.period ? ` - ${item.period}` : null}
-                    </p>
-                  </div>
-                ))}
+      <section className="space-y-6">
+        <SectionHeader eyebrow="Summary" title="Profile" />
+        <p className="lead max-w-3xl">{profile.summary}</p>
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--foreground)]">
+            Target roles
+          </h3>
+          <ul className="flex flex-wrap gap-2">
+            {profile.targetRoles.map((role) => (
+              <li key={role} className="tag-chip">
+                {role}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="space-y-8">
+        <SectionHeader eyebrow="Experience" title="Roles" />
+        <ol className="space-y-8">
+          {experience.map((item) => (
+            <li
+              key={`${item.role}-${item.organization}`}
+              className="grid gap-4 border-b border-[var(--border)] pb-8 md:grid-cols-[11rem_1fr] md:gap-12"
+            >
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-[var(--foreground)]">{item.period}</p>
+                {item.location ? <p className="text-sm text-[var(--muted-foreground)]">{item.location}</p> : null}
               </div>
-            </div>
-          </MotionReveal>
-
-          <MotionReveal delay={0.05}>
-            <div className="space-y-6">
-              <p className="section-eyebrow">Certifications</p>
-              <ul className="space-y-3">
-                {credentials.map((credential) => (
-                  <li
-                    key={credential.name}
-                    className="flex flex-col gap-3 border-b border-[var(--border)] pb-3 last:border-b-0"
-                  >
-                    <div className="flex items-center gap-3">
-                      {credential.badgeIcon ? (
-                        <Image
-                          src={credential.badgeIcon}
-                          alt={`Credential badge for ${credential.name}`}
-                          width={32}
-                          height={32}
-                          className="h-8 w-8"
-                        />
-                      ) : null}
-                      <div className="space-y-0.5">
-                        <p className="text-base text-[var(--foreground)]">
-                          {credential.name}
-                        </p>
-                        <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                          {credential.issuer}
-                        </p>
-                        <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                          Last updated: {credential.lastUpdated ?? "May 2026"}
-                        </p>
-                      </div>
-                    </div>
-                    <div>
-                      <Badge variant={credential.status === "In Progress" ? "warning" : "success"}>
-                        {credential.status ?? "Certified"}
-                      </Badge>
-                    </div>
-                    {credential.acquiredSkills?.length ? (
-                      <ul className="flex flex-wrap gap-2">
-                        {credential.acquiredSkills.map((skill) => (
-                          <li key={skill} className="tag-chip">
-                            {skill}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-                    {credential.credentialUrl ? (
-                      <a
-                        href={credential.credentialUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="editorial-link text-sm"
-                      >
-                        <span>View credential</span>
-                        <span aria-hidden className="arrow">
-                          &rarr;
-                        </span>
-                      </a>
-                    ) : null}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </MotionReveal>
-        </div>
-      </section>
-
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Experience"
-          index="02"
-          title="Roles and impact."
-        />
-        <Stagger>
-          {experience.map((item, idx) => (
-            <StaggerItem key={`${item.role}-${item.organization}`}>
-              <article className="grid gap-6 border-b border-[var(--border)] py-8 md:grid-cols-[10rem_1fr] md:gap-12 md:py-10">
-                <div className="space-y-2">
-                  <p className="numbered-marker text-[var(--foreground)]">
-                    {String(idx + 1).padStart(2, "0")}
-                  </p>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-                    {item.period}
-                  </p>
-                  {item.location ? (
-                    <p className="text-xs text-[var(--muted-foreground)]">
-                      {item.location}
-                    </p>
-                  ) : null}
-                </div>
-                <div className="space-y-4">
-                  <div className="space-y-1">
-                    <h3 className="subhead text-xl text-[var(--foreground)] md:text-2xl">
-                      {item.role}
-                    </h3>
-                    <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--foreground)]">
-                      {item.organization}
-                    </p>
-                  </div>
-                  <ul className="space-y-2">
-                    {item.highlights.map((highlight) => (
-                      <li
-                        key={highlight}
-                        className="flex gap-3 text-sm leading-relaxed text-[var(--foreground-soft)]"
-                      >
-                        <span
-                          aria-hidden
-                          className="mt-2.5 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--foreground)]"
-                        />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
-
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Capabilities"
-          index="03"
-          title="Skills snapshot."
-        />
-        <Stagger className="grid gap-px overflow-hidden border border-[var(--border)] bg-[var(--border)] md:grid-cols-2">
-          {skillCategories.map((skillGroup) => (
-            <StaggerItem key={skillGroup.category}>
-              <div className="flex h-full flex-col gap-4 bg-[var(--background-elev)] p-6 md:p-8">
-                <p className="subhead text-lg text-[var(--foreground)] md:text-xl">
-                  {skillGroup.category}
-                </p>
-                <ul className="flex flex-wrap gap-2">
-                  {skillGroup.items.map((item) => (
-                    <li key={item} className="tag-chip">
-                      {item}
-                    </li>
+              <div className="max-w-3xl space-y-3">
+                <h3 className="subhead text-xl text-[var(--foreground)]">
+                  {item.role}, <span className="text-[var(--accent-strong)]">{item.organization}</span>
+                </h3>
+                {item.scope ? <p className="text-sm text-[var(--muted-foreground)]">{item.scope}</p> : null}
+                {item.concurrentNote ? (
+                  <p className="text-sm text-[var(--muted-foreground)]">Concurrent role: {item.concurrentNote}</p>
+                ) : null}
+                <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-[var(--foreground-soft)] marker:text-[var(--accent-strong)]">
+                  {item.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
                   ))}
                 </ul>
               </div>
-            </StaggerItem>
+            </li>
           ))}
-        </Stagger>
+        </ol>
+        {otherExperience.map((item) => (
+          <p key={item.role} className="max-w-3xl text-sm text-[var(--muted-foreground)]">
+            <strong className="font-semibold text-[var(--foreground)]">{item.role}</strong>, {item.organization},{" "}
+            {item.period}. {item.summary}
+          </p>
+        ))}
       </section>
 
-      <MotionReveal>
-        <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pt-16">
-          <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-4xl">
-            Ready to talk about a role or engagement?
-          </h2>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button asChild variant="primary">
-              <Link href="/contact">Get in Touch</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <a href={RESUME_DOCX} download>
-                Download Resume
-              </a>
-            </Button>
-          </div>
-        </section>
-      </MotionReveal>
+      <section className="space-y-8">
+        <SectionHeader eyebrow="Credentials" title="Certifications" />
+        <CredentialList compact />
+      </section>
+
+      <section className="space-y-6">
+        <SectionHeader eyebrow="Education" title="Education" />
+        {education.map((item) => (
+          <p key={item.program} className="text-base text-[var(--foreground)]">
+            <strong className="font-semibold">
+              {item.credential}, {item.program}
+            </strong>{" "}
+            · {item.institution}, {item.location} · {item.period}
+          </p>
+        ))}
+      </section>
     </PageShell>
   );
 }

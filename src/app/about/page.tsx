@@ -1,235 +1,119 @@
-import type { Metadata } from "next";
-import Image from "next/image";
 import { Link } from "@/components/link";
-
-import {
-  MotionReveal,
-  Stagger,
-  StaggerItem,
-} from "@/components/sections/motion-reveal";
+import { ProfilePhoto } from "@/components/profile/profile-photo";
+import { CredentialList } from "@/components/sections/credential-list";
+import { MotionReveal } from "@/components/sections/motion-reveal";
 import { PageIntro, PageShell, SectionHeader } from "@/components/sections/page-shell";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  awards,
-  credentials,
-  education,
-  profile,
-} from "@/lib/content";
+import { buttonVariants } from "@/components/ui/button-variants";
+import { education, incidentSteps, profile } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "About",
   description:
-    "About Patrick Ngenzi: first-person security profile across IAM, cloud security, endpoint defense, networking, and DevSecOps delivery.",
-};
+    "About Patrick Ngenzi: IT System Specialist at Near North District School Board, working toward security leadership, with SC-300, Security+ and a Mohawk College diploma.",
+  path: "/about/",
+});
 
 export default function AboutPage() {
   return (
     <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
-        eyebrow="Biography"
-        index="About"
+        eyebrow="About"
         meta={
           <div className="space-y-1.5">
-            <p className="text-[var(--foreground)]">{profile.shortTitle}</p>
+            <p className="text-[var(--foreground)]">{profile.headline}</p>
             <p>{profile.location}</p>
           </div>
         }
-        title="I build security controls that reduce risk and still fit real operations."
+        title="I investigate, automate and harden the systems people rely on every day."
         description={profile.intro}
+        aside={<ProfilePhoto size={320} className="w-32 text-4xl sm:w-40 md:w-48 md:text-5xl" />}
       />
 
-      <section className="grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
-        <MotionReveal>
-          <p className="section-eyebrow">Profile</p>
-        </MotionReveal>
-        <div className="space-y-5 text-pretty text-[var(--foreground-soft)]">
+      <section aria-labelledby="profile-heading" className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)] md:gap-16">
+        <h2 id="profile-heading" className="section-eyebrow self-start">
+          Profile
+        </h2>
+        <div className="max-w-3xl space-y-5 text-pretty">
           <MotionReveal>
-            <p className="lead text-balance">{profile.summary}</p>
+            <p className="lead">{profile.summary}</p>
           </MotionReveal>
           <MotionReveal delay={0.05}>
             <p className="text-base leading-relaxed text-[var(--muted-foreground)]">
-              I have supported <strong>1,000+ endpoints</strong>, mitigated <strong>150+ monthly security incidents</strong>, and helped reduce firewall exposure by <strong>25%</strong> while preserving approved business traffic.
+              Before my current role I worked as a Network Specialist at Bell, where I tightened Fortinet and Palo Alto firewall rules and segmented wireless traffic, and as a Technical Support Analyst at SP Data Digital, where I patched servers during the Log4j response.
             </p>
           </MotionReveal>
           <MotionReveal delay={0.1}>
             <p className="text-base leading-relaxed text-[var(--muted-foreground)]">
-              Beyond security operations, I deliver production web platforms and support server operations, DNS, SSL/TLS, deployment workflows, and client communication so your team gets outcomes that are both secure and usable.
+              I also build and host websites for my own business and for clients. It is a secondary skill, but it keeps me close to DNS, TLS, access control and change management.
             </p>
           </MotionReveal>
           <MotionReveal delay={0.15}>
             <p className="text-base leading-relaxed text-[var(--muted-foreground)]">
-              {profile.whyIWorkInSecurity}
+              {profile.whyIWorkInSecurity} {profile.longTermGoal} {profile.beyondTech}
             </p>
           </MotionReveal>
         </div>
       </section>
 
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Focus"
-          index="01"
-          title="Where I drive the most impact."
-          description="I stay focused on identity, cloud, endpoint, network, and delivery security so your organization can lower risk with measurable progress."
-        />
-        <Stagger className="grid gap-px overflow-hidden border border-[var(--border)] bg-[var(--border)] md:grid-cols-2">
-          {profile.focusAreas.map((area, idx) => (
-            <StaggerItem key={area}>
-              <article className="flex h-full items-baseline gap-6 bg-[var(--background-elev)] p-6 md:p-8">
-                <span className="numbered-marker text-[var(--foreground)] md:text-base">
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
-                <p className="subhead text-lg text-[var(--foreground)] md:text-xl">
-                  {area}
-                </p>
-              </article>
-            </StaggerItem>
+      <section className="space-y-8 md:space-y-10">
+        <SectionHeader eyebrow="How I work" title="How I handle an incident" />
+        <ol className="grid gap-px overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--border)] md:grid-cols-3">
+          {incidentSteps.map((step) => (
+            <li key={step.title} className="flex flex-col gap-3 bg-[var(--background-elev)] p-6">
+              <h3 className="subhead text-xl text-[var(--foreground)]">{step.title}</h3>
+              <p className="text-sm leading-relaxed text-[var(--muted-foreground)] md:text-base">{step.description}</p>
+            </li>
           ))}
-        </Stagger>
+        </ol>
       </section>
 
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Credentials"
-          index="02"
-          title="Certifications with status and maintenance dates."
-          description="I keep credentials visible because they complement hands-on delivery and give you a quick baseline of my current learning path."
-        />
-
-        <Stagger className="grid gap-3 md:grid-cols-3">
-          {credentials.map((credential, idx) => (
-            <StaggerItem key={credential.name}>
-              <article className="card-surface flex h-full flex-col justify-between gap-6 p-6 md:p-8">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="numbered-marker">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                  <Badge variant={credential.status === "In Progress" ? "warning" : "success"}>
-                    {credential.status ?? "Certified"}
-                  </Badge>
-                </div>
-                {credential.badgeIcon ? (
-                  <Image
-                    src={credential.badgeIcon}
-                    alt={`Credential badge for ${credential.name}`}
-                    width={56}
-                    height={56}
-                    className="h-14 w-14"
-                  />
-                ) : null}
-                <div className="space-y-2">
-                  <h3 className="subhead text-xl text-[var(--foreground)] md:text-[1.35rem]">
-                    {credential.name}
-                  </h3>
-                  <p className="text-sm text-[var(--muted-foreground)]">{credential.issuer}</p>
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                    Last updated: {credential.lastUpdated ?? "May 2026"}
-                  </p>
-                  {credential.acquiredSkills?.length ? (
-                    <ul className="flex flex-wrap gap-2 pt-2">
-                      {credential.acquiredSkills.map((skill) => (
-                        <li key={skill} className="tag-chip">
-                          {skill}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  {credential.credentialUrl ? (
-                    <a
-                      href={credential.credentialUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="editorial-link text-sm"
-                    >
-                      <span>View credential</span>
-                      <span aria-hidden className="arrow">
-                        &rarr;
-                      </span>
-                    </a>
-                  ) : null}
-                </div>
-              </article>
-            </StaggerItem>
-          ))}
-        </Stagger>
+      <section className="space-y-8 md:space-y-10">
+        <SectionHeader eyebrow="Credentials" title="Certifications" />
+        <CredentialList />
       </section>
 
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Academic preparation"
-          index="03"
-          title="Education."
-        />
-        <Stagger className="space-y-3">
+      <section className="space-y-8 md:space-y-10">
+        <SectionHeader eyebrow="Education" title="Education" />
+        <ul className="space-y-3">
           {education.map((item) => (
-            <StaggerItem key={`${item.degree}-${item.institution}`}>
-              <article className="grid items-baseline gap-4 border-b border-[var(--border)] py-6 md:grid-cols-[10rem_1fr_auto] md:gap-10 md:py-8">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-                  {item.period ?? "Completed"}
+            <li
+              key={`${item.program}-${item.institution}`}
+              className="grid items-baseline gap-4 border-b border-[var(--border)] pb-6 md:grid-cols-[10rem_1fr] md:gap-10"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                {item.period}
+              </p>
+              <div className="space-y-2">
+                <h3 className="subhead text-xl text-[var(--foreground)] md:text-2xl">
+                  {item.credential}, {item.program}
+                </h3>
+                <p className="text-sm text-[var(--muted-foreground)]">
+                  {item.institution}, {item.location}
                 </p>
-                <div className="space-y-2">
-                  <h3 className="subhead text-2xl text-[var(--foreground)] md:text-[1.75rem]">
-                    {item.degree}
-                  </h3>
-                  <p className="text-sm text-[var(--muted-foreground)]">
-                    {item.institution}
-                  </p>
-                  {item.coursework && item.coursework.length ? (
-                    <ul className="flex flex-wrap gap-2 pt-2">
-                      {item.coursework.map((course) => (
-                        <li key={course} className="tag-chip">
-                          {course}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </div>
-              </article>
-            </StaggerItem>
+                {item.coursework?.length ? (
+                  <ul aria-label="Relevant coursework" className="flex flex-wrap gap-2 pt-2">
+                    {item.coursework.map((course) => (
+                      <li key={course} className="tag-chip">
+                        {course}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            </li>
           ))}
-        </Stagger>
+        </ul>
       </section>
-
-      {awards.length ? (
-        <section className="space-y-10 md:space-y-14">
-          <SectionHeader
-            eyebrow="Recognition"
-            index="04"
-            title="Selected highlights."
-          />
-          <Stagger className="space-y-3">
-            {awards.map((award) => (
-              <StaggerItem key={`${award.year}-${award.title}`}>
-                <article className="grid items-baseline gap-4 border-b border-[var(--border)] py-5 md:grid-cols-[10rem_1fr_auto] md:gap-10 md:py-6">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-                    {award.year}
-                  </p>
-                  <p className="subhead text-lg text-[var(--foreground)] md:text-xl">
-                    {award.title}
-                  </p>
-                  <p className="text-sm text-[var(--muted-foreground)] md:text-right">
-                    {award.issuer}
-                  </p>
-                </article>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </section>
-      ) : null}
 
       <MotionReveal>
-        <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pt-16">
-          <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-4xl">
-            Want the full details for your hiring process?
+        <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10">
+          <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-3xl">
+            The full work history is on the experience page.
           </h2>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button asChild variant="primary">
-              <Link href="/resume">View Resume</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/contact">Contact Me</Link>
-            </Button>
-          </div>
+          <Link href="/experience" className={buttonVariants({ variant: "primary" })}>
+            View experience
+          </Link>
         </section>
       </MotionReveal>
     </PageShell>

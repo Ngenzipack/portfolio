@@ -1,17 +1,16 @@
-import type { Metadata } from "next";
-import { Link } from "@/components/link";
-
-import { MotionReveal, Stagger, StaggerItem } from "@/components/sections/motion-reveal";
+import { SafeEmail } from "@/components/profile/safe-email";
+import { MotionReveal } from "@/components/sections/motion-reveal";
 import { PageIntro, PageShell } from "@/components/sections/page-shell";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { profile, socialLinks } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Contact Patrick Ngenzi for Security Analyst, DevSecOps, IAM, and cloud security opportunities.",
-};
+    "Contact Patrick Ngenzi, Security Analyst in North Bay, Ontario, by email or LinkedIn about Security, SOC, IAM or network security roles across Ontario.",
+  path: "/contact/",
+});
 
 function SocialIcon({ label }: { label: string }) {
   if (label === "LinkedIn") {
@@ -44,144 +43,67 @@ function SocialIcon({ label }: { label: string }) {
 }
 
 export default function ContactPage() {
-  const linkedIn = socialLinks.find((link) => link.label === "LinkedIn");
-  const github = socialLinks.find((link) => link.label === "GitHub");
-
   return (
     <PageShell className="space-y-14 md:space-y-20">
       <PageIntro
         eyebrow="Contact"
-        index="Contact"
-        title="Contact me directly for security, IAM, cloud, DevSecOps, or network roles."
-        description="I respond quickly, keep communication clear, and focus on practical next steps you can execute."
+        title="Let's talk about your security role."
+        description="Email me directly. This site has no contact form, so every message goes straight to my inbox and I reply by email."
       />
 
-      <section className="grid gap-12 md:grid-cols-[1fr_1.2fr] md:gap-16">
-        <MotionReveal direction="left">
+      <MotionReveal>
+        <section aria-labelledby="direct-heading" className="grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:gap-16">
           <div className="space-y-8">
-            <Badge variant="muted">
-              <span
-                aria-hidden
-                className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--success)] animate-pulse-ring"
-              />
-              Available now
-            </Badge>
-
-            <div className="space-y-3">
-              <h2 className="subhead text-3xl text-[var(--foreground)] md:text-4xl">
-                Direct contact
-              </h2>
-              <p className="text-base leading-relaxed text-[var(--muted-foreground)]">
-                For hiring conversations or project collaboration, email me directly and I will follow up with role-fit context, relevant examples, and next actions.
-              </p>
-            </div>
-
-            <div className="space-y-5 border-y border-[var(--border)] py-6">
+            <h2 id="direct-heading" className="sr-only">
+              Direct contact
+            </h2>
+            <dl className="space-y-6 border-y border-[var(--border)] py-6">
               <div className="space-y-1">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-                  Email
-                </p>
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="editorial-link text-base text-[var(--foreground)]"
-                >
-                  <span>{profile.email}</span>
-                  <span aria-hidden className="arrow">
-                    &rarr;
-                  </span>
-                </a>
+                <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">Email</dt>
+                <dd className="text-lg text-[var(--foreground)]">
+                  <SafeEmail className="break-all underline-offset-4 hover:underline" />
+                </dd>
               </div>
-
               <div className="space-y-1">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-                  Location
-                </p>
-                <p className="text-base text-[var(--foreground)]">{profile.location}</p>
+                <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">Location</dt>
+                <dd className="text-lg text-[var(--foreground)]">{profile.location}</dd>
               </div>
-            </div>
-
-            <div className="space-y-3">
-              <p className="section-eyebrow">Linked profiles</p>
-              <ul className="space-y-3">
-                {[linkedIn, github]
-                  .filter((item): item is NonNullable<typeof item> => Boolean(item))
-                  .map((item) => (
-                    <li key={item.label}>
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex min-h-11 items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background-elev)] px-4 py-2 text-sm text-[var(--foreground)] transition-colors hover:border-[var(--accent)]"
-                      >
-                        <span className="text-[var(--accent-strong)]">
-                          <SocialIcon label={item.label} />
-                        </span>
-                        <span className="font-semibold">{item.label}</span>
-                        <span className="text-[var(--muted-foreground)]">
-                          {item.handle ?? item.href}
-                        </span>
-                      </a>
-                    </li>
-                  ))}
-              </ul>
-              <p className="text-xs text-[var(--muted-foreground)]">
-                GitHub and LinkedIn profiles are linked so you can review live repositories, contribution history, and professional background.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button asChild variant="primary" size="lg">
-                <a href={`mailto:${profile.email}`}>Email Me</a>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/projects">View Case Studies</Link>
-              </Button>
-            </div>
+              <div className="space-y-1">
+                <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">Availability</dt>
+                <dd className="text-base text-[var(--foreground)]">{profile.availability}</dd>
+              </div>
+            </dl>
+            <SafeEmail label="Email me" className={buttonVariants({ variant: "primary", size: "lg" })} />
           </div>
-        </MotionReveal>
 
-        <MotionReveal direction="right">
-          <Stagger className="grid gap-3">
-            {[
-              {
-                label: "What you get",
-                title: "Clear, practical security execution",
-                description:
-                  "I focus on controls your team can run in production, not slide-deck recommendations that stop at theory.",
-              },
-              {
-                label: "How I work",
-                title: "Structured delivery with measurable outcomes",
-                description:
-                  "I define scope, map risk, implement controls, validate evidence, and document handoff so your team stays operational.",
-              },
-              {
-                label: "Current focus",
-                title: "IAM, cloud security, endpoint defense, and resilient delivery",
-                description:
-                  "My current role focus stays aligned to Security Analyst, IAM, Cloud Security, SOC/NOC, Network Security, and DevSecOps positions.",
-              },
-            ].map((item, idx) => (
-              <StaggerItem key={item.title}>
-                <article className="card-surface flex h-full flex-col gap-4 p-6 md:p-8">
-                  <div className="flex items-baseline justify-between gap-4">
-                    <p className="section-eyebrow">{item.label}</p>
-                    <span className="numbered-marker">
-                      {String(idx + 1).padStart(2, "0")}
+          <div className="space-y-4">
+            <h2 className="section-eyebrow">Profiles</h2>
+            <ul className="space-y-3">
+              {socialLinks.map((item) => (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-11 items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background-elev)] px-4 py-3 text-sm text-[var(--foreground)] transition-colors hover:border-[var(--accent)]"
+                  >
+                    <span className="text-[var(--accent-strong)]">
+                      <SocialIcon label={item.label} />
                     </span>
-                  </div>
-                  <h3 className="subhead text-2xl text-[var(--foreground)] md:text-3xl">
-                    {item.title}
-                  </h3>
-                  <p className="text-base leading-relaxed text-[var(--muted-foreground)]">
-                    {item.description}
-                  </p>
-                </article>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </MotionReveal>
-      </section>
+                    <span className="font-semibold">{item.label}</span>
+                    <span className="text-[var(--muted-foreground)]">{item.handle}</span>
+                    <span aria-hidden className="ml-auto">&rarr;</span>
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="text-sm text-[var(--muted-foreground)]">
+              GitHub has the code for my public projects. LinkedIn has my full work history.
+            </p>
+          </div>
+        </section>
+      </MotionReveal>
     </PageShell>
   );
 }

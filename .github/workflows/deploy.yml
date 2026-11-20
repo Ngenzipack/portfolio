@@ -22,6 +22,8 @@ jobs:
     env:
       NEXT_PUBLIC_BASE_PATH: /portfolio
       NEXT_PUBLIC_SITE_URL: https://ngenzipack.github.io/portfolio
+      # Set this repository variable (Settings > Secrets and variables > Actions > Variables) to enable Google Analytics.
+      NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

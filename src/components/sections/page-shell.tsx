@@ -10,8 +10,9 @@ type PageIntroProps = {
   title: string;
   description?: string;
   eyebrow?: string;
-  index?: string;
   meta?: React.ReactNode;
+  /** Optional element shown beside the title (e.g. a profile photo). */
+  aside?: React.ReactNode;
   className?: string;
   align?: "left" | "split";
 };
@@ -41,8 +42,8 @@ export function PageIntro({
   title,
   description,
   eyebrow,
-  index,
   meta,
+  aside,
   className,
   align = "split",
 }: PageIntroProps) {
@@ -58,20 +59,20 @@ export function PageIntro({
           {eyebrow ? (
             <p className="section-eyebrow">{eyebrow}</p>
           ) : null}
-          {index ? (
-            <p className="numbered-marker text-[var(--foreground)]">{index}</p>
-          ) : null}
           {meta ? <div className="text-sm text-[var(--muted-foreground)]">{meta}</div> : null}
         </div>
-        <div className="min-w-0 space-y-5">
-          <h1 className="headline text-balance text-4xl text-[var(--foreground)] md:text-5xl lg:text-6xl">
-            {title}
-          </h1>
-          {description ? (
-            <p className="lead max-w-3xl text-pretty text-[var(--foreground-soft)]">
-              {description}
-            </p>
-          ) : null}
+        <div className="flex min-w-0 flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 space-y-5">
+            <h1 className="headline text-balance text-[2.25rem] leading-[1.08] text-[var(--foreground)] md:text-5xl">
+              {title}
+            </h1>
+            {description ? (
+              <p className="lead max-w-3xl text-pretty text-[var(--foreground-soft)]">
+                {description}
+              </p>
+            ) : null}
+          </div>
+          {aside ? <div className="shrink-0">{aside}</div> : null}
         </div>
       </section>
     );
@@ -101,34 +102,36 @@ type SectionHeaderProps = {
   eyebrow?: string;
   title: string;
   description?: string;
-  index?: string;
   className?: string;
   action?: React.ReactNode;
+  id?: string;
 };
 
 export function SectionHeader({
   eyebrow,
   title,
   description,
-  index,
   className,
   action,
+  id,
 }: SectionHeaderProps) {
   return (
     <header
+      id={id}
       className={cn(
-        "flex flex-col gap-4 border-b border-[var(--border)] pb-5 md:grid md:grid-cols-[auto_1fr_auto] md:items-end md:gap-10 md:pb-6",
+        "scroll-mt-28 flex flex-col gap-4 border-b border-[var(--border)] pb-5 md:grid md:grid-cols-[auto_1fr_auto] md:items-end md:gap-10 md:pb-6",
         className,
       )}
     >
-      <div className="flex flex-col gap-2 md:max-w-[10rem]">
-        {eyebrow ? <p className="section-eyebrow">{eyebrow}</p> : null}
-        {index ? (
-          <p className="numbered-marker text-[var(--foreground)]">{index}</p>
-        ) : null}
-      </div>
+      {eyebrow ? (
+        <div className="flex flex-col gap-2 md:max-w-[10rem]">
+          <p className="section-eyebrow">{eyebrow}</p>
+        </div>
+      ) : (
+        <span aria-hidden className="hidden md:block" />
+      )}
       <div className="min-w-0 space-y-3">
-        <h2 className="subhead text-balance text-2xl text-[var(--foreground)] sm:text-3xl md:text-4xl">
+        <h2 className="subhead text-balance text-2xl text-[var(--foreground)] sm:text-3xl">
           {title}
         </h2>
         {description ? (

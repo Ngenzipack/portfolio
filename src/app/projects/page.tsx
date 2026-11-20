@@ -1,356 +1,233 @@
 import Image from "next/image";
-import type { Metadata } from "next";
-import { Link } from "@/components/link";
 
-import {
-  MotionReveal,
-  Stagger,
-  StaggerItem,
-} from "@/components/sections/motion-reveal";
-import {
-  PageIntro,
-  PageShell,
-  SectionHeader,
-} from "@/components/sections/page-shell";
-import { Button } from "@/components/ui/button";
+import { Link } from "@/components/link";
+import { FlowDiagramView } from "@/components/sections/flow-diagram";
+import { MotionReveal } from "@/components/sections/motion-reveal";
+import { PageIntro, PageShell, SectionHeader } from "@/components/sections/page-shell";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { assetPath } from "@/lib/asset-path";
 import {
-  caseStudies,
-  featuredProjects,
-  supportingProjects,
+  projects,
+  publishedCaseStudies,
+  tracks,
   type CaseStudy,
   type ProjectItem,
 } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Projects",
   description:
-    "DevSecOps portfolio and security project deep dives by Patrick Ngenzi, including IAM, cloud, endpoint, network, and delivery case studies.",
-};
+    "Security projects by Patrick Ngenzi, grouped by identity and access, cloud and SOC, network security, and web and DevSecOps, with architecture diagrams and GitHub links.",
+  path: "/projects/",
+});
 
-const projectFocus = [
-  {
-    label: "Security priorities",
-    title: "Identity, cloud, endpoint, and network defense",
-    description:
-      "I align architecture and implementation to measurable risk reduction so your team gets stronger controls and clearer operating evidence.",
-  },
-  {
-    label: "Delivery priorities",
-    title: "DevSecOps reliability and safe rollouts",
-    description:
-      "I build deployment and monitoring workflows that protect uptime while maintaining security guardrails and rollback confidence.",
-  },
-  {
-    label: "Client priorities",
-    title: "Production-ready platforms with practical support",
-    description:
-      "I build secure, responsive web platforms and keep the operational layer reliable through DNS, SSL/TLS, hosting, and server management.",
-  },
-];
-
-function CaseStudyCard({
-  caseStudy,
-  index,
-}: {
-  caseStudy: CaseStudy;
-  index: number;
-}) {
+function ExternalLinks({ links }: { links: NonNullable<ProjectItem["links"]> }) {
   return (
-    <article className="card-surface flex h-full flex-col gap-5 p-6 md:p-8" id={caseStudy.slug}>
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="numbered-marker">{String(index + 1).padStart(2, "0")}</p>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--muted-foreground)]">
-          Security deep dive
-        </p>
-      </div>
-
-      <h3 className="subhead text-2xl text-[var(--foreground)] md:text-3xl">
-        {caseStudy.title}
-      </h3>
-
-      <div className="space-y-2">
-        <h4 className="section-eyebrow">Problem or challenge</h4>
-        <p className="text-sm leading-relaxed text-[var(--foreground-soft)]">
-          {caseStudy.challenge}
-        </p>
-      </div>
-
-      <div className="space-y-2">
-        <h4 className="section-eyebrow">My role and specific actions</h4>
-        <ul className="space-y-2">
-          {caseStudy.actions.map((action) => (
-            <li
-              key={action}
-              className="flex gap-3 text-sm leading-relaxed text-[var(--foreground-soft)]"
-            >
-              <span
-                aria-hidden
-                className="mt-2 inline-block h-px w-4 shrink-0 bg-[var(--foreground)]"
-              />
-              <span>{action}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="space-y-2">
-        <h4 className="section-eyebrow">Tools used</h4>
-        <ul className="flex flex-wrap gap-2">
-          {caseStudy.tools.map((tool) => (
-            <li key={tool} className="tag-chip">
-              {tool}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <p className="border-t border-[var(--border)] pt-4 text-sm leading-relaxed text-[var(--foreground)]">
-        <strong>Quantifiable outcome:</strong> {caseStudy.outcome}
-      </p>
-    </article>
+    <ul className="flex flex-wrap gap-x-5 gap-y-2">
+      {links.map((link) => (
+        <li key={link.href}>
+          <a href={link.href} target="_blank" rel="noopener noreferrer" className="editorial-link text-sm">
+            <span>{link.label}</span>
+            <span aria-hidden className="arrow">
+              &rarr;
+            </span>
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </li>
+      ))}
+    </ul>
   );
 }
 
-function ProjectArticle({
-  project,
-  index,
-  variant = "featured",
-}: {
-  project: ProjectItem;
-  index: number;
-  variant?: "featured" | "supporting";
-}) {
-  const indexLabel = String(index + 1).padStart(2, "0");
+function ProjectArticle({ project }: { project: ProjectItem }) {
   return (
-    <article
-      id={project.slug}
-      className="scroll-mt-24 border-b border-[var(--border)] py-9 md:py-12"
-    >
-      <div className="grid gap-10 md:grid-cols-[10rem_1fr] md:gap-14">
-        <div className="space-y-4">
-          <p className="numbered-marker text-[var(--foreground)]">{indexLabel}</p>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-            {project.category}
-          </p>
-          {project.period ? (
-            <p className="text-sm text-[var(--muted-foreground)]">{project.period}</p>
-          ) : null}
-          {project.role ? (
-            <p className="text-sm text-[var(--muted-foreground)]">
-              Project role &middot; {project.role}
-            </p>
-          ) : null}
-          {project.privateCode ? (
-            <p className="inline-flex border border-[var(--border)] bg-[var(--surface-soft)] px-2.5 py-1 text-[10px] font-semibold uppercase text-[var(--foreground)]">
-              Private or client repository
-            </p>
-          ) : null}
-          {project.links?.length ? (
-            <div className="flex flex-wrap gap-3 pt-1">
-              {project.links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    link.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="editorial-link text-sm"
-                >
-                  <span>{link.label}</span>
-                  <span aria-hidden className="arrow">
-                    &rarr;
-                  </span>
-                </a>
-              ))}
-            </div>
-          ) : null}
-        </div>
+    <article id={project.slug} className="scroll-mt-32 space-y-6 border-b border-[var(--border)] py-9 md:py-12">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--muted-foreground)]">
+        <span className="font-semibold text-[var(--accent-strong)]">{project.category}</span>
+        {project.period ? <span>{project.period}</span> : null}
+        {project.role ? <span>Role: {project.role}</span> : null}
+        {project.featured ? <Badge variant="accent">Featured</Badge> : null}
+        {project.privateCode ? <Badge variant="muted">Private code</Badge> : null}
+      </div>
 
-        <div className="space-y-6">
-          <h3
-            className={
-              variant === "featured"
-                ? "subhead text-balance text-3xl text-[var(--foreground)] md:text-[2.6rem]"
-                : "subhead text-balance text-2xl text-[var(--foreground)] md:text-3xl"
-            }
-          >
-            {project.title}
-          </h3>
-          <p className="lead max-w-3xl text-[var(--foreground-soft)]">
-            {project.description}
-          </p>
+      <div className="max-w-3xl space-y-4">
+        <h3
+          className={
+            project.featured
+              ? "subhead text-balance text-2xl text-[var(--foreground)] md:text-[2rem]"
+              : "subhead text-balance text-xl text-[var(--foreground)] md:text-2xl"
+          }
+        >
+          {project.title}
+        </h3>
+        <p className="lead">{project.description}</p>
+      </div>
 
-          {project.outcomes && project.outcomes.length ? (
-            <div className="space-y-4 pt-2">
-              <p className="section-eyebrow">What this demonstrates</p>
-              <ul className="grid gap-3 md:grid-cols-3">
-                {project.outcomes.map((outcome) => (
-                  <li
-                    key={outcome}
-                    className="border-t border-[var(--border)] pt-3 text-sm leading-relaxed text-[var(--foreground-soft)]"
-                  >
-                    {outcome}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-
-          {project.media?.length ? (
-            <div className="space-y-4 pt-2">
-              <p className="section-eyebrow">Project screenshots</p>
-              <div className="grid gap-4 md:grid-cols-2">
-                {project.media.map((item) => (
-                  <figure
-                    key={item.src}
-                    className="overflow-hidden border border-[var(--border)] bg-[var(--background-elev)]"
-                  >
-                    <a
-                      href={assetPath(item.src)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block"
-                    >
-                      <Image
-                        src={assetPath(item.src)}
-                        alt={item.alt}
-                        width={item.width}
-                        height={item.height}
-                        className="h-auto w-full border-b border-[var(--border)]"
-                      />
-                    </a>
-                    {item.caption ? (
-                      <figcaption className="px-3 py-2 text-xs text-[var(--muted-foreground)] md:text-sm">
-                        {item.caption}
-                      </figcaption>
-                    ) : null}
-                  </figure>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          <ul className="flex flex-wrap gap-2 pt-2">
-            {project.technologies.map((technology) => (
-              <li key={technology} className="tag-chip">
-                {technology}
+      {project.outcomes?.length ? (
+        <div className="space-y-3">
+          <h4 className="section-eyebrow">What I did</h4>
+          <ul className="grid gap-3 md:grid-cols-3">
+            {project.outcomes.map((outcome) => (
+              <li
+                key={outcome}
+                className="border-t border-[var(--border)] pt-3 text-sm leading-relaxed text-[var(--foreground-soft)]"
+              >
+                {outcome}
               </li>
             ))}
           </ul>
         </div>
-      </div>
+      ) : null}
+
+      {project.diagram ? <FlowDiagramView diagram={project.diagram} /> : null}
+
+      {project.media?.length ? (
+        <div className="space-y-3">
+          <h4 className="section-eyebrow">Screenshots</h4>
+          <div className="grid gap-4 md:grid-cols-2">
+            {project.media.map((item) => (
+              <figure
+                key={item.src}
+                className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background-elev)]"
+              >
+                <a href={assetPath(item.src)} target="_blank" rel="noopener noreferrer" className="block">
+                  <Image
+                    src={assetPath(item.src)}
+                    alt={item.alt}
+                    width={item.width}
+                    height={item.height}
+                    className="h-auto w-full border-b border-[var(--border)]"
+                  />
+                  <span className="sr-only"> (opens full-size image in a new tab)</span>
+                </a>
+                {item.caption ? (
+                  <figcaption className="px-3 py-2 text-xs text-[var(--muted-foreground)] md:text-sm">
+                    {item.caption}
+                  </figcaption>
+                ) : null}
+              </figure>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <ul aria-label="Technologies" className="flex flex-wrap gap-2">
+        {project.technologies.map((technology) => (
+          <li key={technology} className="tag-chip">
+            {technology}
+          </li>
+        ))}
+      </ul>
+
+      {project.links?.length ? <ExternalLinks links={project.links} /> : null}
     </article>
   );
 }
 
-export default function ProjectsPage() {
+function CaseStudyCard({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
-    <PageShell className="space-y-14 md:space-y-20">
+    <article id={caseStudy.slug} className="card-surface scroll-mt-32 space-y-4 p-6 md:p-8">
+      <div className="flex flex-wrap items-center gap-3">
+        <Badge variant="muted">Case study</Badge>
+        <span className="text-sm text-[var(--muted-foreground)]">{caseStudy.context}</span>
+      </div>
+      <h3 className="subhead text-xl text-[var(--foreground)] md:text-2xl">{caseStudy.title}</h3>
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-2">
+          <h4 className="section-eyebrow">Problem</h4>
+          <p className="text-sm leading-relaxed text-[var(--foreground-soft)]">{caseStudy.challenge}</p>
+          <h4 className="section-eyebrow pt-3">Outcome</h4>
+          <p className="text-sm leading-relaxed text-[var(--foreground-soft)]">{caseStudy.outcome}</p>
+        </div>
+        <div className="space-y-2">
+          <h4 className="section-eyebrow">What I did</h4>
+          <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-[var(--foreground-soft)] marker:text-[var(--accent-strong)]">
+            {caseStudy.actions.map((action) => (
+              <li key={action}>{action}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <ul aria-label="Tools" className="flex flex-wrap gap-2">
+        {caseStudy.tools.map((tool) => (
+          <li key={tool} className="tag-chip">
+            {tool}
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
+const byFeatured = (a: ProjectItem, b: ProjectItem) => Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+
+export default function ProjectsPage() {
+  const groups = tracks.map((track) => ({
+    track,
+    projects: projects.filter((p) => p.track === track.id).sort(byFeatured),
+    caseStudies: publishedCaseStudies.filter((c) => c.track === track.id),
+  }));
+
+  return (
+    <PageShell className="space-y-12 md:space-y-16">
       <PageIntro
-        eyebrow="Selected Work"
-        index="Projects"
-        title="Project deep dives and delivery evidence for security-focused hiring."
-        description="I structure this page so you can quickly understand the challenge, my execution approach, the technologies used, and the measurable outcomes."
-        meta={
-          <p>
-            Featured case studies come first. Client-private repositories are presented with public-safe outcomes and architecture context.
-          </p>
-        }
+        eyebrow="Projects"
+        title="Security projects, grouped by the role they support."
+        description="Jump to the area you are hiring for. Featured projects include an architecture diagram; private and client code is described without exposing client details."
       />
 
-      <section className="grid gap-3 md:grid-cols-3">
-        {projectFocus.map((item) => (
-          <article
-            key={item.title}
-            className="border border-[var(--border)] bg-[var(--background-elev)] p-5 md:p-6"
-          >
-            <div className="space-y-4">
-              <p className="text-[10px] font-semibold uppercase text-[var(--muted-foreground)]">
-                {item.label}
-              </p>
-              <div className="space-y-2">
-                <h2 className="subhead text-xl text-[var(--foreground)] md:text-2xl">
-                  {item.title}
-                </h2>
-                <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
-                  {item.description}
-                </p>
-              </div>
+      <nav
+        aria-label="Project categories"
+        className="sticky top-[68px] z-30 border-b border-[var(--border)] bg-[var(--background)] py-3 md:top-[78px]"
+      >
+        <ul className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:thin]">
+          {groups.map(({ track, projects: items, caseStudies }) => (
+            <li key={track.id} className="shrink-0">
+              <a
+                href={`#track-${track.id}`}
+                className="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--background-elev)] px-4 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent-strong)]"
+              >
+                {track.label}
+                <span className="text-xs font-normal text-[var(--muted-foreground)]">
+                  {items.length + caseStudies.length}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {groups.map(({ track, projects: items, caseStudies }) => (
+        <section key={track.id} className="space-y-2">
+          <SectionHeader
+            id={`track-${track.id}`}
+            eyebrow="Track"
+            title={track.label}
+            description={track.description}
+          />
+          {items.map((project) => (
+            <ProjectArticle key={project.slug} project={project} />
+          ))}
+          {caseStudies.length ? (
+            <div className="space-y-4 pt-8">
+              {caseStudies.map((caseStudy) => (
+                <CaseStudyCard key={caseStudy.slug} caseStudy={caseStudy} />
+              ))}
             </div>
-          </article>
-        ))}
-      </section>
-
-      <section className="space-y-10 md:space-y-14">
-        <SectionHeader
-          eyebrow="Case Studies"
-          index="01"
-          title="Project deep dives"
-          description="Case studies are structured to help hiring teams quickly assess scope, implementation quality, and measurable outcomes."
-        />
-
-        <Stagger className="grid gap-4 md:grid-cols-3">
-          {caseStudies.map((caseStudy, idx) => (
-            <StaggerItem key={caseStudy.slug}>
-              <CaseStudyCard caseStudy={caseStudy} index={idx} />
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
-
-      <section className="space-y-4 md:space-y-6">
-        <SectionHeader
-          eyebrow="Featured"
-          index="02"
-          title="Best evidence for target roles."
-          description="Projects selected to show security architecture, network defense, production ownership, automation, and operational follow-through."
-        />
-        <Stagger>
-          {featuredProjects.map((project, idx) => (
-            <StaggerItem key={project.slug}>
-              <ProjectArticle project={project} index={idx} />
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
-
-      <section className="space-y-4 md:space-y-6">
-        <SectionHeader
-          eyebrow="Supporting"
-          index="03"
-          title="Client delivery and engineering foundations."
-          description="Additional work that demonstrates customer support, production discipline, full-stack ownership, and technical range."
-        />
-        <Stagger>
-          {supportingProjects.map((project, idx) => (
-            <StaggerItem key={project.slug}>
-              <ProjectArticle
-                project={project}
-                index={featuredProjects.length + idx}
-                variant="supporting"
-              />
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
+          ) : null}
+        </section>
+      ))}
 
       <MotionReveal>
-        <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pt-16">
-          <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-4xl">
-            If these outcomes align with your security goals, let&apos;s discuss your role or project scope.
+        <section className="grid gap-6 border-t border-[var(--border)] pt-12 md:grid-cols-[1fr_auto] md:items-center md:gap-10">
+          <h2 className="subhead text-balance text-2xl text-[var(--foreground)] md:text-3xl">
+            Want to talk through one of these projects?
           </h2>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button asChild variant="primary">
-              <Link href="/contact">Contact Me</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/services">View Services</Link>
-            </Button>
-          </div>
+          <Link href="/contact" className={buttonVariants({ variant: "primary" })}>
+            Contact me
+          </Link>
         </section>
       </MotionReveal>
     </PageShell>

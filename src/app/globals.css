@@ -7,7 +7,7 @@
   --background-elev: #ffffff;
   --foreground: #0b1220;
   --foreground-soft: #1f2937;
-  --muted-foreground: #64748b;
+  --muted-foreground: #556479;
   --surface-soft: #eef6fb;
   --surface-muted: #f1f5f9;
   --border: #d7e2ea;
@@ -21,8 +21,8 @@
   --accent-soft: #dbeafe;
   --joy: #f59e0b;
   --joy-soft: #fef3c7;
-  --success: #16a34a;
-  --warning: #d97706;
+  --success: #15803d;
+  --warning: #b45309;
   --danger: #dc2626;
 
   --ring: #2563eb;

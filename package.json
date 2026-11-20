@@ -10,7 +10,8 @@
     "build:gh-pages": "PATH=/opt/homebrew/bin:$PATH NEXT_PUBLIC_BASE_PATH=/portfolio NEXT_PUBLIC_SITE_URL=https://ngenzipack.github.io/portfolio next build",
     "start": "next start",
     "lint": "eslint",
-    "preview": "npx serve out --listen 3000"
+    "preview": "npx serve out --listen 3000",
+    "assets": "node scripts/build-assets.mts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

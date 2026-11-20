@@ -2,12 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 
+import { Analytics } from "@/components/analytics";
 import { PageTransition } from "@/components/layout/page-transition";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { assetPath } from "@/lib/asset-path";
-import { profile } from "@/lib/content";
+import { certifiedCredentials, profile } from "@/lib/content";
+import { pageMetadata, SITE_URL } from "@/lib/seo";
 
 import "./globals.css";
 
@@ -15,56 +17,19 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  adjustFontFallback: false,
 });
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://ngenzi.neotha.com";
-
-const absoluteAssetUrl = (path: string) =>
-  new URL(assetPath(path), SITE_URL).toString();
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: "DevSecOps Portfolio - Patrick Ngenzi",
-    template: "%s - Patrick Ngenzi",
-  },
-  description:
-    "DevSecOps portfolio of Patrick Ngenzi: IAM, Azure and GCP cloud security, MaaS360 endpoint operations, network defense, and secure platform delivery.",
-  applicationName: "Patrick Ngenzi Portfolio",
+  ...pageMetadata({
+    description:
+      "Patrick Ngenzi is a Security Analyst in North Bay, Ontario, with 6+ years in IT and security: Entra ID and Microsoft Defender investigations, Fortinet firewall review, and SC-300 and Security+ certifications.",
+    path: "/",
+  }),
+  applicationName: `${profile.name} – ${profile.title}`,
   authors: [{ name: profile.name, url: SITE_URL }],
   creator: profile.name,
-  publisher: profile.name,
-  keywords: [
-    "Patrick Ngenzi",
-    "Security Analyst",
-    "IAM Analyst",
-    "Cloud Security Analyst",
-    "SOC Analyst",
-    "NOC Analyst",
-    "DevSecOps",
-    "Cybersecurity",
-    "Network Security Administrator",
-    "Identity and Access Management",
-    "Microsoft Entra ID",
-    "Conditional Access",
-    "Azure Security",
-    "Microsoft Sentinel",
-    "Google Cloud IAM",
-    "Cloud Security Command Center",
-    "MaaS360",
-    "Cloud Security",
-    "Network Defense",
-    "Fortinet",
-    "Palo Alto",
-    "Ontario Canada",
-    "Neotha",
-    "Server Management",
-    "Secure Web Platforms",
-  ],
-  alternates: {
-    canonical: SITE_URL,
-  },
   manifest: assetPath("/favicon/site.webmanifest"),
   icons: {
     icon: [
@@ -82,42 +47,10 @@ export const metadata: Metadata = {
     shortcut: assetPath("/favicon/favicon.ico"),
     apple: assetPath("/favicon/apple-touch-icon.png"),
   },
-  openGraph: {
-    title: "DevSecOps Portfolio - Patrick Ngenzi",
-    description:
-      "IAM, Azure and GCP security, endpoint defense, network hardening, and DevSecOps delivery experience.",
-    url: SITE_URL,
-    siteName: "Patrick Ngenzi Portfolio",
-    locale: "en_CA",
-    type: "website",
-    images: [
-      {
-        url: absoluteAssetUrl("/favicon/android-chrome-512x512.png"),
-        width: 512,
-        height: 512,
-        alt: "Patrick Ngenzi portfolio favicon",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary",
-    title: "DevSecOps Portfolio - Patrick Ngenzi",
-    description:
-      "IAM, Azure and GCP security, endpoint defense, network hardening, and DevSecOps delivery experience.",
-    images: [absoluteAssetUrl("/favicon/android-chrome-512x512.png")],
-  },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
   },
-  category: "technology",
 };
 
 export const viewport: Viewport = {
@@ -149,32 +82,32 @@ const personJsonLd = {
   "@type": "Person",
   name: profile.name,
   url: SITE_URL,
-  jobTitle: profile.shortTitle,
+  jobTitle: profile.title,
   description: profile.summary,
   email: `mailto:${profile.email}`,
   address: {
     "@type": "PostalAddress",
-    streetAddress: profile.office.streetAddress,
-    addressLocality: profile.office.addressLocality,
-    addressRegion: profile.office.addressRegion,
-    postalCode: profile.office.postalCode,
-    addressCountry: profile.office.addressCountry,
+    addressLocality: "North Bay",
+    addressRegion: "ON",
+    addressCountry: "CA",
   },
-  sameAs: [
-    profile.links.linkedin,
-    profile.links.github,
-  ],
+  alumniOf: { "@type": "CollegeOrUniversity", name: "Mohawk College" },
+  hasCredential: certifiedCredentials.map((credential) => ({
+    "@type": "EducationalOccupationalCredential",
+    name: credential.name,
+    credentialCategory: "certification",
+    recognizedBy: { "@type": "Organization", name: credential.issuer },
+  })),
+  sameAs: [profile.links.linkedin, profile.links.github],
   knowsAbout: [
     "Identity and Access Management",
     "Microsoft Entra ID",
     "Conditional Access",
-    "Microsoft Azure",
+    "Microsoft Defender for Office 365",
     "Microsoft Sentinel",
-    "Network Security",
+    "KQL",
     "Fortinet",
-    "Palo Alto",
-    "DevSecOps",
-    "Zero Trust",
+    "Network Security",
   ],
 };
 
@@ -212,6 +145,7 @@ export default function RootLayout({
             <SiteFooter />
           </div>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

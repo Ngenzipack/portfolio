@@ -8,7 +8,6 @@ const baseUrl =
 const routes = [
   "",
   "/about",
-  "/services",
   "/projects",
   "/experience",
   "/skills",
