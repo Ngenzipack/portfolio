@@ -1,0 +1,17 @@
+# Patrick Ngenzi – Security Analyst
+
+Patrick Ngenzi is a Security Analyst (identity, cloud and network security) based in North Bay, Ontario, Canada, with 6+ years in IT and security since February 2020. He currently works as an IT System Specialist at Near North District School Board.
+
+Certifications: Microsoft SC-300 (Identity and Access Administrator Associate), CompTIA Security+, Google Cybersecurity Professional Certificate, IBM Microsoft Windows Defender and Firewall. In progress: Microsoft SC-200.
+
+Target roles: Security / SOC Analyst, Network Security Analyst, IAM Specialist, Security Engineer. Open to Ontario-wide roles, remote, hybrid or on-site, and relocation.
+
+## Pages
+
+- [Home](https://ngenzi.neotha.com/)
+- [About](https://ngenzi.neotha.com/about/)
+- [Experience](https://ngenzi.neotha.com/experience/)
+- [Projects](https://ngenzi.neotha.com/projects/)
+- [Skills](https://ngenzi.neotha.com/skills/)
+- [Resume](https://ngenzi.neotha.com/resume/)
+- [Contact](https://ngenzi.neotha.com/contact/)
